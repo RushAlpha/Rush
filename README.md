@@ -1,1 +1,1 @@
-# Rush
+# Rush App #
