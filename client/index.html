@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html ng-app="Rush">
+<head>
+	<title>Rush</title>
+	   <script src="./bower_components/angular/angular.min.js"> </script>
+	   <script src="./bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+</head>
+<body>
+<h1>Rush</h1>
+
+<ul>
+ <li><a ui-sref-active="pageCurrentlyOn" ui-sref="signin">Sign In</a></li>
+   <li><a ui-sref-active="pageCurrentlyOn" ui-sref="signup">Sign Up</a></li>
+   </ul>
+
+   <div>
+   	<div ui-view></div>
+
+   </div>
+   <script src="./app/app.js"></script>
+
+</body>
+</html>

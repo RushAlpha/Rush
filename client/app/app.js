@@ -1,22 +1,21 @@
-angular.module('app', [])
+angular.module('Rush', ['ui.router'])
 .config(function($stateProvider, $httpProvider, $urlRouterProvider){
+	console.log("config is running");
 	$urlRouterProvider.otherwise('signin')
 
 	$stateProvider
 	.state('signin', {
 		url: '/signin',
-		templateUrl: '../signin.html',
-		controller: 'signinController'
+		templateUrl: '../views/signIn.html',
+		controller: 'authController'
 	})
 	.state('signup', {
 		url: '/signup',
-		templateUrl: '../signup.html',
-		controller: 'signupController'
+		templateUrl: '../views/signUp.html',
+		controller: 'authController'
 	})
 })
-.controller('signin', function($scope){
 
-	$scope.signInCall(){
+.controller('authController', function($scope){
 
-	}
 })
