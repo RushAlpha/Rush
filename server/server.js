@@ -6,7 +6,7 @@ var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/rush');
 var Schema = mongoose.Schema;
 
-app.use(express.static(__dirname + '/../client'))
+app.use(express.static(__dirname + '/../client/views'))
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
