@@ -17,5 +17,10 @@ angular.module('Rush', ['ui.router'])
 })
 
 .controller('authController', function($scope){
-
+	$scope.logIn = function() {
+		console.log($scope.username, $scope.password, "USERNAMES AND PASSWORDS");
+	}
+})
+.run(function(){
+	console.log("it's running")
 })
