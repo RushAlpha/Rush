@@ -6,7 +6,7 @@ var cors = require('cors');
 
 
 
-app.use(express.static(__dirname + '/../client'))
+app.use(express.static(__dirname + '/../client/views'))
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
