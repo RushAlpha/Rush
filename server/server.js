@@ -20,7 +20,7 @@ app.get('/users', function(req, res){
 
 
 app.post('/signin', function(req, res){
-	    console.log(req.body.username, "INSIDE POST BAE");
+	    console.log(req.body.username, "INSIDE POST");
   db.find({email: req.body.username}, function(err, user){
 
     if(user.email === req.body.username){

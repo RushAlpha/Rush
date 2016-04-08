@@ -4,6 +4,7 @@
 	<title>Rush</title>
 	   <script src="./bower_components/angular/angular.min.js"> </script>
 	   <script src="./bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+
 </head>
 <body>
 <h1>Rush</h1>
@@ -11,6 +12,9 @@
 <ul>
  <li><a ui-sref-active="pageCurrentlyOn" ui-sref="signin">Sign In</a></li>
    <li><a ui-sref-active="pageCurrentlyOn" ui-sref="signup">Sign Up</a></li>
+    <li><a ui-sref-active="pageCurrentlyOn" ui-sref="owner">Rush Owner</a></li>
+ <li><a ui-sref-active="pageCurrentlyOn" ui-sref="consumer">Consumer</a></li>
+
    </ul>
 
    <div>
@@ -19,6 +23,8 @@
    </div>
    <script src="./app/app.js"></script>
    <script src="./app/services.js"></script>
+   <script src="./owner/owner.js"> </script>
+   <script src="./consumer/consumer.js"></script>
 
 </body>
 </html>
