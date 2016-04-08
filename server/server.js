@@ -4,6 +4,8 @@ var bodyParser = require('body-parser');
 var cors = require('cors');
 var db = require('./db.js');
 var twilio = require('twilio')('AC31273ed4502660534891a3a83ea025b9','9b4d360ef7251e6f6925210bbfa7d067');
+var bcrypt = require('bcrypt');
+
 
 app.use(express.static(__dirname + '/../client'))
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -25,47 +27,67 @@ app.get('/testtwilio', function(req,res){
   });
 });
 
+
+
+var saltRounds = 10;
+var notSignedUp = false;
+
 app.post('/signin', function(req, res){
-  //Flag for server-to-client signal
-  var isLoggedIn;
-	  console.log(req.body.username, "INSIDE POST");
-
-  //Filter database for username and password match
-  db.find({email: req.body.username, password: req.body.password}, function(err, users){
-
-    //if username&password match found; send TRUE signal to client
+  //Filter database for username match
+  db.find({email: req.body.username}, function(err, users){
+    //if match is found...
     if(users.length){
-      console.log("success");
-      isLoggedIn = true;
-      res.send(isLoggedIn);
-
-    //if username&password match found; send FALSE signal to client
-    } else {
-      console.log("fail");
-      isLoggedIn = false;
-      res.send(isLoggedIn);
+    //Compare user inputted password with hashed password in database
+    bcrypt.compare(req.body.password, users[0].password, function(err, result) {
+        console.log("this is the result", result);
+        res.send(result);
+    })} else {
+      console.log("not signed up")
+      res.send(notSignedUp);
     }
-
   })
 });
 
 
 
+
+
+
 app.post('/signup', function(req, res){
-	console.log("received post request from signup");
-	new db({email: req.body.username, password: req.body.password, isOwner: req.body.isOwner})
-	.save(function(err, post){
-		if(err) {
-			return next(err);
-		} else {
-			res.send(post);
-		}
-	})
+
+  var userPasswordBeforeEncryption = req.body.password;
+  var hashedPassword;
+  var userNameTaken = false;
+
+  db.find({email: req.body.username}, function(err, users){
+
+  if(users.length === 0){
+
+
+    bcrypt.hash(userPasswordBeforeEncryption, saltRounds, function(err, hash){
+
+      new db({email: req.body.username, password: hash, isOwner: req.body.isOwner})
+      .save(function(err, post){
+        if(err) {
+          return next(err);
+        } else {
+          res.send(post);
+        }
+      })
+    })
+
+  }  else {
+    console.log("that username is taken! sending to client FALSE signal");
+    res.send(userNameTaken);
+  }
+
+  })
+
 });
 
 
 
 
 app.listen(1738, function(){
-	console.log('RUSH server is up and listening at port 1738');
+  console.log('RUSH server is up and listening at port 1738');
 });
