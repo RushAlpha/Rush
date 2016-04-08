@@ -1,6 +1,5 @@
-angular.module('Rush', ['ui.router','Rush.services'])
+angular.module('Rush', ['ui.router','rush-Services', 'owner-Module', 'consumer-Module'])
 .config(function($stateProvider, $httpProvider, $urlRouterProvider){
-	console.log("config is running");
 	$urlRouterProvider.otherwise('signin')
 
 	$stateProvider
@@ -14,31 +13,39 @@ angular.module('Rush', ['ui.router','Rush.services'])
 		templateUrl: '../views/signUp.html',
 		controller: 'authController'
 	})
+	.state('owner', {
+		url: '/owner',
+		templateUrl: '../owner/owner.html',
+		controller: 'ownerController'
+	})
+	.state('consumer', {
+		url: '/consumer',
+		templateUrl: '../consumer/consumer.html',
+		controller: 'consumerController'
+	})
 })
 
-.controller('authController', function($scope, AuthFactory){
+.controller('authController', function($scope, authFactory, $state){
 	$scope.logIn = function() {
-		AuthFactory.postSignIn(
-			$scope.username, $scope.password).then(function(err,data) {
-			if(err) {
-				console.log("LogIn post unsucessful!")
-				return;
-			}
-			console.log("LogIn post successful!")
+		authFactory.postSignIn(
+			$scope.username, $scope.password).then(function(data) {
+				if (data === true){
+					$state.go('owner');
+				} else if (data === false){
+					$state.go('signin');
+				} else {
+					console.log("data not found");
+				}
 		});
 		console.log($scope.username, $scope.password, "USERNAMES AND PASSWORDS");
 	}
 	$scope.logUp = function() {
-		console.log("my owner box: ", $scope.isOwnerBox.value);
-		AuthFactory.postSignUp($scope.username, $scope.password, $scope.isOwnerBox.value).then(function(data) {
-
+		authFactory.postSignUp($scope.username, $scope.password, $scope.isOwnerBox.value).then(function(data) {
+				$state.go('owner')
 			console.log("SignUp post successful!", data)
 		})
 	};
 	$scope.isOwnerBox = {
 		value: true
 	}
-})
-.run(function(){
-	console.log("it's running")
 })
