@@ -18,7 +18,8 @@ angular.module('Rush', ['ui.router','Rush.services'])
 
 .controller('authController', function($scope, AuthFactory){
 	$scope.logIn = function() {
-		AuthFactory.postSignIn($scope.username, $scope.password).then(function(data) {
+		AuthFactory.postSignIn(
+			$scope.username, $scope.password).then(function(err,data) {
 			if(err) {
 				console.log("LogIn post unsucessful!")
 				return;
@@ -28,13 +29,10 @@ angular.module('Rush', ['ui.router','Rush.services'])
 		console.log($scope.username, $scope.password, "USERNAMES AND PASSWORDS");
 	}
 	$scope.logUp = function() {
-		console.log("my owner box: ", $scope.isOwnerBox);
-		AuthFactory.postSignUp($scope.username, $scope.password, $scope.isOwnerBox).then(function(err,data) {
-			if(err) {
-				console.log("SignUp post unsucessful!")
-				return;
-			}
-			console.log("SignUp post successful!")
+		console.log("my owner box: ", $scope.isOwnerBox.value);
+		AuthFactory.postSignUp($scope.username, $scope.password, $scope.isOwnerBox.value).then(function(data) {
+
+			console.log("SignUp post successful!", data)
 		})
 	};
 	$scope.isOwnerBox = {

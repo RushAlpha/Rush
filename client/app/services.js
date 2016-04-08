@@ -2,11 +2,14 @@ angular.module('Rush.services', [])
 .factory('AuthFactory', function($http){
 
   var postSignIn = function(username, password) {
-    return $http.post('/signin', {username:username, password: password})
-  }
+    var logInInfo =  {username:username, password: password};
+    return $http.post('/signin', logInInfo);
+  };
 
   var postSignUp = function(username, password, isOwner) {
-    return $http.post('/signup', {username: username, password: password, isOwner: isOwner})
+    console.log(username, password, isOwner, "INSIDE OF POSTSIGNUP INSIDE AUTH FACTORY");
+    var logUpInfo = {username: username, password: password, isOwner: isOwner};
+    return $http.post('/signup', logUpInfo);
   }
   return {
     postSignIn: postSignIn,
