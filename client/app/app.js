@@ -29,9 +29,10 @@ angular.module('Rush', ['ui.router','rush-Services', 'owner-Module', 'consumer-M
 	$scope.logIn = function() {
 		authFactory.postSignIn(
 			$scope.username, $scope.password).then(function(data) {
-				if (data === true){
+				console.log("this is data line 32", data);
+				if (data.data === true){
 					$state.go('owner');
-				} else if (data === false){
+				} else if (data.data === false){
 					$state.go('signin');
 				} else {
 					console.log("data not found");

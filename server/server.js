@@ -27,6 +27,12 @@ app.get('/testtwilio', function(req,res){
   });
 });
 
+
+
+//Security Level--
+var saltRounds = 10;
+var notSignedUp = false;
+
 app.post('/signin', function(req, res){
   //Flag for server-to-client signal
   var isLoggedIn;
@@ -36,39 +42,56 @@ app.post('/signin', function(req, res){
   db.find({email: req.body.username, password: req.body.password}, function(err, users){
 
     //if username&password match found; send TRUE signal to client
+  //Filter database for username match
+  db.find({email: req.body.username}, function(err, users){
+    //if match is found...
     if(users.length){
-      console.log("success");
-      isLoggedIn = true;
-      res.send(isLoggedIn);
-
-    //if username&password match found; send FALSE signal to client
-    } else {
-      console.log("fail");
-      isLoggedIn = false;
-      res.send(isLoggedIn);
+    //Compare user inputted password with hashed password in database
+    bcrypt.compare(req.body.password, users[0].password, function(err, result) {
+        console.log("this is the result", result);
+        res.send(result);
+    })} else {
+      console.log("not signed up")
+      res.send(notSignedUp);
     }
-
   })
 });
 
 
 
+
+
+
 app.post('/signup', function(req, res){
-	console.log("received post request from signup");
+
+  var userPasswordBeforeEncryption = req.body.password;
+  var hashedPassword;
+  var userNameTaken = false;
+
+  db.find({email: req.body.username}, function(err, users){
+
+  if(users.length === 0){
 
 
+    bcrypt.hash(userPasswordBeforeEncryption, saltRounds, function(err, hash){
 
+      new db({email: req.body.username, password: hash, isOwner: req.body.isOwner})
+      .save(function(err, post){
+        if(err) {
+          return next(err);
+        } else {
+          res.send(post);
+        }
+      })
+    })
 
+  }  else {
+    console.log("that username is taken!");
+    res.send(userNameTaken);
+  }
 
+  })
 
-	new db({email: req.body.username, password: req.body.password, isOwner: req.body.isOwner})
-	.save(function(err, post){
-		if(err) {
-			return next(err);
-		} else {
-			res.send(post);
-		}
-	})
 });
 
 
