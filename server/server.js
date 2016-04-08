@@ -4,7 +4,7 @@ var bodyParser = require('body-parser');
 var cors = require('cors');
 var db = require('./db.js');
 
-app.use(express.static(__dirname + '/../client/views'))
+app.use(express.static(__dirname + '/../client'))
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
