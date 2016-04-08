@@ -11,23 +11,27 @@ app.use(cors());
 
 
 
-app.get('/users', function(req, res){
-  db.find({}, function(err, users){
-    res.send(users);
-  })
-});
-
-
-
 app.post('/signin', function(req, res){
-	    console.log(req.body.username, "INSIDE POST BAE");
-  db.find({email: req.body.username}, function(err, user){
+  //Flag for server-to-client signal
+  var isLoggedIn;
+	  console.log(req.body.username, "INSIDE POST");
 
-    if(user.email === req.body.username){
-      res.redirect('/');
+  //Filter database for username and password match
+  db.find({email: req.body.username, password: req.body.password}, function(err, users){
+   
+    //if username&password match found; send TRUE signal to client
+    if(users.length){
+      console.log("success");
+      isLoggedIn = true;
+      res.send(isLoggedIn);
+
+    //if username&password match found; send FALSE signal to client
     } else {
-      res.redirect('/signup');
+      console.log("fail");
+      isLoggedIn = false;
+      res.send(isLoggedIn);
     }
+
   })
 });
 
