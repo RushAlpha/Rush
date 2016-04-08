@@ -29,19 +29,10 @@ app.get('/testtwilio', function(req,res){
 
 
 
-//Security Level--
 var saltRounds = 10;
 var notSignedUp = false;
 
 app.post('/signin', function(req, res){
-  //Flag for server-to-client signal
-  var isLoggedIn;
-	  console.log(req.body.username, "INSIDE POST");
-
-  //Filter database for username and password match
-  db.find({email: req.body.username, password: req.body.password}, function(err, users){
-
-    //if username&password match found; send TRUE signal to client
   //Filter database for username match
   db.find({email: req.body.username}, function(err, users){
     //if match is found...
@@ -86,7 +77,7 @@ app.post('/signup', function(req, res){
     })
 
   }  else {
-    console.log("that username is taken!");
+    console.log("that username is taken! sending to client FALSE signal");
     res.send(userNameTaken);
   }
 
@@ -98,5 +89,5 @@ app.post('/signup', function(req, res){
 
 
 app.listen(1738, function(){
-	console.log('RUSH server is up and listening at port 1738');
+  console.log('RUSH server is up and listening at port 1738');
 });
