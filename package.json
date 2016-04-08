@@ -19,6 +19,7 @@
   "dependencies": {
     "angular": "^1.5.3",
     "angular-ui-router": "^1.0.0-alpha.4",
+    "bcrypt": "^0.8.5",
     "body-parser": "^1.15.0",
     "cors": "^2.7.1",
     "express": "^4.13.4",
