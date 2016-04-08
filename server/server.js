@@ -4,6 +4,8 @@ var bodyParser = require('body-parser');
 var cors = require('cors');
 var db = require('./db.js');
 var twilio = require('twilio')('AC31273ed4502660534891a3a83ea025b9','9b4d360ef7251e6f6925210bbfa7d067');
+var bcrypt = require('bcrypt');
+
 
 app.use(express.static(__dirname + '/../client'))
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -53,6 +55,12 @@ app.post('/signin', function(req, res){
 
 app.post('/signup', function(req, res){
 	console.log("received post request from signup");
+
+
+
+
+
+
 	new db({email: req.body.username, password: req.body.password, isOwner: req.body.isOwner})
 	.save(function(err, post){
 		if(err) {
