@@ -12,7 +12,7 @@ app.use(cors());
 
 
 app.get('/users', function(req, res){
-  db.find(function(err, users){
+  db.find({}, function(err, users){
     res.send(users);
   })
 });
@@ -20,12 +20,13 @@ app.get('/users', function(req, res){
 
 
 app.post('/signin', function(req, res){
+	    console.log(req.body.username, "INSIDE POST BAE");
   db.find({email: req.body.username}, function(err, user){
-    console.log(user);
+
     if(user.email === req.body.username){
-      res.redirect('../client/index.html');
+      res.redirect('/');
     } else {
-      res.redirect('../views/signUp.html');
+      res.redirect('/signup');
     }
   })
 });
@@ -33,8 +34,15 @@ app.post('/signin', function(req, res){
 
 
 app.post('/signup', function(req, res){
-  db.insert({email: req.body.username, password: req.body.username, isOwner: Boolean})
-  res.send();
+	console.log("received post request from signup");
+	new db({email: req.body.username, password: req.body.password, isOwner: req.body.isOwner})
+	.save(function(err, post){
+		if(err) {
+			return next(err);
+		} else {
+			res.send(post);
+		}
+	})
 });
 
 
