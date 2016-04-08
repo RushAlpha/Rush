@@ -41,9 +41,14 @@ angular.module('Rush', ['ui.router','rush-Services', 'owner-Module', 'consumer-M
 		console.log($scope.username, $scope.password, "USERNAMES AND PASSWORDS");
 	}
 	$scope.logUp = function() {
-		authFactory.postSignUp($scope.username, $scope.password, $scope.isOwnerBox.value).then(function(data) {
-				$state.go('owner')
-			console.log("SignUp post successful!", data)
+		authFactory.postSignUp($scope.username, $scope.password, $scope.isOwnerBox.value)
+		.then(function(data) {
+				if (data.data === false){
+					$state.go('signin');
+				} else {
+					console.log("data not found");
+					$state.go('owner');
+				}
 		})
 	};
 	$scope.isOwnerBox = {
