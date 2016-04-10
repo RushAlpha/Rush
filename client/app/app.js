@@ -1,4 +1,4 @@
-angular.module('Rush', ['ui.router','rush-Services', 'owner-Module', 'consumer-Module'])
+angular.module('Rush', ['ui.router','rush-Services', 'owner-Module', 'consumer-Module', 'maps-module'])
 .config(function($stateProvider, $httpProvider, $urlRouterProvider){
 	$urlRouterProvider.otherwise('signin')
 
@@ -46,12 +46,12 @@ angular.module('Rush', ['ui.router','rush-Services', 'owner-Module', 'consumer-M
 				if (data.data === false){
 					$state.go('signin');
 				} else {
-					console.log("data not found");
 					$state.go('owner');
 				}
 		})
 	};
+	console.log($scope.address);
 	$scope.isOwnerBox = {
-		value: true
+		value: false
 	}
 })
