@@ -13,7 +13,7 @@ var usersSchema = new Schema ({
   password: String,
   isOwner: Boolean,
   location: [],
-  deals: [],
+  deals: []
   // will probs implement ownerMaker within server.js in app.post('/client/owner') or some similar route.
   // ownerMaker fn that will ONLY be called if(isOwner).
   // ownerMaker: function(isOwner) {
