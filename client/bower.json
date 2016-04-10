@@ -18,6 +18,9 @@
   "dependencies": {
     "angular": "^1.5.3",
     "angular-ui-router": "^0.2.18",
-    "ngGeolocation": "^0.0.8"
+    "ngGeolocation": "^0.0.8",
+    "angular-google-maps": "^2.3.2",
+    "lodash": "^4.9.0",
+    "angular-simple-logger": "^0.1.7"
   }
 }

@@ -3,5 +3,19 @@
 		<div>This is the Rush home page</div>
 		<div id="map" style="height:500px"></div>
 		<button ng-Click='declareRush()'>Rush</button>
+<ui-gmap-google-map center='map.center' class='angular-google-map-container' zoom='map.zoom'>
+<ui-gmap-marker
+        idKey='1'
+        coords='{latitude: 69.19203, longitude: 69.1923401}'
+        >
+</ui-gmap-marker>
+<ui-gmap-circle center='{latitude: 69.19203, longitude: 69.1923401}'
+                radius='505'
+                fill='{color: "#999", opacity: .6}'
+                stroke='{color: "#33a", weight: 10, opacity: .2}' >
+
+</ui-gmap-circle>
+
+</ui-gmap-google-map>
 
 </div>

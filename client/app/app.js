@@ -1,4 +1,4 @@
-angular.module('Rush', ['ui.router','rush-Services', 'owner-Module', 'consumer-Module', 'maps-module'])
+angular.module('Rush', ['ui.router','rush-Services', 'owner-Module', 'consumer-Module', 'maps-module', 'uiGmapgoogle-maps'])
 .config(function($stateProvider, $httpProvider, $urlRouterProvider){
 	$urlRouterProvider.otherwise('signin')
 
