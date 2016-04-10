@@ -60,7 +60,7 @@ app.post('/signup', function(req, res){
   var userNameTaken = false;
 
   db.find({email: req.body.username}, function(err, users){
-
+console.log(users);  //TAKE OUT THIS LINE!!!!!
   if(users.length === 0){
 
 
@@ -85,7 +85,25 @@ app.post('/signup', function(req, res){
 
 });
 
-
+app.post('/ownerAddItemsToMenu', function(req, res){
+    db.find({email: req.body.username}, function(err, users){
+    //if match is found...
+    if(users.length){
+    //Compare user inputted password with hashed password in database
+    bcrypt.compare(req.body.password, users[0].password, function(err, result) {
+        //if credentials are correct...
+        if(result){
+          //add server-given-item to respective owner object in database
+            users[0].deals.push(req.body.CLIENTSIDEDEAL);
+        }
+        //return true or false depending on if credentials are right
+        res.send(result);
+    })} else {
+      console.log("Credentials are WRONG.  Sending server FALSE SIGNAL");
+      res.send(notSignedUp);
+    }
+  })
+})
 
 
 app.listen(1738, function(){
