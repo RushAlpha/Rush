@@ -13,20 +13,20 @@ var usersSchema = new Schema ({
   password: String,
   isOwner: Boolean
   // ownerMaker fn that will ONLY be called if(isOwner).
-  ownerMaker: function(isOwner) {
-    if(isOwner) {
-      // If yes, create the owner object with his/her information (addy, deals, etc)
-      var Owner = {
-        deals: [],
-        address: '',
-        addDeal: function(/*ownerDeal from owner.html form input*/) {
-          deals.push(/*ownerDeal from owner.html form input*/);
-        }
-      };
-    } else { //If no, return out of ownerMaker fn.
-      return;
-    }
-  }
+  // ownerMaker: function(isOwner) {
+  //   if(isOwner) {
+  //     // If yes, create the owner object with his/her information (addy, deals, etc)
+  //     var Owner = {
+  //       deals: [],
+  //       address: '',
+  //       addDeal: function(/*ownerDeal from owner.html form input*/) {
+  //         deals.push(/*ownerDeal from owner.html form input*/);
+  //       }
+  //     };
+  //   } else { //If no, return out of ownerMaker fn.
+  //     return;
+  //   }
+  // }
 });
 
 var User = mongoose.model('users', usersSchema);
