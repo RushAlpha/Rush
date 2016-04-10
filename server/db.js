@@ -11,7 +11,10 @@ mongoose.connection.once('open', function() {
 var usersSchema = new Schema ({
   email: String,
   password: String,
-  isOwner: Boolean
+  isOwner: Boolean,
+  location: [],
+  deals: [],
+  // will probs implement ownerMaker within server.js in app.post('/client/owner') or some similar route.
   // ownerMaker fn that will ONLY be called if(isOwner).
   // ownerMaker: function(isOwner) {
   //   if(isOwner) {
@@ -32,13 +35,13 @@ var usersSchema = new Schema ({
 var User = mongoose.model('users', usersSchema);
 
 // Test: Inserting a User called Neil into users.
-var neil = new User ({email: 'nagar001@ucr.edu', password: 'neil', isOwner: false});
-neil.save(function(error) {
-  if(error) {
-    console.log(error);
-  } else {
-    console.log('successful');
-  }
-});
+// var neil = new User ({email: 'nagar001@ucr.edu', password: 'neil', isOwner: false});
+// neil.save(function(error) {
+//   if(error) {
+//     console.log(error);
+//   } else {
+//     console.log('successful');
+//   }
+// });
 
 module.exports = User;
