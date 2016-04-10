@@ -85,7 +85,7 @@ console.log(users);  //TAKE OUT THIS LINE!!!!!
 
 });
 
-app.post('/ownerAddItemsToMenu', function(req, res){
+app.post('/ownerAddItemToMenu', function(req, res){
     db.find({email: req.body.username}, function(err, users){
     //if match is found...
     if(users.length){
@@ -95,6 +95,28 @@ app.post('/ownerAddItemsToMenu', function(req, res){
         if(result){
           //add server-given-item to respective owner object in database
             users[0].deals.push(req.body.CLIENTSIDEDEAL);
+        }
+        //return true or false depending on if credentials are right
+        res.send(result);
+    })} else {
+      console.log("Credentials are WRONG.  Sending server FALSE SIGNAL");
+      res.send(notSignedUp);
+    }
+  })
+});
+
+app.post('/ownerRemoveItemFromMenu', function(req, res){
+    db.find({email: req.body.username}, function(err, users){
+    //if match is found...
+    if(users.length){
+    //Compare user-inputed password with hashed password in database
+    bcrypt.compare(req.body.password, users[0].password, function(err, result) {
+        //if credentials are correct...
+        if(result){
+          //remove server-given-item from respective owner object in database
+            //from: http://stackoverflow.com/questions/5767325/remove-a-particular-element-from-an-array-in-javascript
+            var index = users[0].deals.indexOf(req.body.CLIENTSIDEDEAL);
+            users[0].deals.splice(index,1);
         }
         //return true or false depending on if credentials are right
         res.send(result);
