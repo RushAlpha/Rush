@@ -28,7 +28,16 @@ angular.module('rush-Services', [])
       };
       return $http.post('/owner', rushItems);
     }
+    var addToDeals = function(item, price) {
+      var deals = {
+        item: item,
+        price: price
+      }
+      console.log("Adding this deal: ", deals)
+      return $http.post('/owner', deals)
+    }
     return {
-      postRush: postRush
+      postRush: postRush,
+      addToDeals: addToDeals
     }
   })

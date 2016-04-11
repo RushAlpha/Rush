@@ -1,19 +1,25 @@
 <div ng-init="init()">
 	<h1>Rush Owner</h1>
-		<div>This is the Rush home page</div>
-		<button ng-Click='declareRush()'>Rush</button>
-		<ui-gmap-google-map center='map.center' class='angular-google-map-container' zoom='map.zoom'>
+	<div>This is the Rush home page</div>
+	<button ng-Click='declareRush()'>Rush</button>
+	<form>
+		<input type="text" name="deal" ng-model="item" placeholder="Add a deal here">
+		<input type="number" name="price" ng-model="price">
+		<input type="submit" ng-click="addtoDeals()">
+	</form>
+	<ui-gmap-google-map center='map.center' class='angular-google-map-container' zoom='map.zoom'>
 		<ui-gmap-marker
-		    idKey='1'
-		    coords='map.center'>
-		</ui-gmap-marker>
-		<ui-gmap-circle center='map.center'
-		                radius='505'
-		                fill='{color: "#999", opacity: .6}'
-		                stroke='{color: "#33a", weight: 10, opacity: .2}' >
+		idKey='1'
+		coords='{latitude: 69.19203, longitude: 69.1923401}'
+		>
+	</ui-gmap-marker>
+	<ui-gmap-circle center='{latitude: 69.19203, longitude: 69.1923401}'
+	radius='505'
+	fill='{color: "#999", opacity: .6}'
+	stroke='{color: "#33a", weight: 10, opacity: .2}' >
 
-		</ui-gmap-circle>
+</ui-gmap-circle>
 
-		</ui-gmap-google-map>
+</ui-gmap-google-map>
 
 </div>
