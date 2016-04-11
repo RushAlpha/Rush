@@ -8,7 +8,7 @@ angular.module('rush-Services', [])
       return $http.post('/signin', logInInfo);
     };
     var postSignUp = function(username, password, isOwner, address) {
-      console.log(username, password, isOwner, "INSIDE OF POSTSIGNUP INSIDE AUTH FACTORY");
+      console.log(username, password, isOwner, address, "INSIDE OF POSTSIGNUP INSIDE AUTH FACTORY");
       var logUpInfo = {
         username: username,
         password: password,
