@@ -36,7 +36,7 @@ angular.module('Rush', ['ui.router','rush-Services', 'owner-Module', 'consumer-M
 				if (data.data === true){
 					$state.go('owner');
 				} else if (data.data === false){
-					$state.go('signin');
+					$state.go('consumer');
 				} else {
 					console.log("Not Found");
 				}
@@ -54,10 +54,17 @@ angular.module('Rush', ['ui.router','rush-Services', 'owner-Module', 'consumer-M
        	authFactory.postSignUp($scope.username, $scope.password, $scope.isOwnerBox.value, $scope.geoAddress)
 				.then(function(data) {
 					if (data.data === false){
-						$state.go('signin');
-					} else {
+						console.log(data);
+						$state.go('consumer');
+					} else if (data.data === true) {
+						console.log(data);
+
 						console.log("Successful logUp: ", $scope.username);
 						$state.go('owner');
+					} else {
+						console.log(data.data);
+
+						$state.go('signin');
 					}
 				});
       }

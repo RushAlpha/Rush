@@ -1,10 +1,10 @@
 angular.module('consumer-Module', ['rush-Services', 'ngGeolocation', 'uiGmapgoogle-maps'])
 .controller('consumerController', function($scope, $geolocation){
-	$scope.welcome = "Welcome";
+	$scope.Welcome = "Welcome";
 		$scope.locationExists = false;
 		$scope.map;
 		$scope.myPosition = {};
-	  $geolocation.getCurrentPosition({
+	   $geolocation.getCurrentPosition({
             timeout: 60000
          }).then(function(position) {
             $scope.myPosition.latitude = position.coords.latitude;
@@ -21,12 +21,6 @@ angular.module('consumer-Module', ['rush-Services', 'ngGeolocation', 'uiGmapgoog
          
 
 
-//          google.maps.geometry.spherical
-
-// computeDistanceBetween(from:LatLng, to:LatLng, radius?:number)
-
-
-		
 
 // })
 
