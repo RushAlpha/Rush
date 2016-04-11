@@ -28,12 +28,19 @@ angular.module('rush-Services', [])
     };
   })
   .factory('generalFactory', function($http) {
-    var postRush = function(rushArray) {
-      var rushItems = {
-        rushItems: rushArray
-      };
-      return $http.post('/owner', rushItems);
+
+    var findDistance = function(latlng1, latlng2){
+
+// google.maps.geometry.spherical
+
+// computeDistanceBetween(from:LatLng, to:LatLng)
+
     }
+
+    var getDeals = function(){
+      return $http.get('/getOwnerDeals');
+    }
+
     var addToDeals = function(item, price) {
       var deal = {
         item: item,
@@ -43,7 +50,7 @@ angular.module('rush-Services', [])
       return $http.post('/owner', deal);
     }
     return {
-      postRush: postRush,
-      addToDeals: addToDeals
+      addToDeals: addToDeals,
+      getDeals: getDeals
     }
   });
