@@ -23,51 +23,51 @@ angular.module('Rush', ['ui.router','rush-Services', 'owner-Module', 'consumer-M
 		templateUrl: '../consumer/consumer.html',
 		controller: 'consumerController'
 	})
-})
+});
 
 .controller('authController', function($geolocation, $scope, authFactory, $state){
-	
-				$scope.location;
-			    $scope.geoAddress = {};
-       var geocoder = new google.maps.Geocoder();
-	   
+
+	$scope.location;
+	$scope.geoAddress = {};
+	var geocoder = new google.maps.Geocoder();
+
 
 	$scope.logIn = function() {
 		authFactory.postSignIn(
 			$scope.username, $scope.password).then(function(data) {
-				console.log("this is data line 32", data);
+				console.log("postSignIn: ", data);
 				if (data.data === true){
 					$state.go('owner');
 				} else if (data.data === false){
 					$state.go('signin');
 				} else {
-					console.log("data not found");
+					console.log("Not Found");
 				}
 		});
-		console.log($scope.username, $scope.password, "USERNAMES AND PASSWORDS");
+		console.log('username & password: ', $scope.username, $scope.password);
 	}
 	$scope.logUp = function() {
-		console.log("THIS IS THE ADDRESS", $scope.address)
+		console.log('address: ', $scope.address)
 		geocoder.geocode( { "address": $scope.address }, function(results, status) {
        if (status == google.maps.GeocoderStatus.OK && results.length > 0) {
        	 $scope.location = results[0].geometry.location;
        	 $scope.geoAddress.latitude = results[0].geometry.location.lat();
        	 $scope.geoAddress.longitude = results[0].geometry.location.lng();
-       	 console.log("GEOADDRESS1", $scope.geoAddress);
+       	 console.log("geoAddress#1: ", $scope.geoAddress);
 
        	 		authFactory.postSignUp($scope.username, $scope.password, $scope.isOwnerBox.value, $scope.geoAddress)
 		.then(function(data) {
 				if (data.data === false){
 					$state.go('signin');
 				} else {
-					console.log("ITS WORKING");
+					console.log("Successful logUp: ", $scope.username);
 					$state.go('owner');
 				}
 		})
 
        }
 		});
-		console.log("GEOADDRESS", $scope.geoAddress);
+		console.log("geoAddress#2: ", $scope.geoAddress);
 
 	};
 	console.log($scope.address);

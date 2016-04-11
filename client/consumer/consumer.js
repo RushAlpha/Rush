@@ -1,6 +1,6 @@
 angular.module('consumer-Module', ['rush-Services', 'ngGeolocation', 'uiGmapgoogle-maps'])
 .controller('consumerController', function($scope, $geolocation){
-	$scope.hello = "hello";
+	$scope.welcome = "Welcome";
 		$scope.locationExists = false;
 		$scope.map;
 		$scope.myPosition = {};
@@ -16,9 +16,5 @@ angular.module('consumer-Module', ['rush-Services', 'ngGeolocation', 'uiGmapgoog
          $scope.showLocation = function(){
          	console.log($scope.myPosition);
          }
-         
-
-		
-
-})
+});
 

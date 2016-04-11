@@ -8,7 +8,7 @@ angular.module('rush-Services', [])
       return $http.post('/signin', logInInfo);
     };
     var postSignUp = function(username, password, isOwner, address) {
-      console.log(username, password, isOwner, address, "INSIDE OF POSTSIGNUP INSIDE AUTH FACTORY");
+      console.log('authFactory>postSignUp: ', username, password, isOwner, address);
       var logUpInfo = {
         username: username,
         password: password,
@@ -20,8 +20,8 @@ angular.module('rush-Services', [])
     return {
       postSignIn: postSignIn,
       postSignUp: postSignUp
-    }
-  })
+    };
+  });
   .factory('generalFactory', function($http) {
     var postRush = function(rushArray) {
       var rushItems = {
@@ -33,12 +33,12 @@ angular.module('rush-Services', [])
       var deal = {
         item: item,
         price: price
-      }
-      console.log("Adding this deal: ", deal)
-      return $http.post('/owner', deal)
+      };
+      console.log("addToDeals: ", deal);
+      return $http.post('/owner', deal);
     }
     return {
       postRush: postRush,
       addToDeals: addToDeals
     }
-  })
+  });
