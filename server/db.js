@@ -5,7 +5,7 @@ var Schema = mongoose.Schema;
 mongoose.connection.on('error', console.error.bind(console, 'connection error:'));
 mongoose.connection.once('open', function() {
   // we're connected!
-  console.log('db connected');
+  console.log('dbConnected!');
 });
 
 var usersSchema = new Schema ({
