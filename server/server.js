@@ -5,11 +5,69 @@ var cors = require('cors');
 var newUser = require('./db.js');
 var twilio = require('twilio')('AC31273ed4502660534891a3a83ea025b9','9b4d360ef7251e6f6925210bbfa7d067');
 var bcrypt = require('bcrypt');
+var passport = require('passport'), FacebookStrategy = require('passport-facebook').Strategy;
 
 app.use(express.static(__dirname + '/../client'))
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
+app.use(passport.initialize());
+
+// Redirect the user to Facebook for authentication.  When complete,
+// Facebook will redirect the user back to the application at
+//     /auth/facebook/callback
+app.get('/auth/facebook', passport.authenticate('facebook', {scope: ['email']}));
+
+// Facebook will redirect the user to this URL after approval.  Finish the
+// authentication process by attempting to obtain an access token.  If
+// access was granted, the user will be logged in.  Otherwise,
+// authentication has failed.
+app.get('/auth/facebook/callback',
+  passport.authenticate('facebook', { successRedirect: '/',
+                                      failureRedirect: '/facebook/callback' }));
+
+passport.use(new FacebookStrategy({
+    clientID: '1081400178578006',
+    clientSecret: '4ea1b4102a4a24e2a32beb8df8d5ed27',
+    callbackURL: 'http://localhost:1738/auth/facebook/callback',
+    profileFields: ['id', 'emails', 'name']
+  },
+  function(accessToken, refreshToken, profile, done) {
+    process.nextTick(function(){
+      newUser.findOne({'facebook.id': profile.id}, function(err, user) {
+        if(err){
+          return done(err);
+        }
+        if(user){
+          return done(null, user);
+        } else {
+          var NewUser = new newUser();
+          NewUser.facebook.id = profile.id;
+          NewUser.facebook.token = accessToken;
+          NewUser.facebook.name = profile.name.givenName + '' + profile.name.familyName;
+          NewUser.facebook.email = profile.emails[0].value;
+
+          NewUser.save(function(err){
+            if(err) {
+              throw err;
+            } else {
+              return done(null, NewUser);
+            }
+          });
+        }
+      });
+    });
+  })
+);
+
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function(user, done) {
+  done(null, user);
+});
+
 
 app.get('/testtwilio', function(req,res){
   twilio.sendMessage({
@@ -36,8 +94,9 @@ app.post('/signin', function(req, res){
     if(users.length){
     //Compare user inputted password with hashed password in database
     bcrypt.compare(req.body.password, users[0].password, function(err, result) {
-        console.log("this is the result", result);
-        res.send({hasAccount: result, isOwner: req.body.isOwner});
+      console.log("Result: ", result);
+      res.send(result);
+
     })} else {
       console.log("User Is NOT loggedUp!");
       res.send({hasAccount: notSignedUp});
@@ -115,7 +174,7 @@ app.post('/ownerRemoveItemFromMenu', function(req, res){
       res.send(notSignedUp);
     }
   })
-})
+});
 
 
 app.listen(1738, function(){
