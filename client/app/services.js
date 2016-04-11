@@ -26,7 +26,7 @@ angular.module('rush-Services', [])
       postSignIn: postSignIn,
       postSignUp: postSignUp
     };
-  });
+  })
   .factory('generalFactory', function($http) {
     var postRush = function(rushArray) {
       var rushItems = {
