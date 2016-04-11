@@ -6,7 +6,6 @@ var newUser = require('./db.js');
 var twilio = require('twilio')('AC31273ed4502660534891a3a83ea025b9','9b4d360ef7251e6f6925210bbfa7d067');
 var bcrypt = require('bcrypt');
 
-
 app.use(express.static(__dirname + '/../client'))
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -27,8 +26,6 @@ app.get('/testtwilio', function(req,res){
   });
 });
 
-
-
 var saltRounds = 10;
 var notSignedUp = false;
 
@@ -42,16 +39,11 @@ app.post('/signin', function(req, res){
         console.log("this is the result", result);
         res.send(result);
     })} else {
-      console.log("not signed up")
+      console.log("User Is NOT loggedUp!");
       res.send(notSignedUp);
     }
-  })
+  });
 });
-
-
-
-
-
 
 app.post('/signup', function(req, res){
 
@@ -71,15 +63,15 @@ app.post('/signup', function(req, res){
         } else {
           res.send(post);
         }
-      })
-    })
+      });
+    });
 
-  }  else {
-    console.log("that username is taken! sending to client FALSE signal");
+  } else {
+    console.log("Username TAKEN! Sending FALSE signal to Client!");
     res.send(userNameTaken);
   }
-  
-  })
+
+  });
 
 });
 
@@ -97,10 +89,10 @@ app.post('/ownerAddItemToMenu', function(req, res){
         //return true or false depending on if credentials are right
         res.send(result);
     })} else {
-      console.log("Credentials are WRONG.  Sending server FALSE SIGNAL");
+      console.log("Credentials WRONG!  Sending FALSE signal to Server!");
       res.send(notSignedUp);
     }
-  })
+  });
 });
 
 app.post('/ownerRemoveItemFromMenu', function(req, res){
@@ -119,7 +111,7 @@ app.post('/ownerRemoveItemFromMenu', function(req, res){
         //return true or false depending on if credentials are right
         res.send(result);
     })} else {
-      console.log("Credentials are WRONG.  Sending server FALSE SIGNAL");
+      console.log("Credentials WRONG.  Sending FALSE signal to Server");
       res.send(notSignedUp);
     }
   })
@@ -127,5 +119,5 @@ app.post('/ownerRemoveItemFromMenu', function(req, res){
 
 
 app.listen(1738, function(){
-  console.log('RUSH server is up and listening at port 1738');
+  console.log('Server is READY & LISTENING @ Port 1738!');
 });

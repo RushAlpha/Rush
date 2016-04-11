@@ -27,5 +27,8 @@
     "angular-ui-utils": "^3.0.0",
     "angular-ui-map": "^0.5.0",
     "jquery": "^2.2.3"
+  },
+  "resolutions": {
+    "angular-ui-utils": "0.x"
   }
 }
