@@ -2,10 +2,11 @@
 <html ng-app="Rush">
 <head>
 	<title>Rush</title>
+      <script src='http://maps.googleapis.com/maps/api/js?sensor=true'></script>
+
       <link rel="stylesheet" type="text/css" href="./style.css">
 	   <script src="./bower_components/angular/angular.min.js"> </script>
 	   <script src="./bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
-      <script src='http://maps.googleapis.com/maps/api/js?sensor=true'></script>
       <script src="./bower_components/lodash/lodash.js"></script>
       <script src="./bower_components/angular-simple-logger/dist/angular-simple-logger.min.js"></script>
       <script src="./bower_components/angular-google-maps/dist/angular-google-maps.min.js"></script>
@@ -23,7 +24,6 @@
 
    <div>
    	<div ui-view></div>
-
    </div>
    <script src="./app/app.js"></script>
    <script src="./app/services.js"></script>
