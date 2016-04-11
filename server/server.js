@@ -7,6 +7,12 @@ var twilio = require('twilio')('AC31273ed4502660534891a3a83ea025b9','9b4d360ef72
 var bcrypt = require('bcrypt');
 var passport = require('passport'), FacebookStrategy = require('passport-facebook').Strategy;
 
+app.use(express.static(__dirname + '/../client'))
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(cors());
+app.use(passport.initialize());
+
 // Redirect the user to Facebook for authentication.  When complete,
 // Facebook will redirect the user back to the application at
 //     /auth/facebook/callback
@@ -23,7 +29,8 @@ app.get('/auth/facebook/callback',
 passport.use(new FacebookStrategy({
     clientID: '1081400178578006',
     clientSecret: '4ea1b4102a4a24e2a32beb8df8d5ed27',
-    callbackURL: 'http://localhost:1738/auth/facebook/callback'
+    callbackURL: 'http://localhost:1738/auth/facebook/callback',
+    profileFields: ['id', 'emails', 'name']
   },
   function(accessToken, refreshToken, profile, done) {
     process.nextTick(function(){
@@ -50,12 +57,17 @@ passport.use(new FacebookStrategy({
         }
       });
     });
-  }));
+  })
+);
 
-app.use(express.static(__dirname + '/../client'))
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-app.use(cors());
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function(user, done) {
+  done(null, user);
+});
+
 
 app.get('/testtwilio', function(req,res){
   twilio.sendMessage({
@@ -162,7 +174,7 @@ app.post('/ownerRemoveItemFromMenu', function(req, res){
       res.send(notSignedUp);
     }
   })
-})
+});
 
 
 app.listen(1738, function(){
