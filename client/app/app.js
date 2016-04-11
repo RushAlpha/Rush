@@ -23,7 +23,7 @@ angular.module('Rush', ['ui.router','rush-Services', 'owner-Module', 'consumer-M
 		templateUrl: '../consumer/consumer.html',
 		controller: 'consumerController'
 	})
-});
+})
 .controller('authController', function($geolocation, $scope, authFactory, $state){
 	$scope.location;
 	$scope.geoAddress = {};
