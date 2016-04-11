@@ -2,7 +2,7 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 var cors = require('cors');
-var db = require('./db.js');
+var newUser = require('./db.js');
 var twilio = require('twilio')('AC31273ed4502660534891a3a83ea025b9','9b4d360ef7251e6f6925210bbfa7d067');
 var bcrypt = require('bcrypt');
 
@@ -34,7 +34,7 @@ var notSignedUp = false;
 
 app.post('/signin', function(req, res){
   //Filter database for username match
-  db.find({email: req.body.username}, function(err, users){
+  newUser.find({email: req.body.username}, function(err, users){
     //if match is found...
     if(users.length){
     //Compare user inputted password with hashed password in database
@@ -55,18 +55,18 @@ app.post('/signin', function(req, res){
 
 app.post('/signup', function(req, res){
 
-  var userPasswordBeforeEncryption = req.body.password;
+  var userPasswornewUsereforeEncryption = req.body.password;
   var hashedPassword;
   var userNameTaken = false;
 
-  db.find({email: req.body.username}, function(err, users){
+  newUser.find({email: req.body.username}, function(err, users){
 console.log(users);  //TAKE OUT THIS LINE!!!!!
   if(users.length === 0){
 
 
-    bcrypt.hash(userPasswordBeforeEncryption, saltRounds, function(err, hash){
-
-      new db({email: req.body.username, password: hash, isOwner: req.body.isOwner})
+    bcrypt.hash(userPasswornewUsereforeEncryption, saltRounds, function(err, hash){
+      req.body.address = req.body.address || null;
+      new newUser({email: req.body.username, password: hash, isOwner: req.body.isOwner, location: req.body.address, deals: []})
       .save(function(err, post){
         if(err) {
           return next(err);
@@ -80,13 +80,13 @@ console.log(users);  //TAKE OUT THIS LINE!!!!!
     console.log("that username is taken! sending to client FALSE signal");
     res.send(userNameTaken);
   }
-
+  
   })
 
 });
 
 app.post('/ownerAddItemToMenu', function(req, res){
-    db.find({email: req.body.username}, function(err, users){
+    newUser.find({email: req.body.username}, function(err, users){
     //if match is found...
     if(users.length){
     //Compare user inputted password with hashed password in database
@@ -106,7 +106,7 @@ app.post('/ownerAddItemToMenu', function(req, res){
 });
 
 app.post('/ownerRemoveItemFromMenu', function(req, res){
-    db.find({email: req.body.username}, function(err, users){
+    newUser.find({email: req.body.username}, function(err, users){
     //if match is found...
     if(users.length){
     //Compare user-inputed password with hashed password in database
