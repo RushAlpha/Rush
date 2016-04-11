@@ -17,7 +17,12 @@ angular.module('rush-Services', [])
       };
       return $http.post('/signup', logUpInfo);
     }
+    var getOwnerAddress = function(username){
+      $http.post('/ownerAddress', {username: username});
+      
+    }
     return {
+      getOwnerAddress: getOwnerAddress,
       postSignIn: postSignIn,
       postSignUp: postSignUp
     };

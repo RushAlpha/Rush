@@ -11,10 +11,23 @@ angular.module('consumer-Module', ['rush-Services', 'ngGeolocation', 'uiGmapgoog
             $scope.myPosition.longitude = position.coords.longitude;
             $scope.locationExists = true;
          }).then(function(){
-         	$scope.map = { center: { latitude: $scope.myPosition.latitude, longitude: $scope.myPosition.longitude }, zoom: 9 };
+         	$scope.map = { center: { latitude: $scope.myPosition.latitude, longitude: $scope.myPosition.longitude }, zoom: 11 };
          })
          $scope.showLocation = function(){
          	console.log($scope.myPosition);
          }
 });
+
+         
+
+
+//          google.maps.geometry.spherical
+
+// computeDistanceBetween(from:LatLng, to:LatLng, radius?:number)
+
+
+		
+
+// })
+
 
