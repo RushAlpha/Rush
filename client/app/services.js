@@ -7,12 +7,13 @@ angular.module('rush-Services', [])
       };
       return $http.post('/signin', logInInfo);
     };
-    var postSignUp = function(username, password, isOwner) {
+    var postSignUp = function(username, password, isOwner, address) {
       console.log(username, password, isOwner, "INSIDE OF POSTSIGNUP INSIDE AUTH FACTORY");
       var logUpInfo = {
         username: username,
         password: password,
-        isOwner: isOwner
+        isOwner: isOwner,
+        address: address
       };
       return $http.post('/signup', logUpInfo);
     }
@@ -29,12 +30,12 @@ angular.module('rush-Services', [])
       return $http.post('/owner', rushItems);
     }
     var addToDeals = function(item, price) {
-      var deals = {
+      var deal = {
         item: item,
         price: price
       }
-      console.log("Adding this deal: ", deals)
-      return $http.post('/owner', deals)
+      console.log("Adding this deal: ", deal)
+      return $http.post('/owner', deal)
     }
     return {
       postRush: postRush,
