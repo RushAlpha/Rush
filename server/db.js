@@ -12,8 +12,8 @@ var usersSchema = new Schema ({
   email: String,
   password: String,
   isOwner: Boolean,
-  location: [],
-  deals: []
+  deals: [],
+  address: {}
 });
 
 var User = mongoose.model('users', usersSchema);
