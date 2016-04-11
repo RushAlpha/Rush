@@ -24,11 +24,6 @@ angular.module('Rush', ['ui.router','rush-Services', 'owner-Module', 'consumer-M
 		controller: 'consumerController'
 	})
 })
-.controller('googlyMapsController', function($scope){
-
-	$scope.map = { center: { latitude: 69.42042069, longitude: 69.42042069 }, zoom: 9 };
-	
-})
 .controller('authController', function($scope, authFactory, $state){
 	$scope.logIn = function() {
 		authFactory.postSignIn(
