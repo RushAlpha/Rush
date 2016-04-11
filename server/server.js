@@ -60,9 +60,7 @@ app.post('/signup', function(req, res){
   var userNameTaken = false;
 
   newUser.find({email: req.body.username}, function(err, users){
-console.log(users);  //TAKE OUT THIS LINE!!!!!
   if(users.length === 0){
-
 
     bcrypt.hash(userPasswornewUsereforeEncryption, saltRounds, function(err, hash){
       req.body.address = req.body.address || null;

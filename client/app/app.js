@@ -1,4 +1,4 @@
-angular.module('Rush', ['ui.router','rush-Services', 'owner-Module', 'consumer-Module', 'maps-module', 'uiGmapgoogle-maps'])
+angular.module('Rush', ['ui.router','rush-Services', 'owner-Module', 'consumer-Module', 'uiGmapgoogle-maps'])
 .config(function($stateProvider, $httpProvider, $urlRouterProvider){
 	$urlRouterProvider.otherwise('signin')
 
@@ -41,6 +41,7 @@ angular.module('Rush', ['ui.router','rush-Services', 'owner-Module', 'consumer-M
 		console.log($scope.username, $scope.password, "USERNAMES AND PASSWORDS");
 	}
 	$scope.logUp = function() {
+		console.log("this is scopeUsername", $scope.username)
 		authFactory.postSignUp($scope.username, $scope.password, $scope.isOwnerBox.value, $scope.address)
 		.then(function(data) {
 				if (data.data === false){
