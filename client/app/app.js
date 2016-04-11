@@ -24,6 +24,7 @@ angular.module('Rush', ['ui.router','rush-Services', 'owner-Module', 'consumer-M
 		controller: 'consumerController'
 	})
 })
+
 .controller('authController', function($scope, authFactory, $state){
 	$scope.logIn = function() {
 		authFactory.postSignIn(
@@ -40,7 +41,7 @@ angular.module('Rush', ['ui.router','rush-Services', 'owner-Module', 'consumer-M
 		console.log($scope.username, $scope.password, "USERNAMES AND PASSWORDS");
 	}
 	$scope.logUp = function() {
-		authFactory.postSignUp($scope.username, $scope.password, $scope.isOwnerBox.value)
+		authFactory.postSignUp($scope.username, $scope.password, $scope.isOwnerBox.value, $scope.address)
 		.then(function(data) {
 				if (data.data === false){
 					$state.go('signin');
