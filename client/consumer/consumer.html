@@ -1,4 +1,18 @@
 <div>
 <h1>Rush Consumer</h1>
 	<div>{{hello}}</div>
+	<ui-gmap-google-map center='map.center' class='angular-google-map-container' zoom='map.zoom' ng-show='locationExists'>
+		<ui-gmap-marker
+		    idKey='1'
+		    coords='map.center'>
+		</ui-gmap-marker>
+		<ui-gmap-circle center='map.center'
+		                radius='505'
+		                fill='{color: "#999", opacity: .6}'
+		                stroke='{color: "#33a", weight: 10, opacity: .2}' >
+
+		</ui-gmap-circle>
+
+		</ui-gmap-google-map>
+		<button ng-Click="showLocation()"></button>
 </div>
