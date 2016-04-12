@@ -14,5 +14,13 @@
 		</ui-gmap-circle>
 
 		</ui-gmap-google-map>
-		<button ng-Click="showLocation()"></button>
+		<button ng-click="filterPositions()">filter Positions</button>
+		<div ng-repeat="deals in rushRestaurants">
+		<div ng-repeat="deal in deals">
+		<div>
+		{{deal.item + ': ' + deal.price}}
+		</div>
+		</div>
+
+		</div>
 </div>

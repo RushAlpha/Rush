@@ -1,4 +1,11 @@
-angular.module('rush-Services', [])
+angular.module('rush-Services', ['uiGmapgoogle-maps'])
+    .config(function(uiGmapGoogleMapApiProvider){
+        uiGmapGoogleMapApiProvider.configure({
+            key: 'AIzaSyAxc_VeKSzM0c-5IOGE8mk-zLigL3QqEYA',
+            v: '3.17',
+            libraries: 'weather,geometry,visualization'
+        });
+    })
   .factory('authFactory', function($http) {
     var postSignIn = function(username, password) {
       var logInInfo = {
@@ -30,19 +37,15 @@ angular.module('rush-Services', [])
   })
 
   .factory('generalFactory', function($http) {
-
-
-
-    var findDistance = function(latlng1, latlng2){
-
-// google.maps.geometry.spherical
-
-// computeDistanceBetween(from:LatLng, to:LatLng)
-
+    var findDistance = function(latlng1, latlng2) {
+        console.log("FINDING DISTANCE RIGHT NOW");
+        var latitLongit1 = new google.maps.LatLng(latlng1);
+        var latitLongit2 = new google.maps.LatLng(latlng2);
+        console.log( google.maps.geometry.spherical.computeDistanceBetween(latitLongit1, latitLongit2));
+        return google.maps.geometry.spherical.computeDistanceBetween(latitLongit1, latitLongit2);
     }
-
-    var getDeals = function(){
-      return $http.get('/getOwnerDeals');
+    var getLocations = function(){
+      return $http.get('/getLocations');
     }
 
     var addToDeals = function(username, password, item, price) {
@@ -57,6 +60,8 @@ angular.module('rush-Services', [])
     }
     return {
       addToDeals: addToDeals,
-      getDeals: getDeals
+      getLocations: getLocations,
+      findDistance: findDistance
     }
   });
+

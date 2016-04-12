@@ -49,6 +49,22 @@ app.post('/signin', function(req, res){
   });
 });
 
+
+app.get('/getLocations', function(req, res){
+  res.send( [{location: {lat: 34.0192691, lng: -118.496533},
+   deals: [{item: "food4", price: 51.99}, {item: "food3", price: 61.99},
+    {item: "food4", price: 51.99}, {item: "food3", price: 61.99}]},
+    {location: {lat: 35.11982, lng: -118.9218392},
+   deals: [{item: "food6", price: 4.99}, {item: "food5", price: 3.99},
+    {item: "food6", price: 4.99}, {item: "food5", price: 3.99}]},
+    {location: {lat: 34.01982, lng: -118.496533},
+   deals: [{item: "food", price: 5.99}, {item: "food2", price: 6.99},
+    {item: "food", price: 5.99}, {item: "food2", price: 6.99}]}]
+
+
+
+    )
+})
 app.post('/signup', function(req, res){
 
   var userPasswornewUsereforeEncryption = req.body.password;
