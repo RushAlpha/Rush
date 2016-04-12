@@ -1,26 +1,90 @@
+li {
+	list-style-type: none;
+}
+
+md-toolbar {
+	height: 130px;
+	background-color: black !important;
+	text-align: center;
+	position: relative;
+	font-family: 'Fugaz One', cursive;
+	color: #70dbdb !important;
+}
+
 .angular-google-map-container {
 	height: 400px;
 	width: 600px;
 }
 
-.md-button.md-raised:not([disabled]) {
-    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+.restHead {
+	font-size: 75px;
+	margin-top: 30px;
+	margin-left: 345px;
 }
 
 .md-button {
-  /*padding: 0 6px 0 6px;*/
-  /*margin: 6px 8px 6px 8px;*/
-  min-width: 88px;
+	/*padding: 0 6px 0 6px;*/
+	/*margin: 6px 8px 6px 8px;*/
+	min-width: 88px;
 	width: 600px;
-  border-radius: 3px;
-  font-size: 14px;
-  text-align: center;
-  text-transform: uppercase;
-  text-decoration:none;
-  border: none;
-  outline: none;
+	border-radius: 3px;
+	font-size: 14px;
+	text-align: center;
+	text-transform: uppercase;
+	text-decoration:none;
+	border: none;
+	outline: none;
 }
 
-li {
-	list-style-type: none;
+.logOutBtn {
+	width: 200px;
+	height: 130px;
+	position: absolute;
+	top: 0px;
+	right: 0px;
+}
+
+.logOutText {
+	position: relative;
+	text-align: center;
+	font-size: 30px;
+	top:35%;
+	/*font-family: 'Fugaz One', cursive;*/
+	color: #70dbdb;
+}
+
+.mapStyle {
+	margin-top: 60px;
+	margin-bottom: 40px;
+	margin-left: auto;
+	margin-right: auto;
+	width: 600px;
+}
+
+.dealStyle {
+	text-align: center;
+	font-family: 'Fugaz One', cursive;
+}
+
+.dealStyle h1 {
+	font-size: 60px
+}
+
+.dealStyle h2 {
+	margin-top: -40px;
+	font-size: 30px;
+}
+
+.listStyle {
+	margin-top: 40px;
+	margin-bottom: 40px;
+	margin-left: auto;
+	margin-right: auto;
+	width: 600px;
+}
+
+.rushBtn {
+	width: 600px;
+	margin-left: auto;
+	margin-right: auto;
 }

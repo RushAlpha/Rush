@@ -24,8 +24,7 @@
     "angular-simple-logger": "^0.1.7",
     "angular-ui-utils": "^3.0.0",
     "angular-ui-map": "^0.5.0",
-    "bootstrap": "^3.3.6",
-    "jquery": "^2.2.3"
+    "firebase": "^2.4.2"
   },
   "resolutions": {
     "angular-ui-utils": "0.x"
