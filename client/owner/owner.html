@@ -1,4 +1,4 @@
-<div ng-init="init()">
+<div>
 	<h1>Rush Owner</h1>
 	<div>This is the Rush home page</div>
 	<ui-gmap-google-map center='map.center' class='angular-google-map-container' zoom='map.zoom'>
@@ -10,7 +10,7 @@
 		<input type="email" name="email" ng-model="username">
 		<input type="password" name="password" ng-model="password">
 		<input type="text" name="deal" ng-model="item" placeholder="Add a deal here">
-		<input type="number" name="price" ng-model="price">
+		<input type="number" name="price" step="0.01" ng-model="price">
 		<input type="submit" ng-click="addToDeals()">
 	</form>
 </div>
