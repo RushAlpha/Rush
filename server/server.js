@@ -32,14 +32,16 @@ var notSignedUp = false;
 app.post('/signin', function(req, res){
   //Filter database for username match
   newUser.find({email: req.body.username}, function(err, users){
+    console.log("this is users", users); 
     //if match is found...
     if(users.length){
     //Compare user inputted password with hashed password in database
     bcrypt.compare(req.body.password, users[0].password, function(err, result) {
 
 
-        console.log("result: ", result, req.body);
-        res.send({hasAccount: result, isOwner: req.body.isOwner});
+        console.log("this is result ", result);
+        console.log("THIS IS USERS.[0]ISOWNER",users[0].isOwner)
+        res.send({hasAccount: result, isOwner: users[0].isOwner});
     })} else {
       console.log("User Is NOT loggedUp!");
       res.send({hasAccount: notSignedUp});
