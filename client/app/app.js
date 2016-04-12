@@ -105,3 +105,4 @@ angular.module('Rush', ['ui.router', 'rush-Services', 'owner-Module', 'consumer-
 
 			};
 		})
+
