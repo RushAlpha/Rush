@@ -7,13 +7,14 @@ angular.module('rush-Services', [])
       };
       return $http.post('/signin', logInInfo);
     };
-    var postSignUp = function(username, password, isOwner, address) {
-      console.log('authFactory>postSignUp: ', username, password, isOwner, address);
+    var postSignUp = function(username, password, isOwner, address, restName) {
+      console.log('authFactory>postSignUp: ', username, password, isOwner, address, restName);
       var logUpInfo = {
         username: username,
         password: password,
         isOwner: isOwner,
-        address: address
+        address: address,
+        restName: restName
       };
       return $http.post('/signup', logUpInfo);
     }

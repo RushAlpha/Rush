@@ -65,7 +65,7 @@ angular.module('Rush', ['ui.router', 'rush-Services', 'owner-Module', 'consumer-
 							console.log("geoAddress#1: ", $scope.geoAddress);
 							console.log("ISOWNERBOX VALUE!!!", $scope.isOwnerBox.value);
 
-							authFactory.postSignUp($scope.username, $scope.password, $scope.isOwnerBox.value, $scope.geoAddress)
+							authFactory.postSignUp($scope.username, $scope.password, $scope.isOwnerBox.value, $scope.restName, $scope.geoAddress)
 								.then(function(data) {
 									if (data.data.isOwner === false) {
 										console.log(data);
