@@ -14,26 +14,6 @@ app.use(cors());
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 app.get('/testtwilio', function(req,res){
   twilio.sendMessage({
     to: '+1**********', // Consumer #
@@ -77,10 +57,11 @@ app.post('/signup', function(req, res){
 
     bcrypt.hash(userPasswornewUsereforeEncryption, saltRounds, function(err, hash){
       req.body.address = req.body.address || null;
-      new newUser({email: req.body.username, password: hash, isOwner: req.body.isOwner, location: req.body.address, deals: [], address: []})
+      console.log("this is req.body.restName", req.body)
+      new newUser({email: req.body.username, password: hash, isOwner: req.body.isOwner, location: req.body.address, restName: req.body.restName, deals: [], address: []})
       .save(function(err, post){
         if(err) {
-          return next(err);
+          console.log("error!")
         } else {
           res.send(post);
         }
@@ -111,6 +92,37 @@ newUser.find({email: req.body.username}, function(err, users){
     })
 })
 });
+
+app.get('/ownerDeals', function(req,res){
+  //find all owners
+  newUser.find({isOwner: true}, function(err, owners){
+    //make empty response object
+    var allTheDeals = {};
+    //for all owners, store into object with id key and deals value
+    owners.forEach(function(owner){
+      allTheDeals[owner._id] = owner.deals;
+    })
+    //sending client object with id's correlating with deals
+    res.send(allTheDeals);
+  })
+})
+
+app.get('/getLocations', function(req,res){
+  newUser.find({isOwner: true}, function(err, owners){
+    //make empty response object
+    var allTheLocations = {};
+    //for all owners, store into object with id key and deals value
+    owners.forEach(function(owner){
+      allTheLocations[owner._id] = {
+        restName: owner.restName || null,
+        address: owner.address,
+        deals: owner.deals
+      }
+    })
+    //sending client object with id's correlating with deals
+    res.send(allTheLocations);
+  })
+})
 
 
 /*

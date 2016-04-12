@@ -18,6 +18,7 @@ var usersSchema = new Schema ({
     item: {type: String, required: true},
     price: {type: Number, required: true}
   }],
+    restName: String,
     address: [
   {
     lat: {type: Number, required: true},
