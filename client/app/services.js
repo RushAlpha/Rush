@@ -64,4 +64,3 @@ angular.module('rush-Services', ['uiGmapgoogle-maps'])
       findDistance: findDistance
     }
   });
-
