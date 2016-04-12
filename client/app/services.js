@@ -19,7 +19,7 @@ angular.module('rush-Services', [])
     }
     var getOwnerAddress = function(username){
       $http.post('/ownerAddress', {username: username});
-      
+
     }
     return {
       getOwnerAddress: getOwnerAddress,
@@ -27,6 +27,7 @@ angular.module('rush-Services', [])
       postSignUp: postSignUp
     };
   })
+
   .factory('generalFactory', function($http) {
 
     var findDistance = function(latlng1, latlng2){
@@ -41,13 +42,15 @@ angular.module('rush-Services', [])
       return $http.get('/getOwnerDeals');
     }
 
-    var addToDeals = function(item, price) {
+    var addToDeals = function(username, password, item, price) {
       var deal = {
+        username: username,
+        password: password,
         item: item,
         price: price
       };
       console.log("addToDeals: ", deal);
-      return $http.post('/owner', deal);
+      return $http.post('/ownerAddItemToMenu', deal);
     }
     return {
       addToDeals: addToDeals,

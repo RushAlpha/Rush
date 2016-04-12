@@ -4,11 +4,9 @@ angular.module('owner-Module', ['rush-Services', 'ngGeolocation', 'uiGmapgoogle-
 
 	$scope.declareRush = function(){
 		console.log("declaredRush!");
-	}
+	};
 
 	$scope.addToDeals = function(){
-   	  generalFactory.addToDeals($scope.item, $scope.price)
-  	}
-
+   	generalFactory.addToDeals($scope.username, $scope.password, $scope.item, $scope.price)
+  }
 });
-
