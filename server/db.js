@@ -9,20 +9,12 @@ mongoose.connection.once('open', function() {
 });
 
 var usersSchema = new Schema ({
-  local: {
     email: String,
     password: String,
     isOwner: Boolean,
     hasAccount: Boolean,
     deals: [],
     address: {}
-  },
-  facebook: {
-    id: String,
-    token: String,
-    email: String,
-    name: String
-  }
 });
 
 var User = mongoose.model('users', usersSchema);
