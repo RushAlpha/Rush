@@ -1,3 +1,26 @@
 .angular-google-map-container {
 	height: 400px;
+	width: 600px;
+}
+
+.md-button.md-raised:not([disabled]) {
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+}
+
+.md-button {
+  /*padding: 0 6px 0 6px;*/
+  /*margin: 6px 8px 6px 8px;*/
+  min-width: 88px;
+	width: 600px;
+  border-radius: 3px;
+  font-size: 14px;
+  text-align: center;
+  text-transform: uppercase;
+  text-decoration:none;
+  border: none;
+  outline: none;
+}
+
+li {
+	list-style-type: none;
 }

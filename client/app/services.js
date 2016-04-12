@@ -30,6 +30,8 @@ angular.module('rush-Services', [])
 
   .factory('generalFactory', function($http) {
 
+
+
     var findDistance = function(latlng1, latlng2){
 
 // google.maps.geometry.spherical
