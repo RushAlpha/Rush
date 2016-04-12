@@ -13,8 +13,17 @@ var usersSchema = new Schema ({
     password: String,
     isOwner: Boolean,
     hasAccount: Boolean,
-    deals: [],
-    address: {}
+    deals: [
+  {
+    item: {type: String, required: true},
+    price: {type: Number, required: true}
+  }],
+    restName: String,
+    address: [
+  {
+    lat: {type: Number, required: true},
+    lng: {type: Number, required: true}
+  }]
 });
 
 var User = mongoose.model('users', usersSchema);

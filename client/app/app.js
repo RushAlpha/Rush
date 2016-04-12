@@ -60,12 +60,12 @@ angular.module('Rush', ['ui.router', 'rush-Services', 'owner-Module', 'consumer-
 					}, function(results, status) {
 						if (status == google.maps.GeocoderStatus.OK && results.length > 0) {
 							$scope.location = results[0].geometry.location;
-							$scope.geoAddress.latitude = results[0].geometry.location.lat();
-							$scope.geoAddress.longitude = results[0].geometry.location.lng();
+							$scope.geoAddress.lat = results[0].geometry.location.lat();
+							$scope.geoAddress.lng = results[0].geometry.location.lng();
 							console.log("geoAddress#1: ", $scope.geoAddress);
 							console.log("ISOWNERBOX VALUE!!!", $scope.isOwnerBox.value);
 
-							authFactory.postSignUp($scope.username, $scope.password, $scope.isOwnerBox.value, $scope.restName, $scope.geoAddress)
+							authFactory.postSignUp($scope.username, $scope.password, $scope.isOwnerBox.value, $scope.geoAddress, $scope.restName)
 								.then(function(data) {
 									if (data.data.isOwner === false) {
 										console.log(data);

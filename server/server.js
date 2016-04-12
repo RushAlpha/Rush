@@ -11,6 +11,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
 
+
+
+
 app.get('/testtwilio', function(req,res){
   twilio.sendMessage({
     to: '+1**********', // Consumer #
@@ -32,39 +35,17 @@ var notSignedUp = false;
 app.post('/signin', function(req, res){
   //Filter database for username match
   newUser.find({email: req.body.username}, function(err, users){
-    console.log("this is users", users); 
     //if match is found...
     if(users.length){
     //Compare user inputted password with hashed password in database
     bcrypt.compare(req.body.password, users[0].password, function(err, result) {
-
-
-        console.log("this is result ", result);
-        console.log("THIS IS USERS.[0]ISOWNER",users[0].isOwner)
         res.send({hasAccount: result, isOwner: users[0].isOwner});
     })} else {
-      console.log("User Is NOT loggedUp!");
       res.send({hasAccount: notSignedUp});
     }
   });
 });
 
-
-app.get('/getLocations', function(req, res){
-  res.send( [{location: {lat: 34.0192691, lng: -118.496533},
-   deals: [{item: "food4", price: 51.99}, {item: "food3", price: 61.99},
-    {item: "food4", price: 51.99}, {item: "food3", price: 61.99}]},
-    {location: {lat: 35.11982, lng: -118.9218392},
-   deals: [{item: "food6", price: 4.99}, {item: "food5", price: 3.99},
-    {item: "food6", price: 4.99}, {item: "food5", price: 3.99}]},
-    {location: {lat: 34.01982, lng: -118.496533},
-   deals: [{item: "food", price: 5.99}, {item: "food2", price: 6.99},
-    {item: "food", price: 5.99}, {item: "food2", price: 6.99}]}]
-
-
-
-    )
-})
 app.post('/signup', function(req, res){
 
   var userPasswornewUsereforeEncryption = req.body.password;
@@ -76,10 +57,11 @@ app.post('/signup', function(req, res){
 
     bcrypt.hash(userPasswornewUsereforeEncryption, saltRounds, function(err, hash){
       req.body.address = req.body.address || null;
-      new newUser({email: req.body.username, password: hash, isOwner: req.body.isOwner, location: req.body.address, deals: []})
+      console.log("this is req.body.restName", req.body)
+      new newUser({email: req.body.username, password: hash, isOwner: req.body.isOwner, location: req.body.address, restName: req.body.restName, deals: [], address: []})
       .save(function(err, post){
         if(err) {
-          return next(err);
+          console.log("error!")
         } else {
           res.send(post);
         }
@@ -96,25 +78,54 @@ app.post('/signup', function(req, res){
 });
 
 app.post('/ownerAddItemToMenu', function(req, res){
-    newUser.find({email: req.body.username}, function(err, users){
-    //if match is found...
-    if(users.length){
-    //Compare user inputted password with hashed password in database
+newUser.find({email: req.body.username}, function(err, users){
     bcrypt.compare(req.body.password, users[0].password, function(err, result) {
         //if credentials are correct...
         if(result){
-          //add server-given-item to respective owner object in database
-            users[0].deals.push(req.body.CLIENTSIDEDEAL);
+          newUser.findOneAndUpdate({email: req.body.username}, {$push:{"deals": {item: req.body.item, price: req.body.price}}}, {safe: true, upsert: true, new : true}, function(err, model){
+          //return true or false depending on if credentials are right
+          res.send(result);
+          })
+        } else {
+          res.send(result);
         }
-        //return true or false depending on if credentials are right
-        res.send(result);
-    })} else {
-      console.log("Credentials WRONG!  Sending FALSE signal to Server!");
-      res.send(notSignedUp);
-    }
-  });
+    })
+})
 });
 
+app.get('/ownerDeals', function(req,res){
+  //find all owners
+  newUser.find({isOwner: true}, function(err, owners){
+    //make empty response object
+    var allTheDeals = {};
+    //for all owners, store into object with id key and deals value
+    owners.forEach(function(owner){
+      allTheDeals[owner._id] = owner.deals;
+    })
+    //sending client object with id's correlating with deals
+    res.send(allTheDeals);
+  })
+})
+
+app.get('/getLocations', function(req,res){
+  newUser.find({isOwner: true}, function(err, owners){
+    //make empty response object
+    var allTheLocations = {};
+    //for all owners, store into object with id key and deals value
+    owners.forEach(function(owner){
+      allTheLocations[owner._id] = {
+        restName: owner.restName || null,
+        address: owner.address,
+        deals: owner.deals
+      }
+    })
+    //sending client object with id's correlating with deals
+    res.send(allTheLocations);
+  })
+})
+
+
+/*
 app.post('/ownerRemoveItemFromMenu', function(req, res){
     newUser.find({email: req.body.username}, function(err, users){
     //if match is found...
@@ -136,7 +147,7 @@ app.post('/ownerRemoveItemFromMenu', function(req, res){
     }
   })
 });
-
+*/
 
 app.listen(1738, function(){
   console.log('Server is READY & LISTENING @ Port 1738!');
