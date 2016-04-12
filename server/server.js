@@ -36,7 +36,7 @@ app.post('/signin', function(req, res){
     if(users.length){
     //Compare user inputted password with hashed password in database
     bcrypt.compare(req.body.password, users[0].password, function(err, result) {
-        console.log("this is the result", result);
+        console.log("this is the result", result, req.body);
         res.send({hasAccount: result, isOwner: req.body.isOwner});
     })} else {
       console.log("User Is NOT loggedUp!");
