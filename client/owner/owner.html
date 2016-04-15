@@ -1,8 +1,9 @@
 <div>
 	<h1>Rush Owner</h1>
+	<button ng-click="authObj.$unauth()">Logout</button>
 	<ui-gmap-google-map center='map.center' class='angular-google-map-container' zoom='map.zoom'>
-		<ui-gmap-marker	idKey='1'	coords='{latitude: 69.19203, longitude: 69.1923401}'></ui-gmap-marker>
-		<ui-gmap-circle center='{latitude: 69.19203, longitude: 69.1923401}' radius='505' fill='{color: "#999", opacity: .6}'	stroke='{color: "#33a", weight: 10, opacity: .2}'></ui-gmap-circle>
+		<ui-gmap-marker	idKey='1'	coords='map.center'></ui-gmap-marker>
+		<ui-gmap-circle center='map.center' radius='8400' fill='{color: "#999", opacity: .6}'	stroke='{color: "#33a", weight: 10, opacity: .2}'></ui-gmap-circle>
 	</ui-gmap-google-map>
 	<div>
 		<h3>Your Rush Deals</h3>
@@ -15,8 +16,6 @@
 			Declare Rush
 		</md-button>
 		<form>
-			<input type="email" name="email" ng-model="username">
-			<input type="password" name="password" ng-model="password">
 			<input type="text" name="deal" ng-model="item" placeholder="Add a deal here">
 			<input type="number" name="price" step="0.01" ng-model="price">
 			<input type="submit" ng-click="addToDeals()">

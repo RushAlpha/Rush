@@ -7,6 +7,12 @@ angular.module('rush-Services', ['uiGmapgoogle-maps'])
         });
     })
   .factory('authFactory', function($http) {
+    var uid = 0;
+    var makeToken = function(){
+      uid += 1;
+      console.log("THIS IS UID", uid);
+      return $http.post('/token', {uid: uid});
+    }
     var postSignIn = function(username, password) {
       var logInInfo = {
         username: username,
@@ -32,7 +38,8 @@ angular.module('rush-Services', ['uiGmapgoogle-maps'])
     return {
       getOwnerAddress: getOwnerAddress,
       postSignIn: postSignIn,
-      postSignUp: postSignUp
+      postSignUp: postSignUp,
+      makeToken: makeToken
     };
   })
 
@@ -44,14 +51,19 @@ angular.module('rush-Services', ['uiGmapgoogle-maps'])
         console.log( google.maps.geometry.spherical.computeDistanceBetween(latitLongit1, latitLongit2));
         return google.maps.geometry.spherical.computeDistanceBetween(latitLongit1, latitLongit2);
     }
-    var getLocations = function(){
-      return $http.get('/getLocations');
+    var getRushes = function(){
+      return $http.get('/getRushes');
     }
 
-    var addToDeals = function(username, password, item, price) {
+    var getDeals = function(){
+      return $http.get('/ownerDeals');
+    }
+    var getOwnerLocation = function(uid){
+      return $http.post('/getOwnerLocation', {uid: uid});
+    }
+    var addToDeals = function(uid, item, price) {
       var deal = {
-        username: username,
-        password: password,
+        uid: uid,
         item: item,
         price: price
       };
@@ -59,8 +71,10 @@ angular.module('rush-Services', ['uiGmapgoogle-maps'])
       return $http.post('/ownerAddItemToMenu', deal);
     }
     return {
+      getDeals: getDeals,
       addToDeals: addToDeals,
-      getLocations: getLocations,
-      findDistance: findDistance
+      getRushes: getRushes,
+      findDistance: findDistance,
+      getOwnerLocation: getOwnerLocation
     }
   });

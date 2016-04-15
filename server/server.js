@@ -1,17 +1,18 @@
-var express = require('express');
+  var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 var cors = require('cors');
 var newUser = require('./db.js');
 var twilio = require('twilio')('AC31273ed4502660534891a3a83ea025b9','9b4d360ef7251e6f6925210bbfa7d067');
 var bcrypt = require('bcrypt');
+var FirebaseTokenGenerator = require("firebase-token-generator");
+
+var tokenGenerator = new FirebaseTokenGenerator("W3JqgeVOrax9lnD0xYLoWXvgCqtkE0bOv4GO93Hu");
 
 app.use(express.static(__dirname + '/../client'))
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
-
-
 
 
 app.get('/testtwilio', function(req,res){
@@ -39,11 +40,27 @@ app.post('/signin', function(req, res){
     if(users.length){
     //Compare user inputted password with hashed password in database
     bcrypt.compare(req.body.password, users[0].password, function(err, result) {
+      if (err){
         res.send({hasAccount: result, isOwner: users[0].isOwner});
+      } else {
+          var stringUID = users[0]._id.toString();
+          var token = tokenGenerator.createToken({ uid: stringUID, some: "arbitrary", data: "here" });
+        res.send({hasAccount: result, isOwner: users[0].isOwner, token: token});
+
+      }
     })} else {
       res.send({hasAccount: notSignedUp});
     }
   });
+});
+
+app.post('/getOwnerLocation', function(req, res){
+  newUser.find({_id: req.body.uid}, function(err, users){
+    if(users.length){
+      console.log("THIS IS A USERS LOCATION GETTER", users[0]);
+      res.send({address: users[0]});
+    }
+  })
 });
 
 app.post('/signup', function(req, res){
@@ -57,17 +74,29 @@ app.post('/signup', function(req, res){
 
     bcrypt.hash(userPasswornewUsereforeEncryption, saltRounds, function(err, hash){
       req.body.address = req.body.address || null;
-      console.log("this is req.body.restName", req.body)
-      new newUser({email: req.body.username, password: hash, isOwner: req.body.isOwner, location: req.body.address, restName: req.body.restName, deals: [], address: []})
+      restName = req.body.restName || null;
+      console.log("this is req.body.address", req.body.address)
+      new newUser({email: req.body.username, password: hash, isOwner: req.body.isOwner, location: req.body.address, restName: req.body.restName, deals: []})
       .save(function(err, post){
         if(err) {
           console.log("error!")
         } else {
-          res.send(post);
-        }
-      });
-    });
+          newUser.find({email: req.body.username}, function(err, users){
+            if (err){
+              console.log(err)
+            } else {
+            console.log("signing up", users);
+          var stringUID = users[0]._id.toString();
+          var token = tokenGenerator.createToken({ uid: stringUID, some: "arbitrary", data: "here" });
+          res.send({token: token, isOwner: users[0].isOwner});
+          }
 
+        
+      });
+    };
+
+  })
+  })
   } else {
     console.log("Username TAKEN! Sending FALSE signal to Client!");
     res.send(userNameTaken);
@@ -78,20 +107,19 @@ app.post('/signup', function(req, res){
 });
 
 app.post('/ownerAddItemToMenu', function(req, res){
-newUser.find({email: req.body.username}, function(err, users){
-    bcrypt.compare(req.body.password, users[0].password, function(err, result) {
-        //if credentials are correct...
-        if(result){
-          newUser.findOneAndUpdate({email: req.body.username}, {$push:{"deals": {item: req.body.item, price: req.body.price}}}, {safe: true, upsert: true, new : true}, function(err, model){
-          //return true or false depending on if credentials are right
-          res.send(result);
+newUser.find({_id: req.body.uid}, function(err, users){
+        if (users.length > 0){
+          console.log(req.body.uid, "INSIDE ADD ITEMS TO MENU");
+          newUser.findOneAndUpdate({_id: req.body.uid}, 
+            {$push:{"deals": {item: req.body.item, price: req.body.price}}},
+             {safe: true, upsert: true, new : true}, 
+             function(err, model){
+              console.log("items have been added to menu");
           })
-        } else {
-          res.send(result);
-        }
-    })
+    } 
 })
 });
+
 
 app.get('/ownerDeals', function(req,res){
   //find all owners
@@ -100,30 +128,30 @@ app.get('/ownerDeals', function(req,res){
     var allTheDeals = {};
     //for all owners, store into object with id key and deals value
     owners.forEach(function(owner){
-      allTheDeals[owner._id] = owner.deals;
+      allTheDeals.deals = owner.deals;
     })
     //sending client object with id's correlating with deals
     res.send(allTheDeals);
   })
 })
 
-app.get('/getLocations', function(req,res){
+app.get('/getRushes', function(req,res){
   newUser.find({isOwner: true}, function(err, owners){
     //make empty response object
-    var allTheLocations = {};
+    var allTheLocations = [];
     //for all owners, store into object with id key and deals value
     owners.forEach(function(owner){
-      allTheLocations[owner._id] = {
-        restName: owner.restName || null,
-        address: owner.address,
-        deals: owner.deals
-      }
+      restaurant = {}
+      restaurant.restName = owner.restName;
+      restaurant.address = owner.location;
+      restaurant.deals = owner.deals;
+      allTheLocations.push(restaurant);
+      
     })
     //sending client object with id's correlating with deals
     res.send(allTheLocations);
   })
 })
-
 
 /*
 app.post('/ownerRemoveItemFromMenu', function(req, res){
