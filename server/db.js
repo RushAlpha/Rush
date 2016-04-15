@@ -12,19 +12,15 @@ var usersSchema = new Schema ({
     email: String,
     password: String,
     isOwner: Boolean,
+    location: {lat: {type: Number}, lng: {type:Number}},
     hasAccount: Boolean,
     deals: [
   {
     item: {type: String, required: true},
     price: {type: Number, required: true}
   }],
-    restName: String,
-    address: [
-  {
-    lat: {type: Number, required: true},
-    lng: {type: Number, required: true}
-  }]
-});
+    restName: String
+  });
 
 var User = mongoose.model('users', usersSchema);
 

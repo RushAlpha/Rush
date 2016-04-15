@@ -1,4 +1,12 @@
-angular.module('Rush', ['ui.router', 'rush-Services', 'owner-Module', 'consumer-Module', 'uiGmapgoogle-maps', 'ngGeolocation', 'ngMaterial'])
+angular.module('Rush', ['ui.router',
+	'rush-Services',
+	'owner-Module',
+	'consumer-Module',
+	'uiGmapgoogle-maps',
+	'ngGeolocation',
+	'ngMaterial',
+	'firebase'
+])
 	.config(function($stateProvider, $httpProvider, $urlRouterProvider) {
 		$urlRouterProvider.otherwise('signin')
 
@@ -15,6 +23,11 @@ angular.module('Rush', ['ui.router', 'rush-Services', 'owner-Module', 'consumer-
 			})
 			.state('owner', {
 				url: '/owner',
+				params: {
+					geoAddress: null,
+					username: null,
+					password: null
+				},
 				templateUrl: '../owner/owner.html',
 				controller: 'ownerController'
 			})
@@ -24,84 +37,92 @@ angular.module('Rush', ['ui.router', 'rush-Services', 'owner-Module', 'consumer-
 				controller: 'consumerController'
 			})
 	})
-	.controller('authController', function($geolocation, $scope, authFactory, $state) {
-			$scope.isOwnerBox = {
-				value: false
-			};
-			$scope.location;
-			$scope.geoAddress = {};
-			var geocoder = new google.maps.Geocoder();
+.controller('authController', function($geolocation, $scope, authFactory, $state, $firebaseAuth) {
+	$scope.authData;
+	$scope.error;
+	$scope.ref = new Firebase("https://fiery-inferno-8987.firebaseio.com");
+	$scope.authObj = $firebaseAuth($scope.ref);
+	$scope.isOwnerBox = {
+		value: false
+	};
+	$scope.location;
+	$scope.geoAddress = {};
+	var geocoder = new google.maps.Geocoder();
 
-			$scope.logIn = function() {
-				authFactory.postSignIn(
-					$scope.username, $scope.password).then(function(data) {
-					if(data.data.hasAccount === true){
-						if(data.data.isOwner === true){
-							console.log(data.data ,"THIS IS DATA.DATA!!!");
 
+	$scope.logIn = function() {
+		authFactory.postSignIn(
+			$scope.username, $scope.password).then(function(data) {
+			if (data.data.hasAccount === true) {
+				$scope.ref.authWithCustomToken(data.data.token, function(error, authData) {
+					if (error) {
+						$scope.error = error;
+					} else {
+						if (data.data.isOwner === true) {
 							$state.go('owner');
 						} else {
-							console.log(data.data ,"THIS IS DATA.DATA!!!");
 							$state.go('consumer');
 						}
-					} else {
-						alert('This account does not exist');
-						$state.go('signup');
 					}
-				});
-				console.log('username & password: ', $scope.username, $scope.password);
+				})
+			} else {
+				alert('This account does not exist');
+				$state.go('signup');
 			}
-			$scope.logUp = function() {
+		});
+	}
+	$scope.logUp = function() {
 
-				if ($scope.isOwnerBox.value === true) {
-					console.log('address: ', $scope.address)
-					geocoder.geocode({
-						"address": $scope.address
-					}, function(results, status) {
-						if (status == google.maps.GeocoderStatus.OK && results.length > 0) {
-							$scope.location = results[0].geometry.location;
-							$scope.geoAddress.lat = results[0].geometry.location.lat();
-							$scope.geoAddress.lng = results[0].geometry.location.lng();
-							console.log("geoAddress#1: ", $scope.geoAddress);
-							console.log("ISOWNERBOX VALUE!!!", $scope.isOwnerBox.value);
+		if ($scope.isOwnerBox.value === true) {
+			geocoder.geocode({
+				"address": $scope.address
+			}, function(results, status) {
+				if (status == google.maps.GeocoderStatus.OK && results.length > 0) {
+					$scope.location = results[0].geometry.location;
+					$scope.geoAddress.lat = results[0].geometry.location.lat();
+					$scope.geoAddress.lng = results[0].geometry.location.lng();
+					authFactory.postSignUp($scope.username, $scope.password, $scope.isOwnerBox.value, $scope.geoAddress, $scope.restName)
+						.then(function(data) {
 
-							authFactory.postSignUp($scope.username, $scope.password, $scope.isOwnerBox.value, $scope.geoAddress, $scope.restName)
-								.then(function(data) {
+							$scope.ref.authWithCustomToken(data.data.token, function(error, authData) {
+								if (error) {
+								} else {
+									$scope.authData = authData;
+
 									if (data.data.isOwner === false) {
-										console.log(data);
 										$state.go('consumer');
 									} else if (data.data.isOwner === true) {
-										console.log(data);
-
-										console.log("Successful logUp: ", $scope.username);
-										$state.go('owner');
+										$state.go('owner', {
+											geoAddress: $scope.geoAddress,
+											username: $scope.username,
+											password: $scope.password
+										});
 									} else {
-										console.log(data.data);
-
 										$state.go('signin');
 									}
-								});
-						}
-					});
-					console.log("geoAddress#2: ", $scope.geoAddress);
-				} else {
-					authFactory.postSignUp($scope.username, $scope.password, $scope.isOwnerBox.value, $scope.address)
-						.then(function(data) {
+								}
+							});
+						});
+				}
+			})
+		} else {
+			authFactory.postSignUp($scope.username, $scope.password, $scope.isOwnerBox.value, $scope.address)
+				.then(function(data) {
+					$scope.ref.authWithCustomToken(data.data.token, function(error, authData) {
+						if (error) {
+							console.log('error');
+						} else {
 							if (data.data.isOwner === false) {
-								console.log(data);
 								$state.go('consumer');
 							} else if (data.data.isOwner === true) {
-								console.log(data);
-								console.log("Successful logUp: ", $scope.username);
 								$state.go('owner');
 							} else {
-								console.log(data.data);
 								$state.go('signin');
 							}
-						});
+						}
+					});
+				})
 
-				}
-				console.log($scope.address);
-
-			};
-		})
+		};
+	}
+});

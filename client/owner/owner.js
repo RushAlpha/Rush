@@ -1,18 +1,58 @@
-angular.module('owner-Module', ['rush-Services', 'ngGeolocation', 'uiGmapgoogle-maps', 'ngMaterial'])
-.controller('ownerController', function($geolocation, $scope, generalFactory) {
-	$scope.map = { center: { latitude: 34.2837189, longitude: -118.10385710 }, zoom: 9 };
+angular.module('owner-Module', ['rush-Services', 'ngGeolocation', 'uiGmapgoogle-maps', 'ngMaterial', 'firebase'])
+	.controller('ownerController', function($geolocation, $scope, generalFactory, $state, $firebaseAuth) {
 
-  $scope.rushes = [{item: "apple", price: 5}, {item: "pear", price: 6}, {item: "paper", price: 6}, {item: "eggroll", price: 6}, {item: "panda", price: 6} ];
+		$scope.map = {
+			center: { latitude: null, longitude: null },
+			zoom: 10
+		};
+		$scope.uid;
+		var ref = new Firebase("https://fiery-inferno-8987.firebaseio.com");
+		$scope.authObj = $firebaseAuth(ref);
+		$scope.rushes = [];
+		$scope.checkAuthentication = function() {
+			$scope.authObj.$onAuth(function(authData) {
+				if (authData) {
+					$scope.uid = authData.auth.uid;
+					generalFactory.getOwnerLocation($scope.uid).then(function(location) {
+						$scope.map.center.latitude = location.data.address.location.lat;
+						$scope.map.center.longitude = location.data.address.location.lng;
+					})
+				} else {
+					$state.go('signin');
+				}
+			})
+		}
+		$scope.checkAuthentication();
+		$scope.getDeals = function() {
+			generalFactory.getDeals().then(function(deals) {
+				$scope.rushes = deals.data.deals;
+			})
+		}
+		$scope.getDeals();
+		$scope.map;
+		if ($state.params.geoAddress !== null) {
+			$scope.newCenter = {
+				latitude: $state.params.geoAddress.lat,
+				longitude: $state.params.geoAddress.lng
+			};
+			$scope.map = {
+				center: $scope.newCenter,
+				zoom: 9
+			};
+		}
+		$scope.declareRush = function() {
+			console.log("declaredRush!", $state.params.geoAddress);
+		};
 
-	$scope.declareRush = function(){
-		console.log("declaredRush!");
-	};
-
-	$scope.addToDeals = function(){
-   	generalFactory.addToDeals($scope.username, $scope.password, $scope.item, $scope.price)
-  }
-
-  $scope.getDeals = function(){
-
-  }
-});
+		$scope.addToDeals = function() {
+			generalFactory.addToDeals($scope.uid, $scope.item, $scope.price)
+				.then(function(data) {
+					console.log("deals are added, here are new deals", data);
+					$scope.rushes.push({
+						item: data.item,
+						price: data.price
+					});
+					$scope.getDeals();
+				})
+		}
+	});
