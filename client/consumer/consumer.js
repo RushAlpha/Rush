@@ -23,7 +23,7 @@ angular.module('consumer-Module', ['rush-Services', 'ngGeolocation', 'uiGmapgoog
                latitude: $scope.myPosition.lat,
                longitude: $scope.myPosition.lng
             },
-            zoom: 12
+            zoom: 11
          };
          $scope.filterPositions();
       })
