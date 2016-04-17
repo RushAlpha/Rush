@@ -14,22 +14,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
 
-
-app.get('/testtwilio', function(req,res){
-  twilio.sendMessage({
-    to: '+1**********', // Consumer #
-    from: '+14848988821', // OUR Twilio Account Number
-    body: '[*NEW RUSH*] Come to SeaSalt for $4 Burritos! Offer ends in 2 Hours!' // body will get inputs from Owner view
-  }, function(err, data){
-    if (err) {
-      console.log('Error in Sending SMS! Error: ', err);
-      throw err;
-    }
-    res.send(data);
-    console.log("SMS Sent! Data: ", data);
-  });
-});
-
 var saltRounds = 10;
 var notSignedUp = false;
 
@@ -57,7 +41,7 @@ app.post('/signin', function(req, res){
 app.post('/getOwnerLocation', function(req, res){
   newUser.find({_id: req.body.uid}, function(err, users){
     if(users.length){
-      console.log("THIS IS A USERS LOCATION GETTER", users[0]);
+      console.log("User's locationGetter: ", users[0]);
       res.send({address: users[0]});
     }
   })
@@ -103,13 +87,13 @@ app.post('/signup', function(req, res){
 app.post('/ownerAddItemToMenu', function(req, res){
   newUser.find({_id: req.body.uid}, function(err, users){
     if (users.length > 0){
-      console.log(req.body.uid, "INSIDE ADD ITEMS TO MENU");
+      console.log("req.body.uid: ",req.body.uid);
       newUser.findOneAndUpdate({_id: req.body.uid},
         {$push:{"deals": {item: req.body.item, price: req.body.price}}},
         {safe: true, upsert: true, new : true},
         function(err, model){
-          console.log("items have been added to menu");
-          res.send("finished");
+          console.log("Deals Added!");
+          res.send("Complete");
         }
       )
     }
@@ -145,9 +129,6 @@ app.get('/getRushes', function(req,res){
         restaurant.deals = owner.rushDeals;
         allRushes.push(restaurant);
       }
-      else{
-        res.send('NO Owners have Declared a Rush Today!');
-      }
     })
     //sending client object with id's correlating with deals
     res.send(allRushes);
@@ -155,17 +136,34 @@ app.get('/getRushes', function(req,res){
 })
 
 app.post('/declareRush', function(req,res){
-  console.log("This rush has been declared: ", req.body)
   newUser.findOneAndUpdate({_id: req.body.uid}, {'$set': {declaredRush: true, rushDeals: req.body.rushDeals}}, function(err,success){
     if (err){
       console.log("Error in Updating: ",err)
     }
     else
     {
-      console.log(req.body.email,"'s properties (declaredRush & rushdeals) were successfully changed!");
       newUser.find({_id: req.body.uid}, function(err, owners){
         owners.forEach(function(owner){
           if(owner.declaredRush){
+            var restaurant = owner.restName;
+            sampleDealItem = req.body.rushDeal[0].item;
+            sampleDealPrice = req.body.rushDeal[0].price;
+            var sampleDeal = 'ITEM: '+sampleDealItem+' & PRICE: $'+sampleDealPrice;
+            var message = '[*NEW RUSH*] Come to '+restaurant+'! 1 of 5 Deals: '+sampleDeal+'! LogIn to Rush app & save that money!';
+            var verifiedNumbers = ['+19094893980','+18319207839','+16262909006','+13232395800']
+            for(var i=0;i<verifiedNumbers.length;i++){
+              twilio.sendMessage({
+                to: verifiedNumbers[i], // Consumer #'s Separated by Commas (NOT tested)
+                from: '+14848988821', // OUR Twilio Account Number
+                body: message
+              }, function(err, data){
+                  if (err) {
+                    console.log('Error in Sending SMS! Error: ', err);
+                    throw err;
+                  }
+                  console.log("SMS Sent!");
+              });
+            }
             res.send('Your Rush has been initiated!');
           }
           else
