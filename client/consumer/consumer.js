@@ -45,11 +45,13 @@ angular.module('consumer-Module', ['rush-Services', 'ngGeolocation', 'uiGmapgoog
          $scope.rushRestaurants = [];
          generalFactory.getRushes()
             .then(function(businessInfo) {
+               console.log(businessInfo.data);
                for (var i = 0; i < businessInfo.data.length; i++) {
-                  $scope.distance = generalFactory.findDistance($scope.myPosition, businessInfo.data[i].address);
+                  console.log("Positions", $scope.myPosition, businessInfo.data[i].location)
+                  $scope.distance = generalFactory.findDistance($scope.myPosition, businessInfo.data[i].location);
                   if ($scope.distance <= 8046.72) {
-                     $scope.temporary = {latitude: businessInfo.data[i].address.lat,
-                     longitude: businessInfo.data[i].address.lng
+                     $scope.temporary = {latitude: businessInfo.data[i].location.lat,
+                     longitude: businessInfo.data[i].location.lng
                   }
 
                      $scope.counter++;
