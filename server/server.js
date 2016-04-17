@@ -150,7 +150,7 @@ app.post('/declareRush', function(req,res){
             var sampleDealPrice = req.body.rushDeals[0].price;
             var sampleDeal = 'ITEM: '+sampleDealItem+' & PRICE: $'+sampleDealPrice;
             var message = '[*NEW RUSH*] Come to '+restaurant+'! 1 of 5 Deals: '+sampleDeal+'! LogIn to Rush app & save that money!';
-            var verifiedNumbers = ['+19094893980','+18319207839','+16262909006','+13232395800']
+            var verifiedNumbers = ['+18319207839','+16262909006','+13232395800']
             for(var i=0;i<verifiedNumbers.length;i++){
               twilio.sendMessage({
                 to: verifiedNumbers[i], // Consumer #'s Separated by Commas (NOT tested)
