@@ -1,5 +1,5 @@
 angular.module('owner-Module', ['rush-Services', 'ngGeolocation', 'uiGmapgoogle-maps', 'ngMaterial', 'firebase'])
-	.controller('ownerController', function($geolocation, $scope, generalFactory, $state, $firebaseAuth) {
+	.controller('ownerController', function($geolocation, $scope, generalFactory, $state, $firebaseAuth, $filter) {
 
 		$scope.map = {
 			center: { latitude: null, longitude: null },
@@ -9,6 +9,8 @@ angular.module('owner-Module', ['rush-Services', 'ngGeolocation', 'uiGmapgoogle-
 		var ref = new Firebase("https://fiery-inferno-8987.firebaseio.com");
 		$scope.authObj = $firebaseAuth(ref);
 		$scope.rushes = [];
+		$scope.decItems = [];
+
 		$scope.checkAuthentication = function() {
 			$scope.authObj.$onAuth(function(authData) {
 				if (authData) {
@@ -22,13 +24,17 @@ angular.module('owner-Module', ['rush-Services', 'ngGeolocation', 'uiGmapgoogle-
 				}
 			})
 		}
+
 		$scope.checkAuthentication();
+
 		$scope.getDeals = function() {
 			generalFactory.getDeals().then(function(deals) {
 				$scope.rushes = deals.data.deals;
 			})
 		}
+
 		$scope.getDeals();
+
 		$scope.map;
 		if ($state.params.geoAddress !== null) {
 			$scope.newCenter = {
@@ -41,7 +47,9 @@ angular.module('owner-Module', ['rush-Services', 'ngGeolocation', 'uiGmapgoogle-
 			};
 		}
 		$scope.declareRush = function() {
-			console.log("declaredRush!", $state.params.geoAddress);
+			$scope.decItems = $filter('filter')($scope.rushes, {checked: true})
+			generalFactory.declareRush($scope.uid, $scope.decItems);
+			console.log("declaredRush! on these deals", $scope.decItems);
 		};
 
 		$scope.addToDeals = function() {

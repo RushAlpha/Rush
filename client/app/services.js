@@ -70,11 +70,20 @@ angular.module('rush-Services', ['uiGmapgoogle-maps'])
       console.log("addToDeals: ", deal);
       return $http.post('/ownerAddItemToMenu', deal);
     }
+    var declareRush = function(uid, array) {
+      var declaredRush = {
+        uid: uid,
+        rushDeal: array
+      }
+      console.log("Declaring this rush: ", declaredRush)
+      return $http.post('/getRushes', declaredRush)
+    }
     return {
       getDeals: getDeals,
       addToDeals: addToDeals,
       getRushes: getRushes,
       findDistance: findDistance,
-      getOwnerLocation: getOwnerLocation
+      getOwnerLocation: getOwnerLocation,
+      declareRush: declareRush
     }
   });

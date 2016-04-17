@@ -38,17 +38,17 @@ app.post('/signin', function(req, res){
   newUser.find({email: req.body.username}, function(err, users){
     //if match is found...
     if(users.length){
-    //Compare user inputted password with hashed password in database
-    bcrypt.compare(req.body.password, users[0].password, function(err, result) {
-      if (err){
-        res.send({hasAccount: result, isOwner: users[0].isOwner});
-      } else {
+      //Compare user inputted password with hashed password in database
+      bcrypt.compare(req.body.password, users[0].password, function(err, result) {
+        if (err){
+          res.send({hasAccount: result, isOwner: users[0].isOwner});
+        } else {
           var stringUID = users[0]._id.toString();
           var token = tokenGenerator.createToken({ uid: stringUID, some: "arbitrary", data: "here" });
-        res.send({hasAccount: result, isOwner: users[0].isOwner, token: token});
-
-      }
-    })} else {
+          res.send({hasAccount: result, isOwner: users[0].isOwner, token: token});
+        }
+      })
+    } else {
       res.send({hasAccount: notSignedUp});
     }
   });
@@ -64,61 +64,56 @@ app.post('/getOwnerLocation', function(req, res){
 });
 
 app.post('/signup', function(req, res){
-  
   var userPasswornewUsereforeEncryption = req.body.password;
   var hashedPassword;
   var userNameTaken = false;
 
   newUser.find({email: req.body.username}, function(err, users){
-  if(users.length === 0){
+    if(users.length === 0){
+      bcrypt.hash(userPasswornewUsereforeEncryption, saltRounds, function(err, hash){
+        req.body.address = req.body.address || null;
+        restName = req.body.restName || null;
+        console.log("this is req.body.address", req.body.address)
+        new newUser({email: req.body.username, password: hash, isOwner: req.body.isOwner, location: req.body.address, restName: req.body.restName, deals: [], declaredRush: false})
+        .save(function(err, post){
+          if(err) {
+            console.log("error!")
+          } else {
+            newUser.find({email: req.body.username}, function(err, users){
+              if (err){
+                console.log(err)
+              } else {
+                console.log("signing up", users);
+                var stringUID = users[0]._id.toString();
+                var token = tokenGenerator.createToken({ uid: stringUID, some: "arbitrary", data: "here" });
+                res.send({token: token, isOwner: users[0].isOwner});
+              }
+            });
+          };
 
-    bcrypt.hash(userPasswornewUsereforeEncryption, saltRounds, function(err, hash){
-      req.body.address = req.body.address || null;
-      restName = req.body.restName || null;
-      console.log("this is req.body.address", req.body.address)
-      new newUser({email: req.body.username, password: hash, isOwner: req.body.isOwner, location: req.body.address, restName: req.body.restName, deals: [], declaredRush: false})
-      .save(function(err, post){
-        if(err) {
-          console.log("error!")
-        } else {
-          newUser.find({email: req.body.username}, function(err, users){
-            if (err){
-              console.log(err)
-            } else {
-            console.log("signing up", users);
-          var stringUID = users[0]._id.toString();
-          var token = tokenGenerator.createToken({ uid: stringUID, some: "arbitrary", data: "here" });
-          res.send({token: token, isOwner: users[0].isOwner});
-          }
-
-
-      });
-    };
-
-  })
-  })
-  } else {
-    console.log("Username TAKEN! Sending FALSE signal to Client!");
-    res.send(userNameTaken);
-  }
-
+        })
+      })
+    } else {
+      console.log("Username TAKEN! Sending FALSE signal to Client!");
+      res.send(userNameTaken);
+    }
   });
-
 });
 
 app.post('/ownerAddItemToMenu', function(req, res){
-newUser.find({_id: req.body.uid}, function(err, users){
-        if (users.length > 0){
-          console.log(req.body.uid, "INSIDE ADD ITEMS TO MENU");
-          newUser.findOneAndUpdate({_id: req.body.uid},
-            {$push:{"deals": {item: req.body.item, price: req.body.price}}},
-             {safe: true, upsert: true, new : true},
-             function(err, model){
-              console.log("items have been added to menu");
-              res.send("finished");
-          })
+  newUser.find({_id: req.body.uid}, function(err, users){
+    if (users.length > 0){
+      console.log(req.body.uid, "INSIDE ADD ITEMS TO MENU");
+      newUser.findOneAndUpdate({_id: req.body.uid},
+        {$push:{"deals": {item: req.body.item, price: req.body.price}}},
+        {safe: true, upsert: true, new : true},
+        function(err, model){
+          console.log("items have been added to menu");
+          res.send("finished");
+        }
+      )
     }
-})
+  })
 });
 
 
@@ -160,7 +155,8 @@ app.get('/getRushes', function(req,res){
 })
 
 app.post('/declareRush', function(req,res){
-  newUser.findOneAndUpdate({_id: req.body.uid}, {'$set': {declaredRush: true, rushDeals: /*REQ.BODY.SELECTED_DEALS*/}}, function(err,success){
+  console.log("This rush has been declared: ", req.body)
+  newUser.findOneAndUpdate({_id: req.body.uid}, {'$set': {declaredRush: true, rushDeals: req.body.rushDeals}}, function(err,success){
     if (err){
       console.log("Error in Updating: ",err)
     }
@@ -179,30 +175,31 @@ app.post('/declareRush', function(req,res){
         });
       });
     }
-  }});
+  })
 });
+
 
 /*
 app.post('/ownerRemoveItemFromMenu', function(req, res){
-    newUser.find({email: req.body.username}, function(err, users){
-    //if match is found...
-    if(users.length){
-    //Compare user-inputed password with hashed password in database
-    bcrypt.compare(req.body.password, users[0].password, function(err, result) {
-        //if credentials are correct...
-        if(result){
-          //remove server-given-item from respective owner object in database
-            //from: http://stackoverflow.com/questions/5767325/remove-a-particular-element-from-an-array-in-javascript
-            var index = users[0].deals.indexOf(req.body.CLIENTSIDEDEAL);
-            users[0].deals.splice(index,1);
-        }
-        //return true or false depending on if credentials are right
-        res.send(result);
-    })} else {
-      console.log("Credentials WRONG.  Sending FALSE signal to Server");
-      res.send(notSignedUp);
-    }
-  })
+newUser.find({email: req.body.username}, function(err, users){
+//if match is found...
+if(users.length){
+//Compare user-inputed password with hashed password in database
+bcrypt.compare(req.body.password, users[0].password, function(err, result) {
+//if credentials are correct...
+if(result){
+//remove server-given-item from respective owner object in database
+//from: http://stackoverflow.com/questions/5767325/remove-a-particular-element-from-an-array-in-javascript
+var index = users[0].deals.indexOf(req.body.CLIENTSIDEDEAL);
+users[0].deals.splice(index,1);
+}
+//return true or false depending on if credentials are right
+res.send(result);
+})} else {
+console.log("Credentials WRONG.  Sending FALSE signal to Server");
+res.send(notSignedUp);
+}
+})
 });
 */
 
