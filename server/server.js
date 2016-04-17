@@ -138,43 +138,41 @@ app.get('/ownerDeals', function(req,res){
 app.get('/getRushes', function(req,res){
   newUser.find({isOwner: true}, function(err, owners){
     //make empty response object
-    var allTheLocations = [];
+    var allRushes = [];
     //for all owners, store into object with id key and deals value
     owners.forEach(function(owner){
-      restaurant = {}
-      restaurant.restName = owner.restName;
-      restaurant.address = owner.location;
-      restaurant.deals = owner.deals;
-      allTheLocations.push(restaurant);
-
+      if(owner.declaredRush){
+        restaurant = {}
+        restaurant.restName = owner.restName;
+        restaurant.address = owner.location;
+        restaurant.deals = owner.rushDeals;
+        allRushes.push(restaurant);
+      }
+      else{
+        res.send('NO Owners have Declared a Rush Today!');
+      }
     })
     //sending client object with id's correlating with deals
-    res.send(allTheLocations);
+    res.send(allRushes);
   })
 })
 
 app.post('/declareRush', function(req,res){
-  //find owner within db & set their declaredRush = TRUE
-  newUser.findOneAndUpdate({_id: req.body.uid}, {'$set': {declaredRush: true}}, function(err,success){
+  newUser.findOneAndUpdate({_id: req.body.uid}, {'$set': {declaredRush: true, rushDeals: /*REQ.BODY.SELECTED_DEALS*/}}, function(err,success){
     if (err){
-      console.log("Error in Updating!: ",err)
+      console.log("Error in Updating: ",err)
     }
     else
     {
-      console.log(req.body.email,"'s declaredRush Property was successfully changed to TRUE!");
-      //loop through db to check if owner declaredRush: if yes, send info to client
+      console.log(req.body.email,"'s properties (declaredRush & rushdeals) were successfully changed!");
       newUser.find({_id: req.body.uid}, function(err, owners){
         owners.forEach(function(owner){
-        if(owner.declaredRush){
-          res.send({
-            restaurant: owner.resName,
-            address: owner.resAddy,
-            deals: owner.deals
-          });
-        }
-        else
+          if(owner.declaredRush){
+            res.send('Your Rush has been initiated!');
+          }
+          else
           {
-           console.log('No Owners have declaredRush!');
+            res.send("You haven't declared a Rush today!");
           }
         });
       });
