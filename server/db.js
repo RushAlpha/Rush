@@ -19,7 +19,9 @@ var usersSchema = new Schema ({
     item: {type: String, required: true},
     price: {type: Number, required: true}
   }],
-    restName: String
+    restName: String,
+    restAddy: String,
+    declaredRush: Boolean
   });
 
 var User = mongoose.model('users', usersSchema);
