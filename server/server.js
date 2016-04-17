@@ -1,4 +1,4 @@
-  var express = require('express');
+var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 var cors = require('cors');
@@ -76,7 +76,7 @@ app.post('/signup', function(req, res){
       req.body.address = req.body.address || null;
       restName = req.body.restName || null;
       console.log("this is req.body.address", req.body.address)
-      new newUser({email: req.body.username, password: hash, isOwner: req.body.isOwner, location: req.body.address, restName: req.body.restName, deals: []})
+      new newUser({email: req.body.username, password: hash, isOwner: req.body.isOwner, location: req.body.address, restName: req.body.restName, deals: [], declaredRush: false})
       .save(function(err, post){
         if(err) {
           console.log("error!")
@@ -91,7 +91,7 @@ app.post('/signup', function(req, res){
           res.send({token: token, isOwner: users[0].isOwner});
           }
 
-        
+
       });
     };
 
@@ -110,13 +110,13 @@ app.post('/ownerAddItemToMenu', function(req, res){
 newUser.find({_id: req.body.uid}, function(err, users){
         if (users.length > 0){
           console.log(req.body.uid, "INSIDE ADD ITEMS TO MENU");
-          newUser.findOneAndUpdate({_id: req.body.uid}, 
+          newUser.findOneAndUpdate({_id: req.body.uid},
             {$push:{"deals": {item: req.body.item, price: req.body.price}}},
-             {safe: true, upsert: true, new : true}, 
+             {safe: true, upsert: true, new : true},
              function(err, model){
               console.log("items have been added to menu");
           })
-    } 
+    }
 })
 });
 
@@ -138,20 +138,48 @@ app.get('/ownerDeals', function(req,res){
 app.get('/getRushes', function(req,res){
   newUser.find({isOwner: true}, function(err, owners){
     //make empty response object
-    var allTheLocations = [];
+    var allRushes = [];
     //for all owners, store into object with id key and deals value
     owners.forEach(function(owner){
-      restaurant = {}
-      restaurant.restName = owner.restName;
-      restaurant.address = owner.location;
-      restaurant.deals = owner.deals;
-      allTheLocations.push(restaurant);
-      
+      if(owner.declaredRush){
+        restaurant = {}
+        restaurant.restName = owner.restName;
+        restaurant.location = owner.location;
+        restaurant.address = owner.restAddress;
+        restaurant.deals = owner.rushDeals;
+        allRushes.push(restaurant);
+      }
+      else{
+        res.send('NO Owners have Declared a Rush Today!');
+      }
     })
     //sending client object with id's correlating with deals
-    res.send(allTheLocations);
+    res.send(allRushes);
   })
 })
+
+app.post('/declareRush', function(req,res){
+  newUser.findOneAndUpdate({_id: req.body.uid}, {'$set': {declaredRush: true, rushDeals: /*REQ.BODY.SELECTED_DEALS*/}}, function(err,success){
+    if (err){
+      console.log("Error in Updating: ",err)
+    }
+    else
+    {
+      console.log(req.body.email,"'s properties (declaredRush & rushdeals) were successfully changed!");
+      newUser.find({_id: req.body.uid}, function(err, owners){
+        owners.forEach(function(owner){
+          if(owner.declaredRush){
+            res.send('Your Rush has been initiated!');
+          }
+          else
+          {
+            res.send("You haven't declared a Rush today!");
+          }
+        });
+      });
+    }
+  }});
+});
 
 /*
 app.post('/ownerRemoveItemFromMenu', function(req, res){

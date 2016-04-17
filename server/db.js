@@ -14,12 +14,17 @@ var usersSchema = new Schema ({
     isOwner: Boolean,
     location: {lat: {type: Number}, lng: {type:Number}},
     hasAccount: Boolean,
-    deals: [
-  {
-    item: {type: String, required: true},
-    price: {type: Number, required: true}
-  }],
-    restName: String
+    deals: [{
+      item: {type: String, required: true},
+      price: {type: Number, required: true}
+    }],
+    rushDeals: [{
+     item: {type: String, required: true},
+     price: {type: Number, required: true}
+    }],
+    restName: String,
+    restAddress: String,
+    declaredRush: Boolean
   });
 
 var User = mongoose.model('users', usersSchema);
