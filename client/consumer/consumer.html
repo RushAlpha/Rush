@@ -1,26 +1,28 @@
-<div>
-	<md-toolbar>
-		<h1>Rush Consumer</h1>
-	</md-toolbar>
-	<md-button ng-click="authObj.$unauth()">Sign Out</md-button>
-	<div class="mapStyle">
-		<ui-gmap-google-map center='map.center' class='angular-google-map-container' zoom='map.zoom' ng-show='locationExists' >
-			<ui-gmap-marker	idKey='1'	coords='map.center'></ui-gmap-marker>
-			<ui-gmap-marker idKey="rush.id" coords="rush.address" ng-repeat="rush in rushRestaurants"></ui-gmap-marker>
-			<ui-gmap-circle center='map.center'	radius='8046.72' fill='{color: "#999", opacity: .6}' stroke='{color: "#33a", weight: 10, opacity: .2}'></ui-gmap-circle>
-		</ui-gmap-google-map>
-	</div>
-	<md-button class="filterPositions" ng-click="filterPositions()">Check For New Rushes</md-button>
 
-	<md-grid-list md-cols="4" md-row-height="400px" >
-		<md-grid-tile ng-repeat="deals in rushRestaurants">
-			<div class= "md-list-item-text">
-				<h2>{{deals.restName}}</h2>
-				<md-list>
-					<md-list-item ng-repeat="deal in deals.deals">
-						{{deal.item + ": " + deal.price}}
-					</md-list-item>
-				</md-list>
-			</div>
-		</md-grid-tile>
-	</md-grid-list>
+<md-toolbar>
+	<div class="md-toolbar-tools">
+		<span class="restHead"><h1>{{"Rush Consumer"}}</h1></span>
+		<md-button class="logOutBtn" ng-click="authObj.$unauth()">Sign Out</md-button>
+	</div>
+</md-toolbar>
+<div class="mapStyle">
+	<ui-gmap-google-map center='map.center' class='angular-google-map-container' zoom='map.zoom' ng-show='locationExists' >
+		<ui-gmap-marker	idKey='1'	coords='map.center'></ui-gmap-marker>
+		<ui-gmap-marker idKey="rush.id" coords="rush.address" ng-repeat="rush in rushRestaurants"></ui-gmap-marker>
+		<ui-gmap-circle center='map.center'	radius='8046.72' fill='{color: "#999", opacity: .6}' stroke='{color: "#33a", weight: 10, opacity: .2}'></ui-gmap-circle>
+	</ui-gmap-google-map>
+</div>
+<md-button class="filterPositions" ng-click="filterPositions()">Check For New Rushes</md-button>
+
+<md-grid-list md-cols="4" md-row-height="400px" >
+	<md-grid-tile ng-repeat="deals in rushRestaurants">
+		<div class= "md-list-item-text">
+			<h2>{{deals.restName}}</h2>
+			<md-list>
+				<md-list-item ng-repeat="deal in deals.deals">
+					{{deal.item + ": " + deal.price}}
+				</md-list-item>
+			</md-list>
+		</div>
+	</md-grid-tile>
+</md-grid-list>
