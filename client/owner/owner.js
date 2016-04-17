@@ -60,7 +60,6 @@ angular.module('owner-Module', ['rush-Services', 'ngGeolocation', 'uiGmapgoogle-
 						item: data.item,
 						price: data.price
 					});
-					console.log("harro");
 					$state.reload();
 				})
 		}

@@ -76,7 +76,7 @@ angular.module('rush-Services', ['uiGmapgoogle-maps'])
         rushDeal: array
       }
       console.log("Declaring this rush: ", declaredRush)
-      return $http.post('/getRushes', declaredRush)
+      return $http.post('/declareRush', declaredRush)
     }
     return {
       getDeals: getDeals,

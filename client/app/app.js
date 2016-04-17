@@ -36,7 +36,7 @@ angular.module('Rush', ['ui.router',
 				templateUrl: '../consumer/consumer.html',
 				controller: 'consumerController'
 			})
-	
+
 	$mdIconProvider
 	  .icon('arrow', '../assets/arrows.svg')
 	})
