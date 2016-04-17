@@ -145,9 +145,6 @@ app.get('/getRushes', function(req,res){
         restaurant.deals = owner.rushDeals;
         allRushes.push(restaurant);
       }
-      else{
-        res.send('NO Owners have Declared a Rush Today!');
-      }
     })
     //sending client object with id's correlating with deals
     res.send(allRushes);
