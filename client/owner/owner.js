@@ -6,6 +6,7 @@ angular.module('owner-Module', ['rush-Services', 'ngGeolocation', 'uiGmapgoogle-
 			zoom: 10
 		};
 		$scope.uid;
+		$scope.restName;
 		var ref = new Firebase("https://fiery-inferno-8987.firebaseio.com");
 		$scope.authObj = $firebaseAuth(ref);
 		$scope.rushes = [];
@@ -30,6 +31,7 @@ angular.module('owner-Module', ['rush-Services', 'ngGeolocation', 'uiGmapgoogle-
 		$scope.getDeals = function() {
 			generalFactory.getDeals().then(function(deals) {
 				$scope.rushes = deals.data.deals;
+				$scope.restName = deals.data.restName;
 			})
 		}
 
@@ -50,6 +52,7 @@ angular.module('owner-Module', ['rush-Services', 'ngGeolocation', 'uiGmapgoogle-
 			$scope.decItems = $filter('filter')($scope.rushes, {checked: true})
 			generalFactory.declareRush($scope.uid, $scope.decItems);
 			console.log("declaredRush! on these deals", $scope.decItems);
+			alert("You have declared a rush!");
 		};
 
 		$scope.addToDeals = function() {

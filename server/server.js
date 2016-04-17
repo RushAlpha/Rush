@@ -109,6 +109,7 @@ app.get('/ownerDeals', function(req,res){
     //for all owners, store into object with id key and deals value
     owners.forEach(function(owner){
       allTheDeals.deals = owner.deals;
+      allTheDeals.restName = owner.restName;
     })
     //sending client object with id's correlating with deals
     res.send(allTheDeals);
