@@ -1,7 +1,6 @@
 <md-toolbar>
-	<div class="md-toolbar-tools" id="navBar">
-		<span><h1>Restaurant name to be inserted</h1></span>
-		<span flex></span>
+	<div class="md-toolbar-tools">
+		<span class="restHead"><h1>{{"Lemonade"}}</h1></span>
 		<md-button class="logOutBtn" ng-click="authObj.$unauth()">Sign Out</md-button>
 	</div>
 </md-toolbar>
@@ -16,17 +15,17 @@
 		<h1>Your Rush Deals</h1>
 		<h2> Add a new deal </h2>
 		<form>
-			<input type="email" name="email" ng-model="username">
-			<input type="password" name="password" ng-model="password">
 			<input type="text" name="deal" ng-model="item" placeholder="Item">
 			<input type="number" name="price" step="0.01" ng-model="price" placeholder="Price">
 			<input type="submit" ng-click="addToDeals()">
 		</form>
 	</div>
 	<div>
-		<ul>
+		<ul class="listStyle">
 			<li ng-repeat="rush in rushes">
-				<input type="checkbox" data-checklist-model="user.roles" data-checklist-value="role"> {{rush.item + ": " + rush.price}}
+				<div class="listItem">
+					<input type="checkbox" ng-model="rush.checked" ng-change="selectedDeals()"> {{rush.item + ": " + rush.price}}
+				</div>
 			</li>
 		</ul>
 	</div>
