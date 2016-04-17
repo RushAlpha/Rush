@@ -1,5 +1,12 @@
 var mongoose = require('mongoose');
+var env = process.env.NODE_ENV = process.env.NODE_ENV || "development" ;
+
+if (env === "development"){
 mongoose.connect('mongodb://localhost/rush');
+} else {
+mongoose.connect('mongodb://eric:rush@ds025180.mlab.com:25180/rush');
+}
+
 var Schema = mongoose.Schema;
 
 mongoose.connection.on('error', console.error.bind(console, 'connection error:'));

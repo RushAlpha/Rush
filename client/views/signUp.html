@@ -1,19 +1,44 @@
 <div>
+  <md-toolbar>
   <h1>Sign Up</h1>
-  <form name="signUp">
+  </md-toolbar>
+  <br>
+  <br>
+  <form name="signUp" class="form" ng-submit="logUp()">
+    <md-input-container class="input">
     <label>
-      <input type="email" name="email" placeholder="email" ng-model="username">
-    </label>
+    email
+       </label>
+      <input type="email" name="email" ng-model="username">
+ 
+    </md-input-container>
+    <md-input-container class="input">
     <label>
-      <input type="password" name="password" placeholder="password" ng-model="password">
-    </label>
-    <label>
-      Are you an owner?
-      <input type="checkbox" ng-model="isOwnerBox.value">
-      <input type="text" name="address" ng-model="address" placeholder="Business Address" ng-show="isOwnerBox.value">
-      <input type="text" name="restName" ng-model="restName" placeholder="Business Name" ng-show="isOwnerBox.value">
-    </label>
-    <input type="submit" ng-click="logUp()">
+    password
+        </label>
+      <input type="password" name="password" ng-model="password">
+
+    </md-input-container>
+    <br/>
+      <md-checkbox aria-label="Are you an owner?" ng-model="isOwnerBox.value">
+        Are you an owner?
+      </md-checkbox>
+      <br>
+      <br>
+      <md-input-container class="input" ng-show="isOwnerBox.value">
+      <input type="text" name="address" ng-model="address" placeholder="Buiness Address">
+      </md-input-container>
+      <br/>
+      <md-input-container class="input" ng-show="isOwnerBox.value">
+      <input type="text" name="restName" ng-model="restName" placeholder="Business Name"> 
+      </md-input-container>
+      <br/>
+      <md-button type="submit">
+        <md-icon md-svg-icon="arrow">
+        </md-icon>
+     </md-button>
   </form>
+  <md-content>
   <a ui-sref-active="pageCurrentlyOn" ui-sref="signin">Have an account already? Click here</a>
+  </md-content>
 </div>

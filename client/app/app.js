@@ -7,7 +7,7 @@ angular.module('Rush', ['ui.router',
 	'ngMaterial',
 	'firebase'
 ])
-	.config(function($stateProvider, $httpProvider, $urlRouterProvider) {
+	.config(function($stateProvider, $httpProvider, $urlRouterProvider, $mdIconProvider) {
 		$urlRouterProvider.otherwise('signin')
 
 		$stateProvider
@@ -36,8 +36,16 @@ angular.module('Rush', ['ui.router',
 				templateUrl: '../consumer/consumer.html',
 				controller: 'consumerController'
 			})
+	
+	$mdIconProvider
+	  .icon('arrow', '../assets/arrows.svg')
 	})
 .controller('authController', function($geolocation, $scope, authFactory, $state, $firebaseAuth) {
+
+	// function iconator($mdIcon){
+	// 	$mdIcon('android').then(function(iconEl){ document.getElementByClassName("android").append(iconEl)})
+	// }
+	// iconator();
 	$scope.authData;
 	$scope.error;
 	$scope.ref = new Firebase("https://fiery-inferno-8987.firebaseio.com");
