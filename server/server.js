@@ -122,32 +122,32 @@ app.get('/getRushes', function(req,res){
     //for all owners, store into object with id key and deals value
     owners.forEach(function(owner){
       if(owner.declaredRush){
-        restaurant = {}
+        var restaurant = {}
         restaurant.restName = owner.restName;
         restaurant.location = owner.location;
         restaurant.address = owner.restAddress;
         restaurant.deals = owner.rushDeals;
+        console.log(restaurant);
         allRushes.push(restaurant);
       }
     })
-    //sending client object with id's correlating with deals
     res.send(allRushes);
-  })
+    //sending client object with id's correlating with deals
+     })
 })
 
 app.post('/declareRush', function(req,res){
   newUser.findOneAndUpdate({_id: req.body.uid}, {'$set': {declaredRush: true, rushDeals: req.body.rushDeals}}, function(err,success){
     if (err){
       console.log("Error in Updating: ",err)
-    }
-    else
-    {
+    } else {
+
       newUser.find({_id: req.body.uid}, function(err, owners){
         owners.forEach(function(owner){
           if(owner.declaredRush){
             var restaurant = owner.restName;
-            sampleDealItem = req.body.rushDeal[0].item;
-            sampleDealPrice = req.body.rushDeal[0].price;
+            var sampleDealItem = req.body.rushDeals[0].item;
+            var sampleDealPrice = req.body.rushDeals[0].price;
             var sampleDeal = 'ITEM: '+sampleDealItem+' & PRICE: $'+sampleDealPrice;
             var message = '[*NEW RUSH*] Come to '+restaurant+'! 1 of 5 Deals: '+sampleDeal+'! LogIn to Rush app & save that money!';
             var verifiedNumbers = ['+19094893980','+18319207839','+16262909006','+13232395800']
@@ -165,9 +165,7 @@ app.post('/declareRush', function(req,res){
               });
             }
             res.send('Your Rush has been initiated!');
-          }
-          else
-          {
+          } else {
             res.send("You haven't declared a Rush today!");
           }
         });
