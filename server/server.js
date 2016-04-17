@@ -144,7 +144,8 @@ app.get('/getRushes', function(req,res){
       if(owner.declaredRush){
         restaurant = {}
         restaurant.restName = owner.restName;
-        restaurant.address = owner.location;
+        restaurant.location = owner.location;
+        restaurant.address = owner.restAddress;
         restaurant.deals = owner.rushDeals;
         allRushes.push(restaurant);
       }
