@@ -64,7 +64,7 @@ app.post('/getOwnerLocation', function(req, res){
 });
 
 app.post('/signup', function(req, res){
-
+  
   var userPasswornewUsereforeEncryption = req.body.password;
   var hashedPassword;
   var userNameTaken = false;
@@ -115,6 +115,7 @@ newUser.find({_id: req.body.uid}, function(err, users){
              {safe: true, upsert: true, new : true},
              function(err, model){
               console.log("items have been added to menu");
+              res.send("finished");
           })
     }
 })

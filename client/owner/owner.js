@@ -52,7 +52,8 @@ angular.module('owner-Module', ['rush-Services', 'ngGeolocation', 'uiGmapgoogle-
 						item: data.item,
 						price: data.price
 					});
-					$scope.getDeals();
+					console.log("harro");
+					$state.reload();
 				})
 		}
 	});

@@ -4,12 +4,13 @@ angular.module('consumer-Module', ['rush-Services', 'ngGeolocation', 'uiGmapgoog
       $scope.uid;
       var ref = new Firebase("https://fiery-inferno-8987.firebaseio.com");
       $scope.authObj = $firebaseAuth(ref);
-      $scope.checkAuthentication();
       $scope.locationExists = false;
       $scope.map;
       $scope.myPosition = {};
       $scope.distance;
       $scope.rushRestaurants;
+      $scope.rushPositions=[];
+
       $geolocation.getCurrentPosition({
          timeout: 60000
       }).then(function(position) {
@@ -22,9 +23,12 @@ angular.module('consumer-Module', ['rush-Services', 'ngGeolocation', 'uiGmapgoog
                latitude: $scope.myPosition.lat,
                longitude: $scope.myPosition.lng
             },
-            zoom: 11
+            zoom: 12
          };
+         $scope.filterPositions();
       })
+
+
       $scope.checkAuthentication = function() {
          $scope.authObj.$onAuth(function(authData) {
             if (authData) {
@@ -34,6 +38,9 @@ angular.module('consumer-Module', ['rush-Services', 'ngGeolocation', 'uiGmapgoog
             }
          })
       }
+      $scope.checkAuthentication();
+//rushPositions
+      $scope.counter = 2;
       $scope.filterPositions = function() {
          $scope.rushRestaurants = [];
          generalFactory.getRushes()
@@ -41,14 +48,20 @@ angular.module('consumer-Module', ['rush-Services', 'ngGeolocation', 'uiGmapgoog
                for (var i = 0; i < businessInfo.data.length; i++) {
                   $scope.distance = generalFactory.findDistance($scope.myPosition, businessInfo.data[i].address);
                   if ($scope.distance <= 8046.72) {
+                     $scope.temporary = {latitude: businessInfo.data[i].address.lat,
+                     longitude: businessInfo.data[i].address.lng
+                  }
 
-                     $scope.rushRestaurants.push(businessInfo.data[i].deals);
+                     $scope.counter++;
+                     var tempObj = {
+                        id: $scope.counter,
+                        restName: businessInfo.data[i].restName,
+                        deals: businessInfo.data[i].deals,
+                        address: $scope.temporary
+                     }
+                     $scope.rushRestaurants.push(tempObj);
                   }
                }
             })
       }
    });
-
-
-
-// })

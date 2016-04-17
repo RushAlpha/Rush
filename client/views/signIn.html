@@ -1,14 +1,33 @@
 <div>
+  <md-toolbar>
   <h1>Sign In</h1>
-  <form name="signIn">
-    <label>User Name:
+
+  </md-toolbar>
+  <br/>
+  <br/>
+  <form name="signIn" class="form" ng-submit="logIn()">
+  <md-input-container class="input">
+    <label class="input">User Name</label>
       <input type="email" name="email" ng-model="username">
-    </label>
-    <label>Password:
-      <input type="password" name="password" ng-model="password">
-    </label>
-    <input type="submit" ng-click="logIn()">
+        <div ng-messages="userForm.email.$error">
+          <div ng-message="required">username is Required!</div>
+        </div>
+  </md-input-container>
+  <br>
+  <br/>
+  <md-input-container class="input">
+    <label class="input">Password</label>
+      <input type="password" name="password" ng-model="password" required>
+      <div ng-messages="userForm.password.$error">
+        <div ng-message="required">Password is Required!</div>
+        </div>
+  </md-input-container>
+  <md-button type="submit" class="input">
+    <md-icon class="arrow" md-svg-icon="arrow" aria-label"submit">
+    </md-icon>
+    </md-button>
   </form>
-  <button ng-click="makeAToken()">MAKE A TOKEN</button>
-  <a ui-sref-active="pageCurrentlyOn" ui-sref="signup">Don't have an account? Click here</a>
+  <md-content>
+  <a ui-sref-active="pageCurrentlyOn" class="md-accent" ui-sref="signup">Don't have an account? Click here</a>
+  </md-content>
 </div>
