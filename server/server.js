@@ -1,4 +1,4 @@
-  var express = require('express');
+var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 var cors = require('cors');
@@ -76,7 +76,7 @@ app.post('/signup', function(req, res){
       req.body.address = req.body.address || null;
       restName = req.body.restName || null;
       console.log("this is req.body.address", req.body.address)
-      new newUser({email: req.body.username, password: hash, isOwner: req.body.isOwner, location: req.body.address, restName: req.body.restName, deals: []})
+      new newUser({email: req.body.username, password: hash, isOwner: req.body.isOwner, location: req.body.address, restName: req.body.restName, deals: [], declaredRush: false})
       .save(function(err, post){
         if(err) {
           console.log("error!")
@@ -91,7 +91,7 @@ app.post('/signup', function(req, res){
           res.send({token: token, isOwner: users[0].isOwner});
           }
 
-        
+
       });
     };
 
@@ -110,13 +110,13 @@ app.post('/ownerAddItemToMenu', function(req, res){
 newUser.find({_id: req.body.uid}, function(err, users){
         if (users.length > 0){
           console.log(req.body.uid, "INSIDE ADD ITEMS TO MENU");
-          newUser.findOneAndUpdate({_id: req.body.uid}, 
+          newUser.findOneAndUpdate({_id: req.body.uid},
             {$push:{"deals": {item: req.body.item, price: req.body.price}}},
-             {safe: true, upsert: true, new : true}, 
+             {safe: true, upsert: true, new : true},
              function(err, model){
               console.log("items have been added to menu");
           })
-    } 
+    }
 })
 });
 
@@ -146,12 +146,41 @@ app.get('/getRushes', function(req,res){
       restaurant.address = owner.location;
       restaurant.deals = owner.deals;
       allTheLocations.push(restaurant);
-      
+
     })
     //sending client object with id's correlating with deals
     res.send(allTheLocations);
   })
 })
+
+app.post('/declareRush', function(req,res){
+  //find owner within db & set their declaredRush = TRUE
+  newUser.findOneAndUpdate({_id: req.body.uid}, {'$set': {declaredRush: true}}, function(err,success){
+    if (err){
+      console.log("Error in Updating!: ",err)
+    }
+    else
+    {
+      console.log(req.body.email,"'s declaredRush Property was successfully changed to TRUE!");
+      //loop through db to check if owner declaredRush: if yes, send info to client
+      newUser.find({_id: req.body.uid}, function(err, owners){
+        owners.forEach(function(owner){
+        if(owner.declaredRush){
+          res.send({
+            restaurant: owner.resName,
+            address: owner.resAddy,
+            deals: owner.deals
+          });
+        }
+        else
+          {
+           console.log('No Owners have declaredRush!');
+          }
+        });
+      });
+    }
+  }});
+});
 
 /*
 app.post('/ownerRemoveItemFromMenu', function(req, res){
