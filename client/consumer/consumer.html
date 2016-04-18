@@ -17,8 +17,8 @@
 		<md-button class="filterPositions" ng-click="filterPositions()">Check For New Rushes</md-button>
 	</div>
 	<div class="dealGrid">
-		<md-grid-list md-cols="4" md-row-height="200px" >
-			<md-grid-tile ng-repeat="deals in rushRestaurants">
+		<md-grid-list md-cols="4" md-row-height="350px" >
+			<md-grid-tile class="tile" ng-repeat="deals in rushRestaurants">
 				<md-grid-tile-header class="dealHead">
 					<h2 class="dealRest">{{deals.restName}}</h2>
 				</md-grid-tile-header>

@@ -7,12 +7,7 @@ angular.module('rush-Services', ['uiGmapgoogle-maps'])
         });
     })
   .factory('authFactory', function($http) {
-    var uid = 0;
-    var makeToken = function(){
-      uid += 1;
-      console.log("THIS IS UID", uid);
-      return $http.post('/token', {uid: uid});
-    }
+    //Sends log in info to server
     var postSignIn = function(username, password) {
       var logInInfo = {
         username: username,
@@ -20,6 +15,8 @@ angular.module('rush-Services', ['uiGmapgoogle-maps'])
       };
       return $http.post('/signin', logInInfo);
     };
+    //Sends sign up info to server
+    //restName is restaurant name
     var postSignUp = function(username, password, isOwner, address, restName) {
       console.log('authFactory>postSignUp: ', username, password, isOwner, address, restName);
       var logUpInfo = {
@@ -31,6 +28,7 @@ angular.module('rush-Services', ['uiGmapgoogle-maps'])
       };
       return $http.post('/signup', logUpInfo);
     }
+    //Sends owner's address to server
     var getOwnerAddress = function(username){
       $http.post('/ownerAddress', {username: username});
 
@@ -44,6 +42,7 @@ angular.module('rush-Services', ['uiGmapgoogle-maps'])
   })
 
   .factory('generalFactory', function($http) {
+    //Finds the distance between the restaurant and consumer
     var findDistance = function(latlng1, latlng2) {
         console.log("FINDING DISTANCE RIGHT NOW");
         var latitLongit1 = new google.maps.LatLng(latlng1);
@@ -51,16 +50,19 @@ angular.module('rush-Services', ['uiGmapgoogle-maps'])
         console.log( google.maps.geometry.spherical.computeDistanceBetween(latitLongit1, latitLongit2));
         return google.maps.geometry.spherical.computeDistanceBetween(latitLongit1, latitLongit2);
     }
+    //Gets rushes for Consumer
     var getRushes = function(){
       return $http.get('/getRushes');
     }
-
+    //Gets deals for owner
     var getDeals = function(){
       return $http.get('/ownerDeals');
     }
+    //Gets owner locations
     var getOwnerLocation = function(uid){
       return $http.post('/getOwnerLocation', {uid: uid});
     }
+    //Adds new deal for Owner and sends to server
     var addToDeals = function(uid, item, price) {
       var deal = {
         uid: uid,
@@ -70,6 +72,7 @@ angular.module('rush-Services', ['uiGmapgoogle-maps'])
       console.log("addToDeals: ", deal);
       return $http.post('/ownerAddItemToMenu', deal);
     }
+    //Declares a rush on items in an array and sends to server
     var declareRush = function(uid, array) {
       var declaredRush = {
         uid: uid,
