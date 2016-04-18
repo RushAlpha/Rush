@@ -1,19 +1,44 @@
+li {
+	list-style-type: none;
+}
+
 md-toolbar {
 	height: 130px;
 	background-color: black !important;
 	text-align: center;
 	position: relative;
 	font-family: 'Fugaz One', cursive;
-	color: #70dbdb !important;
+	color: #F5B22F !important;
 }
 
-
-h1{
-  text-align: center;
+md-content {
+	margin: auto;
+	width: 300px;
+	padding: 10px;
+	text-align: center;
 }
+
+md-icon {
+	height: 50px;
+	width: 50px;
+}
+
+md-checkbox .md-icon {
+	background-color: #F5B22F !important;
+}
+
 .angular-google-map-container {
 	height: 400px;
 	width: 600px;
+}
+
+.signHead{
+	height: 400px;
+	background-color: black !important;
+}
+
+.signHead h1{
+	font-size: 150px;
 }
 
 .restHead {
@@ -31,6 +56,8 @@ h1{
 	text-decoration:none;
 	border: none;
 	outline: none;
+	background-color: black;
+	color: #F5B22F;
 }
 
 .logOutBtn {
@@ -38,6 +65,8 @@ h1{
 	height: 130px;
 	position: absolute;
 	top: 0px;
+	font-size: 30px;
+	color: #F5B22F !important;
 	right: 0px;
 }
 
@@ -46,7 +75,7 @@ h1{
 	text-align: center;
 	font-size: 30px;
 	top:35%;
-	color: #70dbdb;
+	font-size: 30px;
 }
 
 .mapStyle {
@@ -55,12 +84,13 @@ h1{
 	margin-left: auto;
 	margin-right: auto;
 	width: 600px;
-  height: 500px;
 }
 
 .dealStyle {
-	text-align: center;
+	text-align: center !important;
 	font-family: 'Fugaz One', cursive;
+	width: 50%;
+	margin: auto;
 }
 
 .dealStyle h1 {
@@ -72,72 +102,63 @@ h1{
 	font-size: 30px;
 }
 
-.dealBox {
-	max-width: 600px;
-	min-height: 400px;
-	border: 1px solid black;
-}
-
 .listStyle {
 	margin-top: 40px;
 	margin-bottom: 40px;
 	margin-left: auto;
 	margin-right: auto;
+	min-height: 50px;
 	width: 600px;
 	border: 1px solid black;
+	font-family: 'Open Sans', sans-serif;
+}
+
+.listItem {
+	font-size: 20px
 }
 
 .rushBtn {
 	width: 600px;
 	margin-left: auto;
 	margin-right: auto;
-
-}
-.md-button.md-raised:not([disabled]) {
-    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.90);
-}
-
-.md-button {
-  /*padding: 0 6px 0 6px;*/
-  /*margin: 6px 8px 6px 8px;*/
-  min-width: 80px;
-  width: 100%;
-  border-radius: 3px;
-  font-size: 14px;
-  text-align: center;
-  text-transform: uppercase;
-  text-decoration:none;
-  border: none;
-  outline: none;
+	font-family: 'Fugaz One', cursive;
 }
 
 .arrow {
-  width: 300px !important;
-}
-
-li {
-	list-style-type: none;
+	width: 300px !important;
 }
 
 .form {
-    margin: auto;
-    width: 50%;
-    padding: 10px;
+	margin: auto;
+	width: 50%;
+	padding: 10px;
 }
 
 .input {
-    color: #555 !important;
-    margin: auto;
-    width: 100%;
-    padding: 10px;
+	color: #555 !important;
+	margin: auto;
+	width: 100%;
+	padding: 10px;
 }
-md-content {
-  margin: auto;
-  width: 300px;
-  padding: 10px;
-  text-align: center;
+
+.dealGrid {
+	margin-top: 30px;
+	width: 80%;
+	margin-left: auto;
+	margin-right: auto;
 }
-md-icon {
-  height: 50px;
-  width: 50px;
+
+.dealRest{
+	text-align: center !important;
+	padding: 0 110px;
+	width: 60%;
+}
+
+.dealHead {
+	background-color: black !important;
+	color: #F5B22F;
+}
+
+.addBtn {
+	width: 180px;
 }
