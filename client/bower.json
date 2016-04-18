@@ -1,0 +1,35 @@
+{
+  "name": "Rush",
+  "homepage": "https://github.com/eso001/Rush",
+  "authors": [
+    "Eric <eso001@ucr.edu>"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "^1.5.3",
+    "angular-ui-router": "^0.2.18",
+    "ngGeolocation": "^0.0.8",
+    "angular-google-maps": "^2.3.2",
+    "lodash": "^4.9.0",
+    "angular-simple-logger": "^0.1.7",
+    "angular-ui-utils": "^3.0.0",
+    "angular-ui-map": "^0.5.0",
+    "firebase": "^2.4.2"
+  },
+  "resolutions": {
+    "angular-ui-utils": "0.x"
+  },
+  "devDependencies": {
+    "angular-material": "^1.0.7"
+  }
+}

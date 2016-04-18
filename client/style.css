@@ -1,0 +1,164 @@
+li {
+	list-style-type: none;
+}
+
+md-toolbar {
+	height: 130px;
+	background-color: black !important;
+	text-align: center;
+	position: relative;
+	font-family: 'Fugaz One', cursive;
+	color: #F5B22F !important;
+}
+
+md-content {
+	margin: auto;
+	width: 300px;
+	padding: 10px;
+	text-align: center;
+}
+
+md-icon {
+	height: 50px;
+	width: 50px;
+}
+
+md-checkbox .md-icon {
+	background-color: #F5B22F !important;
+}
+
+.angular-google-map-container {
+	height: 400px;
+	width: 600px;
+}
+
+.signHead{
+	height: 400px;
+	background-color: black !important;
+}
+
+.signHead h1{
+	font-size: 150px;
+}
+
+.restHead {
+	font-size: 75px;
+	margin: auto;
+}
+
+.md-button {
+	min-width: 88px;
+	width: 600px;
+	border-radius: 3px;
+	font-size: 14px;
+	text-align: center;
+	text-transform: uppercase;
+	text-decoration:none;
+	border: none;
+	outline: none;
+	background-color: black;
+	color: #F5B22F;
+}
+
+.logOutBtn {
+	width: 200px;
+	height: 130px;
+	position: absolute;
+	top: 0px;
+	font-size: 30px;
+	color: #F5B22F !important;
+	right: 0px;
+}
+
+.logOutText {
+	position: relative;
+	text-align: center;
+	font-size: 30px;
+	top:35%;
+	font-size: 30px;
+}
+
+.mapStyle {
+	margin-top: 60px;
+	margin-bottom: 40px;
+	margin-left: auto;
+	margin-right: auto;
+	width: 600px;
+}
+
+.dealStyle {
+	text-align: center !important;
+	font-family: 'Fugaz One', cursive;
+	width: 50%;
+	margin: auto;
+}
+
+.dealStyle h1 {
+	font-size: 60px
+}
+
+.dealStyle h2 {
+	margin-top: -40px;
+	font-size: 30px;
+}
+
+.listStyle {
+	margin-top: 40px;
+	margin-bottom: 40px;
+	margin-left: auto;
+	margin-right: auto;
+	min-height: 50px;
+	width: 600px;
+	border: 1px solid black;
+	font-family: 'Open Sans', sans-serif;
+}
+
+.listItem {
+	font-size: 20px
+}
+
+.rushBtn {
+	width: 600px;
+	margin-left: auto;
+	margin-right: auto;
+	font-family: 'Fugaz One', cursive;
+}
+
+.arrow {
+	width: 300px !important;
+}
+
+.form {
+	margin: auto;
+	width: 50%;
+	padding: 10px;
+}
+
+.input {
+	color: #555 !important;
+	margin: auto;
+	width: 100%;
+	padding: 10px;
+}
+
+.dealGrid {
+	margin-top: 30px;
+	width: 80%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.dealRest{
+	text-align: center !important;
+	padding: 0 110px;
+	width: 60%;
+}
+
+.dealHead {
+	background-color: black !important;
+	color: #F5B22F;
+}
+
+.addBtn {
+	width: 180px;
+}
