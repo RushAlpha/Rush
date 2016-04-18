@@ -14,7 +14,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
 
+//saltrounds for bcrypt
 var saltRounds = 10;
+//FALSE flag
 var notSignedUp = false;
 
 app.post('/signin', function(req, res){
@@ -25,14 +27,19 @@ app.post('/signin', function(req, res){
       //Compare user inputted password with hashed password in database
       bcrypt.compare(req.body.password, users[0].password, function(err, result) {
         if (err){
+          //hasAccount should read as "authenticated: result"
           res.send({hasAccount: result, isOwner: users[0].isOwner});
         } else {
+          //create variable for token generator
           var stringUID = users[0]._id.toString();
+          //create token
           var token = tokenGenerator.createToken({ uid: stringUID, some: "arbitrary", data: "here" });
+          //send true signal for brcrypt compare with a token
           res.send({hasAccount: result, isOwner: users[0].isOwner, token: token});
         }
       })
     } else {
+      //if username does not exist
       res.send({hasAccount: notSignedUp});
     }
   });
@@ -53,11 +60,13 @@ app.post('/signup', function(req, res){
   var userNameTaken = false;
 
   newUser.find({email: req.body.username}, function(err, users){
+    //if username is not taken...
     if(users.length === 0){
+      //hash the password
       bcrypt.hash(userPasswornewUsereforeEncryption, saltRounds, function(err, hash){
         req.body.address = req.body.address || null;
         restName = req.body.restName || null;
-        console.log("this is req.body.address", req.body.address)
+        //add user to mongodb
         new newUser({email: req.body.username, password: hash, isOwner: req.body.isOwner, location: req.body.address, restName: req.body.restName, deals: [], declaredRush: false})
         .save(function(err, post){
           if(err) {
@@ -67,7 +76,7 @@ app.post('/signup', function(req, res){
               if (err){
                 console.log(err)
               } else {
-                console.log("signing up", users);
+                //send token
                 var stringUID = users[0]._id.toString();
                 var token = tokenGenerator.createToken({ uid: stringUID, some: "arbitrary", data: "here" });
                 res.send({token: token, isOwner: users[0].isOwner});
@@ -77,6 +86,7 @@ app.post('/signup', function(req, res){
 
         })
       })
+      //if username taken...
     } else {
       console.log("Username TAKEN! Sending FALSE signal to Client!");
       res.send(userNameTaken);
@@ -176,30 +186,6 @@ app.post('/declareRush', function(req,res){
 });
 
 
-/*
-app.post('/ownerRemoveItemFromMenu', function(req, res){
-newUser.find({email: req.body.username}, function(err, users){
-//if match is found...
-if(users.length){
-//Compare user-inputed password with hashed password in database
-bcrypt.compare(req.body.password, users[0].password, function(err, result) {
-//if credentials are correct...
-if(result){
-//remove server-given-item from respective owner object in database
-//from: http://stackoverflow.com/questions/5767325/remove-a-particular-element-from-an-array-in-javascript
-var index = users[0].deals.indexOf(req.body.CLIENTSIDEDEAL);
-users[0].deals.splice(index,1);
-}
-//return true or false depending on if credentials are right
-res.send(result);
-})} else {
-console.log("Credentials WRONG.  Sending FALSE signal to Server");
-res.send(notSignedUp);
-}
-})
-});
-*/
-
 app.listen(8123, function(){
-  console.log('Server is READY & LISTENING @ Port 1738!');
+  console.log('Server is READY & LISTENING @ Port 8123!');
 });
