@@ -5,6 +5,7 @@ angular.module('owner-Module', ['rush-Services', 'ngGeolocation', 'uiGmapgoogle-
 			center: { latitude: null, longitude: null },
 			zoom: 10
 		};
+		$scope.newCenter= {};
 		$scope.uid;
 		$scope.restName;
 		var ref = new Firebase("https://fiery-inferno-8987.firebaseio.com");
@@ -17,6 +18,9 @@ angular.module('owner-Module', ['rush-Services', 'ngGeolocation', 'uiGmapgoogle-
 				if (authData) {
 					$scope.uid = authData.auth.uid;
 					generalFactory.getOwnerLocation($scope.uid).then(function(location) {
+						$scope.newCenter.latitude = location.data.address.location.lat;
+						$scope.newCenter.longitude = location.data.address.location.lng;
+
 						$scope.map.center.latitude = location.data.address.location.lat;
 						$scope.map.center.longitude = location.data.address.location.lng;
 					})
@@ -36,18 +40,6 @@ angular.module('owner-Module', ['rush-Services', 'ngGeolocation', 'uiGmapgoogle-
 		}
 
 		$scope.getDeals();
-
-		$scope.map;
-		if ($state.params.geoAddress !== null) {
-			$scope.newCenter = {
-				latitude: $state.params.geoAddress.lat,
-				longitude: $state.params.geoAddress.lng
-			};
-			$scope.map = {
-				center: $scope.newCenter,
-				zoom: 9
-			};
-		}
 		$scope.declareRush = function() {
 			$scope.decItems = $filter('filter')($scope.rushes, {checked: true})
 			generalFactory.declareRush($scope.uid, $scope.decItems);

@@ -25,6 +25,10 @@ angular.module('consumer-Module', ['rush-Services', 'ngGeolocation', 'uiGmapgoog
             },
             zoom: 11
          };
+         $scope.currentPositions = {
+            latitude: $scope.myPosition.lat,
+            longitude: $scope.myPosition.lng
+         }
          $scope.filterPositions();
       })
 
