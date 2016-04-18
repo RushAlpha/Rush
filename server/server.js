@@ -201,5 +201,5 @@ res.send(notSignedUp);
 */
 
 app.listen(8123, function(){
-  console.log('Server is READY & LISTENING @ Port 1738!');
+  console.log('Server is READY & LISTENING @ Port 8123!');
 });
