@@ -43,14 +43,14 @@ angular.module('owner-Module', ['rush-Services', 'ngGeolocation', 'uiGmapgoogle-
 		$scope.declareRush = function() {
 			$scope.decItems = $filter('filter')($scope.rushes, {checked: true})
 			generalFactory.declareRush($scope.uid, $scope.decItems);
-			console.log("declaredRush! on these deals", $scope.decItems);
-			alert("You have declared a rush!");
+			console.log("declaredRush! rushDeals: ", $scope.decItems);
+			alert("rushDeclared!");
 		};
 
 		$scope.addToDeals = function() {
 			generalFactory.addToDeals($scope.uid, $scope.item, $scope.price)
 				.then(function(data) {
-					console.log("deals are added, here are new deals", data);
+					console.log("deals added! yourDeals: ", data);
 					$scope.rushes.push({
 						item: data.item,
 						price: data.price

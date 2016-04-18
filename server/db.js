@@ -1,11 +1,11 @@
 var mongoose = require('mongoose');
 var env = process.env.NODE_ENV = process.env.NODE_ENV || "development" ;
-console.log("EVNIRONMENT", env);
+console.log("Environment: ", env);
 if (env === "development"){
 mongoose.connect('mongodb://localhost/rush');
 } else {
 mongoose.connect('mongodb://eric:rush@ds025180.mlab.com:25180/rush');
-console.log("CONNECTED TO MONGO SERVER");
+console.log("MongoDB is Connected!");
 }
 
 var Schema = mongoose.Schema;
@@ -13,7 +13,7 @@ var Schema = mongoose.Schema;
 mongoose.connection.on('error', console.error.bind(console, 'connection error:'));
 mongoose.connection.once('open', function() {
   // we're connected!
-  console.log('dbConnected!');
+  console.log('MongoDB is Connected!');
 });
 
 var usersSchema = new Schema ({
