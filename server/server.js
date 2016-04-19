@@ -7,7 +7,7 @@ var twilio = require('twilio')('AC31273ed4502660534891a3a83ea025b9','9b4d360ef72
 var bcrypt = require('bcrypt');
 var FirebaseTokenGenerator = require("firebase-token-generator");
 
-var tokenGenerator = new FirebaseTokenGenerator("W3JqgeVOrax9lnD0xYLoWXvgCqtkE0bOv4GO93Hu");
+var tokenGenerator = new FirebaseTokenGenerator("pHFzA5WVleBkpYpn1vUJ98un4B4EQgEWe6GO7PZF");
 
 app.use(express.static(__dirname + '/../client'))
 app.use(bodyParser.urlencoded({ extended: false }));

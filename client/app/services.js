@@ -36,8 +36,8 @@ angular.module('rush-Services', ['uiGmapgoogle-maps'])
     return {
       getOwnerAddress: getOwnerAddress,
       postSignIn: postSignIn,
-      postSignUp: postSignUp,
-      makeToken: makeToken
+      postSignUp: postSignUp
+      //makeToken: makeToken
     };
   })
 
