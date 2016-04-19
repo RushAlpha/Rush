@@ -45,7 +45,7 @@ angular.module('Rush', ['ui.router',
 	$scope.authData;
 	$scope.error;
 	//this makes the connection to firebase
-	$scope.ref = new Firebase("https://fiery-inferno-8987.firebaseio.com");
+	$scope.ref = new Firebase("https://blazing-fire-9069.firebaseio.com");
 	$scope.authObj = $firebaseAuth($scope.ref);
 	$scope.isOwnerBox = {
 		value: false
@@ -66,9 +66,9 @@ angular.module('Rush', ['ui.router',
 						$scope.error = error;
 					} else {
 						if (data.data.isOwner === true) {
-							$state.go('owner');
+							$state.go('owner'); /// prbably the problem is here
 						} else {
-							$state.go('consumer');
+							$state.go('consumer'); //probably the problem is here
 						}
 					}
 				})

@@ -2,7 +2,7 @@ angular.module('consumer-Module', ['rush-Services', 'ngGeolocation', 'uiGmapgoog
    .controller('consumerController', function($scope, $geolocation, generalFactory, $firebaseAuth, $state) {
       $scope.Welcome = "Welcome";
       $scope.uid;
-      var ref = new Firebase("https://fiery-inferno-8987.firebaseio.com");
+      var ref = new Firebase("blazing-fire-9069.firebaseio.com");
       $scope.authObj = $firebaseAuth(ref);
       $scope.locationExists = false;
 

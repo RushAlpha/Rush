@@ -8,7 +8,7 @@ angular.module('owner-Module', ['rush-Services', 'ngGeolocation', 'uiGmapgoogle-
 		$scope.newCenter= {};
 		$scope.uid;
 		$scope.restName;
-		var ref = new Firebase("https://fiery-inferno-8987.firebaseio.com");
+		var ref = new Firebase("https://blazing-fire-9069.firebaseio.com");
 		$scope.authObj = $firebaseAuth(ref);
 		$scope.rushes = [];
 		$scope.decItems = [];
