@@ -3,7 +3,7 @@ var app = express();
 var bodyParser = require('body-parser');
 var cors = require('cors');
 var newUser = require('./db.js');
-var twilio = require('twilio')('AC31273ed4502660534891a3a83ea025b9','9b4d360ef7251e6f6925210bbfa7d067');
+var twilio = require('twilio')('ACCOUNT_SID','AUTH_TOKEN');
 var bcrypt = require('bcrypt');
 var FirebaseTokenGenerator = require("firebase-token-generator");
 
@@ -14,8 +14,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
 
+//variable for saltrounds for bcrypt
 var saltRounds = 10;
+//false signal to send
 var notSignedUp = false;
+
 
 app.post('/signin', function(req, res){
   //Filter database for username match
@@ -27,12 +30,14 @@ app.post('/signin', function(req, res){
         if (err){
           res.send({hasAccount: result, isOwner: users[0].isOwner});
         } else {
+          //generate token
           var stringUID = users[0]._id.toString();
           var token = tokenGenerator.createToken({ uid: stringUID, some: "arbitrary", data: "here" });
           res.send({hasAccount: result, isOwner: users[0].isOwner, token: token});
         }
       })
     } else {
+      //if username already exists send false signal to change state
       res.send({hasAccount: notSignedUp});
     }
   });
@@ -54,10 +59,12 @@ app.post('/signup', function(req, res){
 
   newUser.find({email: req.body.username}, function(err, users){
     if(users.length === 0){
+      //hash password and store into sql
       bcrypt.hash(userPasswornewUsereforeEncryption, saltRounds, function(err, hash){
         req.body.address = req.body.address || null;
         restName = req.body.restName || null;
         console.log("this is req.body.address", req.body.address)
+        //enter user into database
         new newUser({email: req.body.username, password: hash, isOwner: req.body.isOwner, location: req.body.address, restName: req.body.restName, deals: [], declaredRush: false})
         .save(function(err, post){
           if(err) {
@@ -67,6 +74,7 @@ app.post('/signup', function(req, res){
               if (err){
                 console.log(err)
               } else {
+                //generate token
                 console.log("signing up", users);
                 var stringUID = users[0]._id.toString();
                 var token = tokenGenerator.createToken({ uid: stringUID, some: "arbitrary", data: "here" });
@@ -84,7 +92,7 @@ app.post('/signup', function(req, res){
   });
 });
 
-app.post('/ownerAddItemToMenu', function(req, res){
+app.post('/ownerAddItemToMenu', function(req, res)
   newUser.find({_id: req.body.uid}, function(err, users){
     if (users.length > 0){
       console.log("req.body.uid: ",req.body.uid);
@@ -141,7 +149,8 @@ app.post('/declareRush', function(req,res){
   newUser.findOneAndUpdate({_id: req.body.uid}, {'$set': {declaredRush: true, rushDeals: req.body.rushDeals}}, function(err,success){
     if (err){
       console.log("Error in Updating: ",err)
-    } else {
+    }
+    else {
 
       newUser.find({_id: req.body.uid}, function(err, owners){
         owners.forEach(function(owner){
@@ -151,7 +160,7 @@ app.post('/declareRush', function(req,res){
             var sampleDealPrice = req.body.rushDeals[0].price;
             var sampleDeal = 'ITEM: '+sampleDealItem+' & PRICE: $'+sampleDealPrice;
             var message = '[*NEW RUSH*] Come to '+restaurant+'! 1 of 5 Deals: '+sampleDeal+'! LogIn to Rush app & save that money!';
-            var verifiedNumbers = ['+18319207839','+16262909006','+13232395800']
+            var verifiedNumbers = [/*Numbers (+16669996969) each in own string separated by commas; verifiy a numbers at https://www.twilio.com/user/account/phone-numbers/verified*/];
             for(var i=0;i<verifiedNumbers.length;i++){
               twilio.sendMessage({
                 to: verifiedNumbers[i], // Consumer #'s Separated by Commas (NOT tested)

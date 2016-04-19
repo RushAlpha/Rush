@@ -11,6 +11,7 @@ angular.module('consumer-Module', ['rush-Services', 'ngGeolocation', 'uiGmapgoog
       $scope.rushRestaurants;
       $scope.rushPositions=[];
 
+      //gets consumer geolcoation sets their geolocation to map center and current position, then it calls filter positions
       $geolocation.getCurrentPosition({
          timeout: 60000
       }).then(function(position) {
@@ -32,7 +33,7 @@ angular.module('consumer-Module', ['rush-Services', 'ngGeolocation', 'uiGmapgoog
          $scope.filterPositions();
       })
 
-
+      //when controller loads, this will check whether the user is authenticated.
       $scope.checkAuthentication = function() {
          $scope.authObj.$onAuth(function(authData) {
             if (authData) {
@@ -43,7 +44,8 @@ angular.module('consumer-Module', ['rush-Services', 'ngGeolocation', 'uiGmapgoog
          })
       }
       $scope.checkAuthentication();
-//rushPositions
+
+      //checks if the owners are in a 5 mile radius from the business and sends those restaurants to the view.
       $scope.counter = 2;
       $scope.filterPositions = function() {
          $scope.rushRestaurants = [];

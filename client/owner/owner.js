@@ -13,6 +13,7 @@ angular.module('owner-Module', ['rush-Services', 'ngGeolocation', 'uiGmapgoogle-
 		$scope.rushes = [];
 		$scope.decItems = [];
 
+		//Checks if user is authenticated and will redirect to signin if not
 		$scope.checkAuthentication = function() {
 			$scope.authObj.$onAuth(function(authData) {
 				if (authData) {
@@ -32,6 +33,7 @@ angular.module('owner-Module', ['rush-Services', 'ngGeolocation', 'uiGmapgoogle-
 
 		$scope.checkAuthentication();
 
+		//Gets deals back from server and appends to page
 		$scope.getDeals = function() {
 			generalFactory.getDeals().then(function(deals) {
 				$scope.rushes = deals.data.deals;
@@ -40,13 +42,15 @@ angular.module('owner-Module', ['rush-Services', 'ngGeolocation', 'uiGmapgoogle-
 		}
 
 		$scope.getDeals();
+		//Declare a rush on selected rush items
 		$scope.declareRush = function() {
 			$scope.decItems = $filter('filter')($scope.rushes, {checked: true})
 			generalFactory.declareRush($scope.uid, $scope.decItems);
 			console.log("declaredRush! on these deals", $scope.decItems);
 			alert("You have declared a rush!");
 		};
-
+		
+		//Adds new deals to our list of possible deals
 		$scope.addToDeals = function() {
 			generalFactory.addToDeals($scope.uid, $scope.item, $scope.price)
 				.then(function(data) {

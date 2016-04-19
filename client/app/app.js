@@ -42,12 +42,10 @@ angular.module('Rush', ['ui.router',
 	})
 .controller('authController', function($geolocation, $scope, authFactory, $state, $firebaseAuth) {
 
-	// function iconator($mdIcon){
-	// 	$mdIcon('android').then(function(iconEl){ document.getElementByClassName("android").append(iconEl)})
-	// }
-	// iconator();
+
 	$scope.authData;
 	$scope.error;
+	//this makes the connection to firebase
 	$scope.ref = new Firebase("https://fiery-inferno-8987.firebaseio.com");
 	$scope.authObj = $firebaseAuth($scope.ref);
 	$scope.isOwnerBox = {
@@ -57,7 +55,8 @@ angular.module('Rush', ['ui.router',
 	$scope.geoAddress = {};
 	var geocoder = new google.maps.Geocoder();
 
-
+	//logs them in, gives a token if successful, checks if username exists in database and if password matches username
+	//if login fails then itll redirect to signup page
 	$scope.logIn = function() {
 		authFactory.postSignIn(
 			$scope.username, $scope.password).then(function(data) {
@@ -79,6 +78,8 @@ angular.module('Rush', ['ui.router',
 			}
 		});
 	}
+	//this will geocode an owners address and will not geocode if the person does not check the checkbox
+	//authorizes the user with a token if signp successful and sends them to the correct page
 	$scope.logUp = function() {
 
 		if ($scope.isOwnerBox.value === true) {
@@ -130,7 +131,6 @@ angular.module('Rush', ['ui.router',
 						}
 					});
 				})
-
 		};
 	}
 });
