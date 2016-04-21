@@ -33,10 +33,13 @@ angular.module('rush-Services', ['uiGmapgoogle-maps'])
       $http.post('/ownerAddress', {username: username});
 
     }
+
+    
     return {
       getOwnerAddress: getOwnerAddress,
       postSignIn: postSignIn,
-      postSignUp: postSignUp
+      postSignUp: postSignUp,
+      
       //makeToken: makeToken
     };
   })
@@ -81,12 +84,21 @@ angular.module('rush-Services', ['uiGmapgoogle-maps'])
       console.log("Declaring this rush: ", declaredRush)
       return $http.post('/declareRush', declaredRush)
     }
+
+    var postReview = function(review)  {
+
+
+       $http.post('/reviewBox', review);
+
+    }
+
     return {
       getDeals: getDeals,
       addToDeals: addToDeals,
       getRushes: getRushes,
       findDistance: findDistance,
       getOwnerLocation: getOwnerLocation,
-      declareRush: declareRush
+      declareRush: declareRush,
+      postReview: postReview
     }
   });

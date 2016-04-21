@@ -1,7 +1,8 @@
 angular.module('consumer-Module', ['rush-Services', 'ngGeolocation', 'uiGmapgoogle-maps', 'firebase'])
-   .controller('consumerController', function($scope, $geolocation, generalFactory, $firebaseAuth, $state) {
+   .controller('consumerController', function($scope, $geolocation, generalFactory, $firebaseAuth, $state, $mdDialog, $mdMedia) {
       $scope.Welcome = "Welcome";
-      $scope.uid;
+      $scope.uid; 
+
       var ref = new Firebase("blazing-fire-9069.firebaseio.com");
       $scope.authObj = $firebaseAuth(ref);
       $scope.locationExists = false;
@@ -46,10 +47,11 @@ angular.module('consumer-Module', ['rush-Services', 'ngGeolocation', 'uiGmapgoog
       //checks if the owners are in a 5 mile radius from the business and sends those restaurants to the view.
       $scope.counter = 2;
       $scope.filterPositions = function() {
+         $scope.restReview = [];
          $scope.rushRestaurants = [];
          generalFactory.getRushes()
             .then(function(businessInfo) {
-               console.log(businessInfo.data);
+               console.log("business data", businessInfo.data);
                for (var i = 0; i < businessInfo.data.length; i++) {
                   console.log("Positions", $scope.myPosition, businessInfo.data[i].location)
                   $scope.distance = generalFactory.findDistance($scope.myPosition, businessInfo.data[i].location);
@@ -58,16 +60,118 @@ angular.module('consumer-Module', ['rush-Services', 'ngGeolocation', 'uiGmapgoog
                      longitude: businessInfo.data[i].location.lng
                   }
 
+
                      $scope.counter++;
                      var tempObj = {
                         id: $scope.counter,
                         restName: businessInfo.data[i].restName,
                         deals: businessInfo.data[i].deals,
-                        address: $scope.temporary
+                        address: $scope.temporary,
+                        businessId: businessInfo.data[i].id,
+                        reviews: businessInfo.data[i].reviews
+                       
+                        
                      }
+                     console.log('obj', tempObj)
                      $scope.rushRestaurants.push(tempObj);
                   }
                }
             })
       }
+
+     $scope.grabId = function(input) {
+       
+    localStorage.setItem('username', input)
+
+     }
+     
+
+      $scope.redirectReviews = function(input) {
+
+           return input;
+
+      }
+
+     $scope.grabReviews = function(input) {
+
+               $scope.redirectReviews(input);
+
+        console.log('oooookk', input)
+     localStorage.setItem('reviews', input);
+
+     }
+
+      console.log('reviews of THIS business', localStorage.getItem('reviews'))
+
+     $scope.reviewPost = function() {
+
+      
+   
+      var userReview = {
+         user: $scope.user.name,
+         review: $scope.user.review,
+         businessId: localStorage.getItem('username')
+      };
+     
+      console.log("sent this review", userReview)
+       generalFactory.postReview(userReview);
+       
+   }
+
+
+   $scope.showAdvanced = function(ev) {
+    var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
+    $mdDialog.show({
+      controller: $scope.DialogController,
+      templateUrl: 'consumer/reviewBox.html',
+      parent: angular.element(document.body),
+      targetEvent: ev,
+      clickOutsideToClose: true,
+      fullscreen: useFullScreen
+    })
+
+    $scope.$watch(function() {
+      return $mdMedia('xs') || $mdMedia('sm');
+    }, function(wantsFullScreen) {
+      $scope.customFullscreen = (wantsFullScreen === true);
+    });
+  };
+  
+   $scope.showAdvanced2 = function(ev) {
+    var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
+    $mdDialog.show({
+      controller: $scope.DialogController,
+      templateUrl: 'consumer/reviews.html',
+      parent: angular.element(document.body),
+      targetEvent: ev,
+      clickOutsideToClose: true,
+      fullscreen: useFullScreen
+    })
+
+    $scope.$watch(function() {
+      return $mdMedia('xs') || $mdMedia('sm');
+    }, function(wantsFullScreen) {
+      $scope.customFullscreen = (wantsFullScreen === true);
+    });
+  };
+
+
+
+
+$scope.DialogController = function($scope, $mdDialog) {
+  $scope.hide = function() {
+    $mdDialog.hide();
+  };
+  $scope.cancel = function() {
+    $mdDialog.cancel();
+  };
+  $scope.answer = function(answer) {
+    $mdDialog.hide(answer);
+  };
+}
+
+
+
    });
+
+
