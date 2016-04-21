@@ -38,13 +38,15 @@ angular.module('Rush', ['ui.router',
 			})
 			.state('reviewBox', {
 				url: '/reviewBox',
+				reloadOnSearch: true,
 				templateUrl: '../consumer/reviewBox.html',
 				controller: 'consumerController'
 			})
 			.state('reviews', {
-				url: '/reviews',
+				url: '/reviews/',
+
 				templateUrl: '../consumer/reviews.html',
-				controller: 'consumerController'
+				controller: 'reviewController'
 			})
 
 	$mdIconProvider
@@ -144,9 +146,6 @@ angular.module('Rush', ['ui.router',
 
 		};
 
-
-
-		//// review box
 	}
 })
 
