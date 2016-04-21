@@ -138,7 +138,9 @@ app.get('/getRushes', function(req,res){
         restaurant.location = owner.location;
         restaurant.address = owner.restAddress;
         restaurant.deals = owner.rushDeals;
-        console.log(restaurant);
+        restaurant.id = owner.id;
+        restaurant.reviews = owner.businessReviews;
+        console.log("this is the info i get from db", restaurant.id);
         allRushes.push(restaurant);
       }
     })
@@ -146,6 +148,35 @@ app.get('/getRushes', function(req,res){
     //sending client object with id's correlating with deals
      })
 })
+
+
+
+
+
+
+app.post('/reviewBox', function(req, res) {
+
+    
+    console.log(req.body);
+  newUser.findOneAndUpdate({_id: req.body.businessId}, 
+    {$push: {"businessReviews": {user: req.body.user, review: req.body.review }}},
+    {safe: true, upsert: true, new: true}, 
+    function(err, model) {
+       console.log("comment added");
+       res.send("comment added");
+
+    })
+
+
+
+
+})
+
+
+
+
+
+
 
 app.post('/declareRush', function(req,res){
   newUser.findOneAndUpdate({_id: req.body.uid}, {'$set': {declaredRush: true, rushDeals: req.body.rushDeals}}, function(err,success){
@@ -163,17 +194,17 @@ app.post('/declareRush', function(req,res){
             var message = '[*NEW RUSH*] Come to '+restaurant+'! 1 of 5 Deals: '+sampleDeal+'! LogIn to Rush app & save that money!';
             var verifiedNumbers = ['+18319207839','+16262909006','+13232395800']
             for(var i=0;i<verifiedNumbers.length;i++){
-              twilio.sendMessage({
-                to: verifiedNumbers[i], // Consumer #'s Separated by Commas (NOT tested)
-                from: '+14848988821', // OUR Twilio Account Number
-                body: message
-              }, function(err, data){
-                  if (err) {
-                    console.log('Error in Sending SMS! Error: ', err);
-                    throw err;
-                  }
-                  console.log("SMS Sent!");
-              });
+              // twilio.sendMessage({
+              //   to: "+14243335141", // Consumer #'s Separated by Commas (NOT tested)
+              //   from: '+14848988821', // OUR Twilio Account Number
+              //   body: message
+              // }, function(err, data){
+              //     if (err) {
+              //       console.log('Error in Sending SMS! Error: ', err);
+              //       throw err;
+              //     }
+              //     console.log("SMS Sent!");
+              // });
             }
             res.send('Your Rush has been initiated!');
           } else {
@@ -184,6 +215,7 @@ app.post('/declareRush', function(req,res){
     }
   })
 });
+
 
 
 app.listen(8123, function(){

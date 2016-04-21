@@ -36,6 +36,16 @@ angular.module('Rush', ['ui.router',
 				templateUrl: '../consumer/consumer.html',
 				controller: 'consumerController'
 			})
+			.state('reviewBox', {
+				url: '/reviewBox',
+				templateUrl: '../consumer/reviewBox.html',
+				controller: 'consumerController'
+			})
+			.state('reviews', {
+				url: '/reviews',
+				templateUrl: '../consumer/reviews.html',
+				controller: 'consumerController'
+			})
 
 	$mdIconProvider
 	  .icon('arrow', '../assets/arrows.svg')
@@ -133,5 +143,13 @@ angular.module('Rush', ['ui.router',
 				})
 
 		};
+
+
+
+		//// review box
 	}
-});
+})
+
+
+
+

@@ -22,7 +22,7 @@ var usersSchema = new Schema ({
     email: String,
     password: String,
     isOwner: Boolean,
-    location: {lat: {type: Number}, lng: {type:Number}},
+    location: {lat: {type: Number}, lng: {type: Number}},
     hasAccount: Boolean,
     deals: [{
       item: {type: String, required: true},
@@ -34,7 +34,11 @@ var usersSchema = new Schema ({
     }],
     restName: String,
     restAddress: String,
-    declaredRush: Boolean
+    declaredRush: Boolean,
+    businessReviews: [{
+      user: {type: String, required: true},
+      review: {type: String, required: true}
+    }]
   });
 // Declare a User model using mongoose's model method. See Docs.
 var User = mongoose.model('users', usersSchema);
