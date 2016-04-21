@@ -1,7 +1,7 @@
 angular.module('consumer-Module', ['rush-Services', 'ngGeolocation', 'uiGmapgoogle-maps', 'firebase'])
    .controller('consumerController', function($scope, $geolocation, generalFactory, $firebaseAuth, $state, $mdDialog, $mdMedia) {
       $scope.Welcome = "Welcome";
-      $scope.uid; 
+      $scope.uid;
 
       var ref = new Firebase("blazing-fire-9069.firebaseio.com");
       $scope.authObj = $firebaseAuth(ref);
@@ -49,7 +49,7 @@ angular.module('consumer-Module', ['rush-Services', 'ngGeolocation', 'uiGmapgoog
       $scope.counter = 2;
       $scope.filterPositions = function() {
          $scope.restReview = [];
-         
+
          generalFactory.getRushes()
             .then(function(businessInfo) {
                console.log("business data", businessInfo.data);
@@ -67,9 +67,10 @@ angular.module('consumer-Module', ['rush-Services', 'ngGeolocation', 'uiGmapgoog
                         deals: businessInfo.data[i].deals,
                         address: $scope.temporary,
                         businessId: businessInfo.data[i].id,
-                        reviews: businessInfo.data[i].reviews
-                       
-                        
+                        reviews: businessInfo.data[i].reviews,
+                        yelpReview: businessInfo.data[i].yelpReview,
+                        yelpPicture: businessInfo.data[i].yelpPicture
+
                      }
                      console.log('obj', tempObj)
                      $scope.rushRestaurants.push(tempObj);
@@ -78,12 +79,13 @@ angular.module('consumer-Module', ['rush-Services', 'ngGeolocation', 'uiGmapgoog
             })
       }
 
+
         //get and store the id of clicked restaurant
       $scope.grabId = function(input) {
         localStorage.setItem('username', input);
         $scope.sortReviews(localStorage.getItem('username'));
       };
-       
+
         //compare the id and get the review of clicked restaurant
       $scope.sortReviews = function(input) {
          $scope.rushRestaurants.forEach(function(currentEl){
@@ -97,7 +99,6 @@ angular.module('consumer-Module', ['rush-Services', 'ngGeolocation', 'uiGmapgoog
             }
          });
       };
-
 
       $scope.reviewPost = function() {
         var userReview = {
@@ -127,7 +128,7 @@ angular.module('consumer-Module', ['rush-Services', 'ngGeolocation', 'uiGmapgoog
       $scope.customFullscreen = (wantsFullScreen === true);
     });
   };
-  
+
    $scope.showAdvanced2 = function(ev) {
     var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
     $mdDialog.show({
@@ -157,7 +158,7 @@ angular.module('consumer-Module', ['rush-Services', 'ngGeolocation', 'uiGmapgoog
         $mdDialog.hide(answer);
       };
    }
-}) 
+})
 .controller('reviewController', function($scope, $state, $mdDialog, $mdMedia) {
    $scope.thisRestName = localStorage.getItem('tempBusinessName')
    $scope.thisReviews = JSON.parse(localStorage.getItem('tempReviews'));

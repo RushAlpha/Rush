@@ -2,6 +2,7 @@
 <md-toolbar>
 	<div class="md-toolbar-tools">
 		<span class="restHead"><h1>{{"Rush Consumer"}}</h1></span>
+
 		<md-button class="logOutBtn" ng-click="authObj.$unauth()">Sign Out</md-button>
 	</div>
 </md-toolbar>
@@ -18,25 +19,31 @@
 	</div>
 	<div class="dealGrid">
 		<md-grid-list md-cols="4" md-row-height="100px">
-		<md-grid-tile class="tile" ng-repeat="deals in rushRestaurants">
-		   <md-grid-tile-header class="dealHead">
-		      <h2 class="dealRest">{{deals.restName}}</h2>
-           </md-grid-tile-header>
-		   <div class="md-padding" id="popupContainer" ng-cloak>
-              <div class="dialog-demo-content" layout="row" style = 'padding-top: 25px' layout-wrap layout-margin layout-align="center">
-           <!-- review button -->
-                  <button class="reviewButton" ng-click="showAdvanced($event); grabId(deals.businessId)" flex class="md-warn"> write review </button> 
-                     <h3 ng-click = 'grabId(deals.businessId);  showAdvanced2($event)'> reviews </h3>
-              </div>
-           </div>
+    	<md-grid-tile class="tile" ng-repeat="deals in rushRestaurants">
+    	   <md-grid-tile-header class="dealHead">
+    	      <h2 class="dealRest">{{deals.restName}}</h2>
+             </md-grid-tile-header>
+    	   <div class="md-padding" id="popupContainer" ng-cloak>
+                <div class="dialog-demo-content" layout="row" style = 'padding-top: 25px' layout-wrap layout-margin layout-align="center">
+             <!-- review button -->
+                    <button class="reviewButton" ng-click="showAdvanced($event); grabId(deals.businessId)" flex class="md-warn"> write review </button>
+                       <h3 ng-click = 'grabId(deals.businessId);  showAdvanced2($event)'> reviews </h3>
+                </div>
+             </div>
 
-           <!-- list of deals -->
-	       <md-list class='ListofItems'>
-              <md-list-item ng-repeat="deal in deals.deals" class="listItem">
-			      {{deal.item + ": " + deal.price}}
-              </md-list-item>
-		   </md-list>
-		</md-grid-tile>
-		</md-grid-list>
+             <!-- list of deals -->
+           <md-list class='ListofItems'>
+                <md-list-item ng-repeat="deal in deals.deals" class="listItem">
+    		      {{deal.item + ": " + deal.price}}
+           <div>
+          <img ng-src="{{deals.yelpReview}}" alt="Description" />
+          </div>
+                </md-list-item>
+    	   </md-list>
+    	</md-grid-tile>
+    </md-grid-list>
+
+   <!--
+ -->
 	</div>
 </div>

@@ -8,6 +8,9 @@ var bcrypt = require('bcrypt');
 var FirebaseTokenGenerator = require("firebase-token-generator");
 
 var tokenGenerator = new FirebaseTokenGenerator("pHFzA5WVleBkpYpn1vUJ98un4B4EQgEWe6GO7PZF");
+var config = require('./config.js')
+var Yelp = require('yelp');
+var yelp = new Yelp(config.yelpkeys)
 
 app.use(express.static(__dirname + '/../client'))
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -58,6 +61,7 @@ app.post('/signup', function(req, res){
   var userPasswornewUsereforeEncryption = req.body.password;
   var hashedPassword;
   var userNameTaken = false;
+  var yelpdata;
 
   newUser.find({email: req.body.username}, function(err, users){
     //if username is not taken...
@@ -66,6 +70,7 @@ app.post('/signup', function(req, res){
       bcrypt.hash(userPasswornewUsereforeEncryption, saltRounds, function(err, hash){
         req.body.address = req.body.address || null;
         restName = req.body.restName || null;
+
         //add user to mongodb
         new newUser({email: req.body.username, password: hash, isOwner: req.body.isOwner, location: req.body.address, restName: req.body.restName, deals: [], declaredRush: false})
         .save(function(err, post){
@@ -93,6 +98,63 @@ app.post('/signup', function(req, res){
     }
   });
 });
+
+app.post('/Yelpsignup', function(req, res){
+  var userPasswornewUsereforeEncryption = req.body.password;
+  var hashedPassword;
+  var userNameTaken = false;
+
+
+  yelp.search({ term: req.body.restName, location: req.body.yelpaddress, limit: 3})
+    .then(function (data) {
+
+
+      newUser.find({email: req.body.username}, function(err, users){
+        //if username is not taken...
+        if(users.length === 0){
+          //hash the password
+          bcrypt.hash(userPasswornewUsereforeEncryption, saltRounds, function(err, hash){
+            req.body.address = req.body.address || null;
+            restName = req.body.restName || null;
+
+            console.log("This is yelp Data", data.businesses);
+
+
+
+            //add user to mongodb
+            new newUser({email: req.body.username, password: hash, isOwner: req.body.isOwner, location: req.body.address, restName: req.body.restName, deals: [], declaredRush: false, yelpReview: data.businesses[0].rating_img_url_small, yelpPicture: data.businesses[0].image_url})
+            .save(function(err, post){
+              if(err) {
+                console.log("error!")
+              } else {
+                newUser.find({email: req.body.username}, function(err, users){
+                  if (err){
+                    console.log(err)
+                  } else {
+                    //send token
+                    var stringUID = users[0]._id.toString();
+                    var token = tokenGenerator.createToken({ uid: stringUID, some: "arbitrary", data: "here" });
+                    res.send({token: token, isOwner: users[0].isOwner});
+                  }
+                });
+              };
+
+            })
+          })
+          //if username taken...
+        } else {
+          console.log("Username TAKEN! Sending FALSE signal to Client!");
+          res.send(userNameTaken);
+        }
+      });
+    })
+
+
+
+
+
+});
+
 
 app.post('/ownerAddItemToMenu', function(req, res){
   newUser.find({_id: req.body.uid}, function(err, users){
@@ -140,7 +202,9 @@ app.get('/getRushes', function(req,res){
         restaurant.deals = owner.rushDeals;
         restaurant.id = owner.id;
         restaurant.reviews = owner.businessReviews;
-        console.log("this is the info i get from db", restaurant.id);
+        restaurant.yelpReview = owner.yelpReview;
+        restaurant.yelpPicture = owner.yelpPicture;
+        console.log("this is the info i get from db", restaurant);
         allRushes.push(restaurant);
       }
     })
@@ -152,9 +216,9 @@ app.get('/getRushes', function(req,res){
 
 app.post('/reviewBox', function(req, res) {
     //insert the reviews to database
-  newUser.findOneAndUpdate({_id: req.body.businessId}, 
+  newUser.findOneAndUpdate({_id: req.body.businessId},
     {$push: {"businessReviews": {user: req.body.user, review: req.body.review }}},
-    {safe: true, upsert: true, new: true}, 
+    {safe: true, upsert: true, new: true},
     function(err, model) {
        console.log("review added");
        res.send("review added");
