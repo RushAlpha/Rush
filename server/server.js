@@ -150,32 +150,17 @@ app.get('/getRushes', function(req,res){
 })
 
 
-
-
-
-
 app.post('/reviewBox', function(req, res) {
-
-    
-    console.log(req.body);
+    //insert the reviews to database
   newUser.findOneAndUpdate({_id: req.body.businessId}, 
     {$push: {"businessReviews": {user: req.body.user, review: req.body.review }}},
     {safe: true, upsert: true, new: true}, 
     function(err, model) {
-       console.log("comment added");
-       res.send("comment added");
-
-    })
-
-
-
-
+       console.log("review added");
+       res.send("review added");
+     }
+  )
 })
-
-
-
-
-
 
 
 app.post('/declareRush', function(req,res){

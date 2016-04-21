@@ -1,50 +1,20 @@
-
-  <!-- //////////////////////////////////////////////////////////////////////////////////////// -->
-
-
-<md-dialog aria-label="Dash"  ng-cloak style="width: 500px">
-   <form ng-controller = 'consumerController'> <!-- start of form-->
+<!-- customer reviews template-->
+<md-dialog aria-label="Dash" ng-cloak style="width: 500px" >
+   <form   ng-controller='reviewController'> 
       <h2  style='text-align: center; color: red;'>reviews</h2>
-    
-  
-  
-  <!-- //////////////////////////////////////////// -->
- 
-  <md-dialog-content> <!--start of inputs -->
-     <div class="md-dialog-content">
-       
-        <div layout="column" layout-padding ng-cloak> <br/>
-          
-  <ul ng-repeat = 'item in rushRestaurants'> 
-   <h3>customer reviews on {{item.restName}} </h3>
-    <li ng-repeat = 'review in item.reviews'> {{review.user}}: {{review.review}} </li>
-
-     </ul>
-    
-  </md-dialog-content> <!--end of inputs -->
-
-     <!-- //////////////////////////////////////////// -->
-    
-
-
-    <md-dialog-actions layout="row">
-      <span flex></span>
-      <md-button ng-click="answer()"> close reviews </md-button>
-
-  
-    
-    </md-dialog-actions>
- 
-
-
-  </form><!-- end of form-->
-  
- 
-
-  
-
+      <md-dialog-content> 
+         <ul>
+            <h3>customer reviews on {{thisRestName}}</h3>
+            <li ng-repeat='item in thisReviews'> {{item.user}}: {{item.review}}</li>
+         </ul>
+      </md-dialog-content>
+      <md-dialog-actions layout="row">
+         <span flex></span>
+         <md-button ng-click="answer()"> close reviews </md-button>
+       </md-dialog-actions>
+   </form>
 </md-dialog>
 
 
 
-  <!-- //////////////////////////////////////////////////////////////////////////////////////// -->
+ 
