@@ -17,14 +17,15 @@ angular.module('rush-Services', ['uiGmapgoogle-maps'])
     };
     //Sends sign up info to server
     //restName is restaurant name
-    var postSignUp = function(username, password, isOwner, address, restName) {
-      console.log('authFactory>postSignUp: ', username, password, isOwner, address, restName);
+    var postSignUp = function(username, password, isOwner, address, restName, yelpaddress) {
+      console.log('authFactory>postSignUp 1: ', username, password, isOwner, address, restName, yelpaddress);
       var logUpInfo = {
         username: username,
         password: password,
         isOwner: isOwner,
         address: address,
-        restName: restName
+        restName: restName,
+        yelpaddress: yelpaddress
       };
       return $http.post('/signup', logUpInfo);
     }
@@ -34,12 +35,25 @@ angular.module('rush-Services', ['uiGmapgoogle-maps'])
 
     }
 
-    
+    var postYelpSignUp = function(username, password, isOwner, address, restName, yelpaddress) {
+      console.log('authFactory>YelppostSignUp: ', username, password, isOwner, address, restName, yelpaddress);
+      var logUpInfo = {
+        username: username,
+        password: password,
+        isOwner: isOwner,
+        address: address,
+        restName: restName,
+        yelpaddress: yelpaddress
+      };
+      return $http.post('/YelpSignup', logUpInfo);
+    }
+
     return {
       getOwnerAddress: getOwnerAddress,
       postSignIn: postSignIn,
       postSignUp: postSignUp,
-      
+      postYelpSignUp: postYelpSignUp
+
       //makeToken: makeToken
     };
   })
