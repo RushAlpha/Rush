@@ -172,6 +172,30 @@ app.post('/ownerAddItemToMenu', function(req, res){
   })
 });
 
+app.post('/ownerDeleteItemFromMenu', function(req, res){
+  newUser.findOne({_id: req.body.uid}, "deals", function(err, data){
+    if (err){
+      throw err;
+    }
+    console.log("req.body is :", req.body);
+
+    var index = req.body.index;
+
+    data.deals.splice(index,1);
+
+    var dataDeals = data.deals;
+
+    console.log("data", data);
+
+    newUser.findOneAndUpdate({_id: req.body.uid}, {deals: dataDeals}, {upsert: true}, function(err, deals){
+      if(err){
+        console.log("Deals not removed");
+      }
+      console.log("After Delete Data", data);
+      res.sendStatus(200);
+    })
+  });
+});
 
 app.get('/ownerDeals', function(req,res){
   //find all owners

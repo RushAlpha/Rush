@@ -200,3 +200,17 @@ md-checkbox .md-icon {
 .reviewButton {
 	width: 200px;
 }
+
+.removeButton{
+	min-width: 88px;
+	width: 100px;
+	border-radius: 3px;
+	font-size: 14px;
+	text-align: center;
+	text-transform: uppercase;
+	text-decoration:none;
+	border: none;
+	outline: none;
+	background-color: black;
+	color: #F5B22F;
+}
