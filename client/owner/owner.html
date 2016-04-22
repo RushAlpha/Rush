@@ -30,6 +30,7 @@
 				<div class="listItem">
 					<md-checkbox type="checkbox" class="checkColor" ng-model="rush.checked" ng-change="selectedDeals()"> {{rush.item + ": $" + rush.price}}
 					</div>
+					<button class="removeButton" ng-click='removeDeals($index)'>Remove</button>
 				</li>
 			</ul>
 		</div>
