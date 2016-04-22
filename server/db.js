@@ -40,7 +40,8 @@ var usersSchema = new Schema ({
       review: {type: String, required: true}
     }],
     yelpReview: String,
-    yelpPicture: String
+    yelpPicture: String,
+    yelpLink: String
   });
 // Declare a User model using mongoose's model method. See Docs.
 var User = mongoose.model('users', usersSchema);

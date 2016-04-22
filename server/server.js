@@ -122,7 +122,7 @@ app.post('/Yelpsignup', function(req, res){
 
 
             //add user to mongodb
-            new newUser({email: req.body.username, password: hash, isOwner: req.body.isOwner, location: req.body.address, restName: req.body.restName, deals: [], declaredRush: false, yelpReview: data.businesses[0].rating_img_url_small, yelpPicture: data.businesses[0].image_url})
+            new newUser({email: req.body.username, password: hash, isOwner: req.body.isOwner, location: req.body.address, restName: req.body.restName, deals: [], declaredRush: false, yelpReview: data.businesses[0].rating_img_url_small, yelpPicture: data.businesses[0].image_url, yelpLink: data.businesses[0].url})
             .save(function(err, post){
               if(err) {
                 console.log("error!")
@@ -228,6 +228,7 @@ app.get('/getRushes', function(req,res){
         restaurant.reviews = owner.businessReviews;
         restaurant.yelpReview = owner.yelpReview;
         restaurant.yelpPicture = owner.yelpPicture;
+        restaurant.yelpLink = owner.yelpLink;
         console.log("this is the info i get from db", restaurant);
         allRushes.push(restaurant);
       }

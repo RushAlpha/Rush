@@ -1,9 +1,11 @@
-<md-toolbar>
-	<div class="md-toolbar-tools">
-		<span class="restHead"><h1>{{restName}}</h1></span>
-		<md-button class="logOutBtn" ng-click="authObj.$unauth()">Sign Out</md-button>
-	</div>
-</md-toolbar>
+<div>
+<header>
+  
+   <h1>{{restName}}</h1>
+    <button class='signoutBtn' ng-click="authObj.$unauth()">Sign Out</button>
+</header>
+
+
 <div>
 	<div class="mapStyle">
 		<ui-gmap-google-map center='map.center' class='angular-google-map-container' zoom='map.zoom'>
@@ -35,6 +37,7 @@
 			</ul>
 		</div>
 		<div class="rushBtn">
-			<md-button ng-click="declareRush()">Declare Rush</md-button>
+			<md-button class='declareRushBtn' ng-click="declareRush()">Declare Rush</md-button>
 		</div>
 	</div>
+</div> 

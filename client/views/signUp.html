@@ -1,13 +1,9 @@
-<md-toolbar class="signHead">
+<div class= 'signIn'>
+<header>
   <h1>Rush</h1>
-  <h3>Sign Up</h3>
-</md-toolbar>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
+</header>
+  <h2>Sign Up</h2>
+
 <div class="input">
   <form name="signUp" class="form" ng-submit="logUp()">
     <md-input-container class="input">
@@ -40,7 +36,7 @@
       <input type="text" name="address" ng-model="address" placeholder="Buiness Address">
     </md-input-container>
     <br/>
-    <md-button type="submit" class="input">
+    <md-button type="submit" class="input" id='signUpbtn'>
       <md-icon md-svg-icon="arrow">
       </md-icon>
     </md-button>

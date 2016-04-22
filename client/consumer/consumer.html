@@ -1,49 +1,61 @@
 
-<md-toolbar>
-	<div class="md-toolbar-tools">
-		<span class="restHead"><h1>{{"Rush Consumer"}}</h1></span>
+<div ng-controller = 'consumerController'>
 
-		<md-button class="logOutBtn" ng-click="authObj.$unauth()">Sign Out</md-button>
-	</div>
-</md-toolbar>
-<div>
-	<div class="mapStyle">
-		<ui-gmap-google-map center='map.center' class='angular-google-map-container' zoom='map.zoom' ng-show='locationExists' >
-		<ui-gmap-marker	idKey='1'	coords='currentPositions'></ui-gmap-marker>
-		<ui-gmap-marker idKey="rush.id" coords="rush.address" ng-repeat="rush in rushRestaurants"></ui-gmap-marker>
-		<ui-gmap-circle center='currentPositions'	radius='8046.72' fill='{color: "#999", opacity: .6}' stroke='{color: "#33a", weight: 10, opacity: .2}'></ui-gmap-circle>
-	    </ui-gmap-google-map>
-	</div>
-	<div class="rushBtn">
-		<md-button class="filterPositions" ng-click="filterPositions()">Check For New Rushes</md-button>
-	</div>
-	<div class="dealGrid">
-		<md-grid-list md-cols="4" md-row-height="100px">
-    	<md-grid-tile class="tile" ng-repeat="deals in rushRestaurants">
-    	   <md-grid-tile-header class="dealHead">
-    	      <h2 class="dealRest">{{deals.restName}}</h2>
-             </md-grid-tile-header>
-    	   <div class="md-padding" id="popupContainer" ng-cloak>
-                <div class="dialog-demo-content" layout="row" style = 'padding-top: 25px' layout-wrap layout-margin layout-align="center">
-             <!-- review button -->
-                    <button class="reviewButton" ng-click="showAdvanced($event); grabId(deals.businessId)" flex class="md-warn"> write review </button>
-                       <h3 ng-click = 'grabId(deals.businessId);  showAdvanced2($event)'> reviews </h3>
-                </div>
-             </div>
+<header>
+  
+   <h1>{{"Rush Consumer"}}</h1>
+    <button class='signoutBtn' ng-click="authObj.$unauth()">Sign Out</button>
+</header>
 
-             <!-- list of deals -->
-           <md-list class='ListofItems'>
-                <md-list-item ng-repeat="deal in deals.deals" class="listItem">
-    		      {{deal.item + ": " + deal.price}}
-           <div>
-          <img ng-src="{{deals.yelpReview}}" alt="Description" />
-          </div>
-                </md-list-item>
-    	   </md-list>
-    	</md-grid-tile>
-    </md-grid-list>
 
-   <!--
- -->
-	</div>
-</div>
+<!--- google map -->
+  <div class="mapStyle">
+    <ui-gmap-google-map center='map.center' class='angular-google-map-container' zoom='map.zoom' ng-show='locationExists' >
+    <ui-gmap-marker idKey='1' coords='currentPositions'></ui-gmap-marker>
+    <ui-gmap-marker idKey="rush.id" coords="rush.address" ng-repeat="rush in rushRestaurants"></ui-gmap-marker>
+    <ui-gmap-circle center='currentPositions' radius='8046.72' fill='{color: "#999", opacity: .6}' stroke='{color: "#33a", weight: 10, opacity: .2}'></ui-gmap-circle>
+      </ui-gmap-google-map>
+  </div>
+<!-- end of google map -->
+
+ 
+    <button class = 'checkRushes' g-click="filterPositions()"> Check For New Rushes</button>
+    
+
+  <div class= 'mainBody'>
+    
+      <div class="tiles" ng-repeat="deals in rushRestaurants">
+    
+            <h2 class="restName">{{deals.restName}}</h2>
+          
+         <div class = 'allReviews'>
+            
+           <!-- review button -->
+           <button class="reviewButton" ng-click="showAdvanced($event); grabId(deals.businessId)" flex class="md-warn"><img  class='reviewIcon' src='../assets/reviewIcon.png'> write review  </button>
+
+              <!--rush reviews -->
+        <h3  class = 'rushReviews' ng-click = 'grabId(deals.businessId);  showAdvanced2($event)'> rush reviews <img  class='reviewStar' src='../assets/review.png'></h3>  
+
+            <!-- yelp reviews -->
+         <h3 class='yelp'>yelp reviews <a href="{{deals.yelpLink}}" target='_blank'> <img  class = 'yelpStars' ng-src="{{deals.yelpReview}}" alt="Description" /></a> </h3>
+         
+          </div>    
+          
+               <h3 class='dealsHeader'>  today's deals {timer}</h3> 
+              
+              <ul>
+           
+                <li  ng-repeat="deal in deals.deals" class="dealItem"> <img class='listIcon' src='../assets/listitem.png'>
+               {{deal.item + ": $" + deal.price}}
+              </li>
+            </ul>
+          
+    </div>
+              
+     </div>   
+  
+
+
+ 
+  </div>
+
