@@ -1,5 +1,8 @@
-angular.module('owner-Module', ['rush-Services', 'ngGeolocation', 'uiGmapgoogle-maps', 'ngMaterial', 'firebase'])
+angular.module('owner-Module', ['rush-Services', 'ngGeolocation', 'uiGmapgoogle-maps', 'ngMaterial', 'firebase', 'timer'])
 .controller('ownerController', function($geolocation, $scope, generalFactory, $state, $firebaseAuth, $filter) {
+
+	$scope.currentTime;
+	$scope.hasTime = false;
 
 	$scope.map = {
 		center: { latitude: null, longitude: null },
@@ -38,6 +41,33 @@ angular.module('owner-Module', ['rush-Services', 'ngGeolocation', 'uiGmapgoogle-
 			$scope.restName = deals.data.restName;
 		})
 	}
+
+
+		$scope.startTime = {
+           value: new Date(1970, 0, 1, 12, 0, 0)
+         };
+
+         $scope.endTime = {
+             value: new Date(1970, 0, 1, 12, 0, 0)
+         }
+
+        $scope.dealLength = function(start, end){ 
+            var startUnix = moment(start).unix(); // 72000 Difference from 12-1
+            console.log('inside deallength: ', startUnix, 'difference: ', $scope.difference);
+            //$scope.difference = end - start;
+            var endUnix = moment(end).unix();
+            console.log("Inside dealLength: ", endUnix);
+            $scope.timer(endUnix);
+            
+            // convert to unix time
+               // insert start/end time into database
+        }
+
+        $scope.timer = function(endingTime){
+        	$scope.hasTime = true;
+        	$scope.currentTime = (endingTime/10) - 1440;
+        	return $scope.currentTime;
+        }
 
 	$scope.getDeals();
 	//Declare a rush on selected rush items
