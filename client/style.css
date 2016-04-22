@@ -28,8 +28,9 @@ md-checkbox .md-icon {
 }
 
 .angular-google-map-container {
-	height: 400px;
-	width: 600px;
+	height: 300px;
+	width: 500px;
+	margin: 0 auto;
 }
 
 .signHead{
@@ -198,8 +199,163 @@ md-checkbox .md-icon {
     margin: 10px 0 0 25px; }
 
 .reviewButton {
-	width: 200px;
+	width: 110px;
 }
+
+html {
+
+	padding-top: 0;
+	background-color: #e0e0eb;
+}
+
+ body {
+
+font-family: sans-serif;
+position: relative;
+margin-top: 0;
+background-color: #e0e0eb;
+
+
+
+ }
+
+header {
+text-align: center;
+height: 70px;
+background-color: #5e5c6d;
+margin-top: 0;
+display: block;
+}
+
+header h1 {
+	padding-top: 10px;
+	font-family: Papyrus, fantasy;
+	font-weight: bold;
+	font-size: 50px;
+	color: #e0e0eb;
+}
+
+.signoutBtn {
+ 
+ position: relative;
+ right: -550px;
+ top: -90px;
+ border-color: purple;
+   border: 0;
+  border-radius: 0;
+ 
+  position: relative;
+  overflow: hidden;
+  
+  
+  border-radius: 3px;
+
+}
+
+
+
+
+  
+ 
+  .signoutBtn:after {
+    content: '';
+    position: absolute;
+    display: block;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 100%;
+    background: $purple;
+    z-index: -1;
+    transition: width 150ms ease-in-out;
+  }
+  
+  .signoutBtn:hover {
+    color: #fff;
+   }
+
+
+.checkRushes {
+
+	text-align: center;
+	position: relative;
+	left: 620px;
+}
+.rushesHeader {
+ position: absolute;
+ left: 630px;
+
+
+}
+
+.tiles {
+
+	float: left;
+	margin: 0 10px 10px 10px;
+	border: 1px solid black;
+
+	width: 370px;
+	
+}
+
+.allReviews {
+
+	background-color: #c2c2d6;
+	padding-top: 15px;
+	padding-bottom: 1px;
+}
+
+.yelpStars {
+
+	height: 18px;
+
+
+}
+
+.reviewButton {
+    width: 150px;
+	float: left;
+	margin-right: 20px;
+	margin-left: 30px;
+	vertical-align: text-top;
+	border-radius: 4px;
+	padding-top: 5px;
+	background-color:#c2c2d6;
+	font-weight: bold;
+}
+
+.yelp {
+    padding-top: 5px;
+	margin-right: 20px;
+	margin-left: 30px;
+}
+.rushReviews {
+	
+display: block;
+
+margin-top: 0;
+	
+
+	
+}
+.reviewIcon {
+
+	width: 35px;
+	float: left;
+	
+}
+
+.reviewStar {
+
+	width: 25px;
+}
+
+.mainBody {
+
+	padding: 50px;
+}
+
 
 .removeButton{
 	min-width: 88px;
@@ -213,4 +369,141 @@ md-checkbox .md-icon {
 	outline: none;
 	background-color: black;
 	color: #F5B22F;
+}
+
+.restName {
+     padding-top:  -50px;
+	text-align: center;
+	 background-color: #5e5c6d;
+	 color: #e0e0eb;
+	 margin-top: 0;
+	 margin-bottom: 0;
+	 padding: 10px 0;
+}
+
+.dealsHeader {
+	
+	padding-left: 30px;
+	font-size: 18px;
+	
+	display: block;
+
+}
+
+.dealItem {
+
+	padding: 5px;
+	font-size: 18px;
+
+
+}
+
+.listIcon {
+	width: 15px;
+}
+.mainBody {
+
+	padding-left: 100px;
+
+}
+
+.checkRushes {
+
+	background-color: #5e5c6d;
+	color: #e0e0eb; 
+	border-radius: 5px;
+	font-weight: bold;
+	font-size: 18px;
+	padding: 5px;
+}
+
+.signIn header {
+   
+	height: 120px;
+	padding-top: 0;
+
+}
+
+.signIn h1 {
+    padding-bottom: 20px;
+	font-size: 100px;
+}
+
+
+.signIn h2 {
+
+
+text-align: center;
+color:#5e5c6d; 
+margin-top: 50px;
+
+
+
+
+}
+
+.form {
+
+	margin-top: 70px;
+}
+
+.enter {
+
+	text-align: center;
+	display: block;
+	margin: 0 auto;
+	background-color: #5e5c6d;
+	margin-bottom: 20px;
+}
+
+.signuplink {
+	display: inline-block;
+	margin-left: 225px;
+	margin-right: 225px;
+
+}
+
+.topBar{
+
+	background-color: #5e5c6d;
+	
+}
+
+.topBar h2 {
+	color: #e0e0eb;
+	text-align: center;
+
+}
+
+
+
+.reviewSubmit, .closeReviews, .addBtn, .removeButton, .declareRushBtn {
+
+	background-color: #5e5c6d;
+	color:#e0e0eb ;
+	font-weight: bold;
+}
+
+.reviewSubmit:hover, .addBtn:hover, .closeReviews:hover, .removeButton:hover, .declareRushBtn:hover {
+
+	color:  #5e5c6d;
+	background-color: #e0e0eb;
+	border: 1px solid #5e5c6d;
+}
+
+.reviewsList {
+
+	padding: 6px;
+
+}
+
+ .span {
+	font-weight: bold;
+}
+
+.dealStyle h1. .dealStyle h2 {
+	color:#5e5c6d; 
+}
+#signUpbtn {
+	background-color: background-color: #5e5c6d;
 }

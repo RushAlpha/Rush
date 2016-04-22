@@ -69,7 +69,8 @@ angular.module('consumer-Module', ['rush-Services', 'ngGeolocation', 'uiGmapgoog
                         businessId: businessInfo.data[i].id,
                         reviews: businessInfo.data[i].reviews,
                         yelpReview: businessInfo.data[i].yelpReview,
-                        yelpPicture: businessInfo.data[i].yelpPicture
+                        yelpPicture: businessInfo.data[i].yelpPicture,
+                        yelpLink: businessInfo.data[i].yelpLink
 
                      }
                      console.log('obj', tempObj)
