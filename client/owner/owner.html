@@ -1,22 +1,58 @@
-<md-toolbar>
-	<div class="md-toolbar-tools">
-		<span class="restHead"><h1>{{restName}}</h1></span>
-		<md-button class="logOutBtn" ng-click="authObj.$unauth()">Sign Out</md-button>
-	</div>
-</md-toolbar>
 <div>
-	<div class="mapStyle">
+<header>
+  
+   <h1>{{restName}}</h1>
+    <button class='signoutBtn' ng-click="authObj.$unauth()">Sign Out</button>
+</header>
+
+
+<div>
+	<!-- <div class="mapStyle">
 		<ui-gmap-google-map center='map.center' class='angular-google-map-container' zoom='map.zoom'>
 			<ui-gmap-marker	idKey='1'	coords='newCenter'></ui-gmap-marker>
 			<ui-gmap-circle center='newCenter' radius='8400' fill='{color: "#999", opacity: .6}'	stroke='{color: "#33a", weight: 10, opacity: .2}'></ui-gmap-circle>
 		</ui-gmap-google-map>
-	</div>
+	</div> -->
 	<div class=dealStyle>
 		<div>
 			<h1>Your Rush Deals</h1>
-			<h2> Add a new deal </h2>
+					<div class="dealLimit">
+			<h2>Time Set for Deal</h2>
+			<form>
+				<label for="startTime">Deal Start Time:</label>
+				   <input type="time" id="startTime" name="input" ng-model="startTime.value"
+				       placeholder="HH:mm:ss" min="08:00:00" max="24:00:00" required />
+				   <div role="alert">
+				     <span class="error" ng-show="myForm.input.$error.required">
+				         Required!</span>
+				     <span class="error" ng-show="myForm.input.$error.time">
+				         Not a valid date!</span>
+				   </div>
+			</form>
+			<form>
+				<label for="endTime">Deal End Time:</label>
+				   <input type="time" id="endTime" name="input" ng-model="endTime.value"
+				       placeholder="HH:mm:ss" min="08:00:00" max="24:00:00" required />
+				   <div role="alert">
+				     <span class="error" ng-show="myForm.input.$error.required">
+				         Required!</span>
+				     <span class="error" ng-show="myForm.input.$error.time">
+				         Not a valid date!</span>
+				   </div>
+			</form>
+			<div class="rushBtn">
+				<md-button ng-click="dealLength(startTime.value, endTime.value)">Submit</md-button>
+			</div>
+		</div>
+		<br />
+		<h3 class="WithoutMaxTimeUnit" ng-if="hasTime">
+            <timer countdown="currentTime" interval="1000"> {{hhours}} hour{{hoursS}}, {{mminutes}} minute{{minutesS}}, {{sseconds}} second{{secondsS}}</timer>
+        </h3>
+		<br />
+		<br />
 		</div>
 		<div>
+			<h2> Add a new deal </h2>
 			<form>
 				<input type="text" name="deal" ng-model="item" placeholder="Item">
 				<input type="number" name="price" step="0.01" ng-model="price" placeholder="Price">
@@ -30,10 +66,12 @@
 				<div class="listItem">
 					<md-checkbox type="checkbox" class="checkColor" ng-model="rush.checked" ng-change="selectedDeals()"> {{rush.item + ": $" + rush.price}}
 					</div>
+					<button class="removeButton" ng-click='removeDeals($index)'>Remove</button>
 				</li>
 			</ul>
 		</div>
 		<div class="rushBtn">
-			<md-button ng-click="declareRush()">Declare Rush</md-button>
+			<md-button class='declareRushBtn' ng-click="declareRush()">Declare Rush</md-button>
 		</div>
 	</div>
+</div> 

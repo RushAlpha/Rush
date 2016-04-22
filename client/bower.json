@@ -24,10 +24,14 @@
     "angular-simple-logger": "^0.1.7",
     "angular-ui-utils": "^3.0.0",
     "angular-ui-map": "^0.5.0",
-    "firebase": "^2.4.2"
+    "firebase": "^2.4.2",
+    "moment": "momentjs#^2.13.0",
+    "humanize-duration": "^3.7.0",
+    "angular-timer": "^1.3.3"
   },
   "resolutions": {
-    "angular-ui-utils": "0.x"
+    "angular-ui-utils": "0.x",
+    "humanize-duration": "~2.8.0"
   },
   "devDependencies": {
     "angular-material": "^1.0.7"

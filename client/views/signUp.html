@@ -1,13 +1,9 @@
-<md-toolbar class="signHead">
+<div class= 'signIn'>
+<header>
   <h1>Rush</h1>
-  <h3>Sign Up</h3>
-</md-toolbar>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
+</header>
+  <h2>Sign Up</h2>
+
 <div class="input">
   <form name="signUp" class="form" ng-submit="logUp()">
     <md-input-container class="input">
@@ -26,8 +22,12 @@
     <md-checkbox aria-label="Are you an owner?" ng-model="isOwnerBox.value">
       Are you an owner?
     </md-checkbox>
+
     <br>
     <br>
+    <md-checkbox aria-label="Sign Up with Yelp?" ng-model="onYelp.value" ng-show="isOwnerBox.value">
+      On Yelp?
+    </md-checkbox>
     <md-input-container class="input" ng-show="isOwnerBox.value">
       <input type="text" name="restName" ng-model="restName" placeholder="Business Name">
     </md-input-container>
@@ -36,7 +36,7 @@
       <input type="text" name="address" ng-model="address" placeholder="Buiness Address">
     </md-input-container>
     <br/>
-    <md-button type="submit" class="input">
+    <md-button type="submit" class="input" id='signUpbtn'>
       <md-icon md-svg-icon="arrow">
       </md-icon>
     </md-button>

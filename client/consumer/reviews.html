@@ -1,0 +1,22 @@
+<!-- customer reviews template-->
+<md-dialog aria-label="Dash" ng-cloak style="width: 500px" >
+   <form   ng-controller='reviewController'> 
+   <div class='topBar'> 
+      <h2  style='text-align'>reviews</h2>
+      </div>
+      <md-dialog-content> 
+         <ul>
+            <h3>customer reviews on {{thisRestName}}</h3>
+            <li ng-repeat='item in thisReviews' class='reviewsList'> <span class='span'> {{item.user}}:</span>   {{item.review}}</li>
+         </ul>
+      </md-dialog-content>
+      <md-dialog-actions layout="row">
+         <span flex></span>
+         <md-button class='reviewSubmit' ng-click="answer()" > close reviews </md-button>
+       </md-dialog-actions>
+   </form>
+</md-dialog>
+
+
+
+ 
