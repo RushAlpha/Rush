@@ -1,0 +1,25 @@
+<md-dialog aria-label="Dash"  ng-cloak style="width: 500px">
+   <form ng-controller = 'consumerController' class='reviewBox'> <!-- start of form-->
+      <div class='topBar'>
+        <h2>review the business</h2>
+      
+      </div> 
+         <div class="md-dialog-content">
+         <div layout="column" layout-padding ng-cloak> <br/>
+         <md-input-container class="md-icon-float md-block">
+            <label class = "font">my name</label>
+            <input  ng-model="user.name" type="text">
+         </md-input-container>
+         <md-input-container class="md-icon-float md-block">
+            <label class = "font">what I think </label>
+            <input  ng-model="user.review" type="text">
+         </md-input-container>
+      </md-dialog-content> 
+      <md-dialog-actions layout="row">
+         <span flex></span>
+         <md-button class = 'reviewSubmit' ng-click="answer()"> Cancel </md-button>
+
+         <md-button class = 'reviewSubmit' style="margin-right:20px;" ng-click=' reviewPost(); answer()'> OKAY!</md-button>
+      </md-dialog-actions>
+   </form>
+</md-dialog>

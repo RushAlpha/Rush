@@ -4,12 +4,9 @@ var mongoose = require('mongoose');
   //In "development", the db will connect to your localhost url + port.
 var env = process.env.NODE_ENV = process.env.NODE_ENV || "development" ;
 console.log("terminalEnvironment: ", env);
-if (env === "development"){
+
 mongoose.connect('mongodb://localhost/rush');
-} else {
-mongoose.connect('mongodb://eric:rush@ds025180.mlab.com:25180/rush');
-console.log("MongoDB is Connected!");
-}
+
 // declare a new Schema using mongoose's Schema method. See Docs.
 var Schema = mongoose.Schema;
 // When mongoose fails to connect...
@@ -25,7 +22,7 @@ var usersSchema = new Schema ({
     email: String,
     password: String,
     isOwner: Boolean,
-    location: {lat: {type: Number}, lng: {type:Number}},
+    location: {lat: {type: Number}, lng: {type: Number}},
     hasAccount: Boolean,
     deals: [{
       item: {type: String, required: true},
@@ -37,7 +34,14 @@ var usersSchema = new Schema ({
     }],
     restName: String,
     restAddress: String,
-    declaredRush: Boolean
+    declaredRush: Boolean,
+    businessReviews: [{
+      user: {type: String, required: true},
+      review: {type: String, required: true}
+    }],
+    yelpReview: String,
+    yelpPicture: String,
+    yelpLink: String
   });
 // Declare a User model using mongoose's model method. See Docs.
 var User = mongoose.model('users', usersSchema);

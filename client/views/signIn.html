@@ -1,14 +1,9 @@
-<div>
-  <md-toolbar class=signHead>
+<div class= 'signIn'>
+  <header>
     <h1>Rush</h1>
-    <h3>Sign In</h3>
-  </md-toolbar>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
+   
+  </header>
+  <h2>Sign In</h2>
   <form name="signIn" class="form" ng-submit="logIn()">
     <md-input-container class="input">
       <label class="input">User Name</label>
@@ -26,12 +21,14 @@
         <div ng-message="required">Password is Required!</div>
       </div>
     </md-input-container>
-    <md-button type="submit" class="input">
+    <button type="submit" class = 'enter'>
       <md-icon class="arrow" md-svg-icon="arrow" aria-label"submit">
       </md-icon>
-    </md-button>
+    <button>
   </form>
-  <md-content>
-    <a ui-sref-active="pageCurrentlyOn" class="md-accent" ui-sref="signup">Don't have an account? Click here</a>
-  </md-content>
+
+  <div class="signuplink">
+    <a  ui-sref="signup"> Don't have an account? Click here</a>
+ 
+</div>
 </div>
